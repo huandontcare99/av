@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ôn thi trực tuyến – IT English (Q90–120)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <!-- App Shell -->
+  <div class="mx-auto max-w-screen-md min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="p-4 sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-200">
+      <div class="flex items-center justify-between">
+        <h1 class="text-lg sm:text-xl font-bold">Ôn thi trực tuyến – IT English</h1>
+        <button id="resetBtn" class="text-sm px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100 active:scale-[.98]">Xóa tiến độ</button>
+      </div>
+      <p class="mt-1 text-xs text-slate-500">Câu 90–120 • Mobile-first • Tailwind</p>
+    </header>
+
+    <!-- Settings / Lobby -->
+    <main id="lobby" class="p-4 space-y-4">
+      <section class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="font-semibold mb-3">Cài đặt bài thi</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <label class="block">
+            <span class="text-sm text-slate-600">Số câu hỏi</span>
+            <select id="questionCount" class="mt-1 w-full rounded-xl border-slate-300">
+              <option value="10">10</option>
+              <option value="20" selected>20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+              <option value="all">Tất cả</option>
+            </select>
+          </label>
+          <label class="block">
+            <span class="text-sm text-slate-600">Thời gian (phút)</span>
+            <input id="timeLimit" type="number" min="1" value="20" class="mt-1 w-full rounded-xl border-slate-300" />
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="shuffleQuestions" type="checkbox" class="rounded border-slate-300" checked />
+            <span class="text-sm">Xáo trộn câu hỏi</span>
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="shuffleAnswers" type="checkbox" class="rounded border-slate-300" checked />
+            <span class="text-sm">Xáo trộn đáp án</span>
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="instantCheck" type="checkbox" class="rounded border-slate-300" />
+            <span class="text-sm">Chấm ngay khi chọn</span>
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="resumeState" type="checkbox" class="rounded border-slate-300" />
+            <span class="text-sm">Tiếp tục từ tiến độ đã lưu</span>
+          </label>
+        </div>
+        <div class="mt-4 flex gap-2">
+          <button id="startBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 active:scale-[.98]">Bắt đầu</button>
+          <button id="importBtn" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Nhập kết quả</button>
+          <input id="importFile" type="file" accept="application/json" class="hidden" />
+        </div>
+      </section>
+
+      <section class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="font-semibold mb-2">Hướng dẫn nhanh</h3>
+        <ul class="text-sm list-disc pl-5 space-y-1 text-slate-600">
+          <li>Chọn số câu, thời gian, tùy chọn xáo trộn và chế độ chấm.</li>
+          <li>Trong lúc làm: có thể đánh dấu câu, chuyển nhanh sang câu khác.</li>
+          <li>Hết giờ sẽ tự nộp. Có thể xem lại đáp án và lọc câu sai/đã đánh dấu.</li>
+          <li>Tiến độ tự lưu (localStorage). Có thể xuất kết quả JSON để lưu trữ.</li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- Quiz Screen -->
+    <section id="quiz" class="hidden flex-1 p-4">
+      <!-- Top bar -->
+      <div class="mb-3 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span id="timer" class="px-2 py-1 text-sm rounded-lg bg-slate-900 text-white">--:--</span>
+          <button id="pauseBtn" class="text-sm px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100">Tạm dừng</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="progressText" class="text-sm text-slate-600">Câu 1 / 20</span>
+          <div class="w-32 h-2 rounded-full bg-slate-200 overflow-hidden">
+            <div id="progressBar" class="h-2 bg-slate-900" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Card -->
+      <div id="card" class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-start justify-between gap-2">
+          <h2 id="qTitle" class="font-semibold">Câu hỏi</h2>
+          <button id="flagBtn" class="text-xs px-2 py-1 rounded-lg border border-amber-300 text-amber-700 hover:bg-amber-50">Đánh dấu</button>
+        </div>
+        <p id="qText" class="mt-2 text-slate-700">...</p>
+        <div id="options" class="mt-3 space-y-2"></div>
+
+        <div id="instantBox" class="hidden mt-3 text-sm"></div>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          <button id="prevBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">← Trước</button>
+          <button id="nextBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Tiếp →</button>
+          <button id="clearBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xóa chọn</button>
+          <button id="submitBtn" class="ml-auto px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500">Nộp bài</button>
+        </div>
+      </div>
+
+      <!-- Navigator -->
+      <div class="mt-4 p-3 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold">Chuyển nhanh</h3>
+          <div class="flex items-center gap-2">
+            <label class="flex items-center gap-2 text-sm">
+              <input id="filterFlagged" type="checkbox" class="rounded border-slate-300" />
+              <span>Chỉ câu đã đánh dấu</span>
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input id="filterUnanswered" type="checkbox" class="rounded border-slate-300" />
+              <span>Chưa trả lời</span>
+            </label>
+          </div>
+        </div>
+        <div id="jumpGrid" class="grid grid-cols-8 sm:grid-cols-12 gap-2"></div>
+      </div>
+    </section>
+
+    <!-- Result / Review -->
+    <section id="result" class="hidden p-4 space-y-4">
+      <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="font-semibold text-lg">Kết quả</h2>
+        <p id="scoreLine" class="mt-1 text-slate-700">Bạn đúng …/… (…%).</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button id="reviewAll" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xem lại tất cả</button>
+          <button id="reviewWrong" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-rose-50">Chỉ câu sai</button>
+          <button id="reviewFlag" class="px-3 py-2 rounded-xl border border-amber-300 hover:bg-amber-50">Chỉ câu đánh dấu</button>
+          <button id="exportBtn" class="ml-auto px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xuất JSON</button>
+          <a id="downloadLink" class="hidden text-sm underline">Tải file</a>
+        </div>
+      </div>
+
+      <div id="reviewList" class="space-y-3"></div>
+
+      <div class="pb-6">
+        <button id="restartBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Làm lại</button>
+      </div>
+    </section>
+
+    <footer class="p-4 text-center text-xs text-slate-500">
+      © 2025 • Built with Tailwind. Nguồn câu hỏi: file bạn cung cấp.
+    </footer>
+  </div>
+
+  <script>
+    // ===== Question bank (Q90–120) =====
+    // Mỗi mục: { id, text, options[4], answerIndex }
+    const RAW_QUESTIONS = [
+      {id:90, text:"A website which (in theory) cannot be accessed by a hacker is ________.", options:["strong","secure","clean","professional"], answerIndex:1},
+      {id:91, text:"Unwanted advertising emails are popularly known as ____________.", options:["ham","spam","meatloaf","sausages"], answerIndex:1},
+      {id:92, text:"_____________ is a security protocol used by banks to make online transactions secure.", options:["SSL","FTP","WIMP","ADSL"], answerIndex:0},
+      {id:93, text:"A _________ is a software and/or hardware mechanism that allows limited access to an internal network from the Internet.", options:["fire blanket","fire armor","fire engine","firewall"], answerIndex:3},
+      {id:94, text:"Antivirus software can _______ your computer for viruses.", options:["scan","detect","find","review"], answerIndex:0},
+      {id:95, text:"_________ are small files used by web servers to know if you have visited their site before.", options:["Cookies","Feeds","Firewalls","Digital certificates"], answerIndex:0},
+      {id:96, text:"Your financial information is fully encrypted and _______________.", options:["cannot be accessed","can be accessed","cannot access","can access"], answerIndex:0},
+      {id:97, text:"That information was highly ______ and should not be shared with another.", options:["informal","confidential","useful","real-time"], answerIndex:1},
+      {id:98, text:"_____________, the illegal copying and distribution of copyrighted programs and files, is a popular cybercrime.", options:["Piracy","Phishing","IP spoofing","Cyberstalking"], answerIndex:0},
+      {id:99, text:"Be aware of ____________ - fake bank emails asking for personal details to steal your identity.", options:["piracy","phishing","IP spoofing","cyberstalking"], answerIndex:1},
+      {id:100, text:"The website which can only be viewed by authorized people has __________ access.", options:["reduced","small","restricted","open"], answerIndex:2},
+      {id:101, text:"A virus can enter a computer system via an _________ disc or via the Internet.", options:["affected","infiltrated","infected","confidential"], answerIndex:2},
+      {id:102, text:"A ___________ is a diagram that uses special symbols to show how the computer works through a program.", options:["flow chart","source code","compiler","debugging"], answerIndex:0},
+      {id:103, text:"Computer instructions written in Pascal, C, or Java are called __________.", options:["flow chart","source code","compiler","debugging"], answerIndex:1},
+      {id:104, text:"Programs written in high-level languages must be translated into machine code by a ___________.", options:["flow chart","documentation","compiler","debugger"], answerIndex:2},
+      {id:105, text:"The only language computers can understand directly is __________, consisting of 1s and 0s.", options:["source code","machine code","assembly","documentation"], answerIndex:1},
+      {id:106, text:"The process of finding and fixing errors in code is called _________.", options:["programming","compile","markup","debugging"], answerIndex:3},
+      {id:107, text:"Programs written in __________ must be translated into machine code by a compiler or an interpreter.", options:["high-level languages","low-level languages","assembly languages","markup languages"], answerIndex:0},
+      {id:108, text:"HTML is short for Hypertext __________ Language.", options:["Markup","Machine","Manual","Makeup"], answerIndex:0},
+      {id:109, text:"The final step of programming is writing the program ___________, a detailed user guide.", options:["machine code","source code","documentation","solution"], answerIndex:2},
+      {id:110, text:"A special program that converts a low-level language into machine code is ____________.", options:["an assembler","a compiler","an interpreter","a converter"], answerIndex:0},
+      {id:111, text:"_____________ translates source code line by line as the program runs.", options:["An assembler","A compiler","An interpreter","A converter"], answerIndex:2},
+      {id:112, text:"We use high-level languages because machine code is too difficult to read, understand and __________.", options:["debug","debugs","debugger","debugging"], answerIndex:0},
+      {id:113, text:"You do not have to exit the editor, ___________ the program, run it, then reload the editor to fix bugs.", options:["compile","compiler","compiling","compiled"], answerIndex:0},
+      {id:114, text:"As a programmer, you work across analysis, design, ______________ and implementation.", options:["code, debug","coding, debug","code, debugging","coding, debugging"], answerIndex:3},
+      {id:115, text:"____________ is a low-level language using abbreviations like ADD, SUB, MPY.", options:["A high-level language","An abbreviate language","An assembly languages","A markup languages"], answerIndex:2},
+      {id:116, text:"____________ converts a high-level source program into machine code in one go.", options:["An assembler","A compiler","An interpreter","A converter"], answerIndex:1},
+      {id:117, text:"It’s important to use a good ________ to fix errors.", options:["debug","debugs","debugger","debugging"], answerIndex:2},
+      {id:118, text:"Most ____________ like Java for writing applets.", options:["programs","programming","programmers","programmable"], answerIndex:2},
+      {id:119, text:"Function keys can _____________ to do special tasks.", options:["program","programmed","be programmed","being program"], answerIndex:2},
+      {id:120, text:"HTML allows us __________ how information is displayed on web pages.", options:["describe","to describe","describing","for describing"], answerIndex:1},
+    ];
+
+    // ===== State =====
+    const els = {
+      lobby: document.getElementById('lobby'),
+      quiz: document.getElementById('quiz'),
+      result: document.getElementById('result'),
+      startBtn: document.getElementById('startBtn'),
+      questionCount: document.getElementById('questionCount'),
+      timeLimit: document.getElementById('timeLimit'),
+      shuffleQuestions: document.getElementById('shuffleQuestions'),
+      shuffleAnswers: document.getElementById('shuffleAnswers'),
+      instantCheck: document.getElementById('instantCheck'),
+      resumeState: document.getElementById('resumeState'),
+      resetBtn: document.getElementById('resetBtn'),
+      importBtn: document.getElementById('importBtn'),
+      importFile: document.getElementById('importFile'),
+
+      timer: document.getElementById('timer'),
+      pauseBtn: document.getElementById('pauseBtn'),
+      progressText: document.getElementById('progressText'),
+      progressBar: document.getElementById('progressBar'),
+      qTitle: document.getElementById('qTitle'),
+      qText: document.getElementById('qText'),
+      options: document.getElementById('options'),
+      instantBox: document.getElementById('instantBox'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      clearBtn: document.getElementById('clearBtn'),
+      submitBtn: document.getElementById('submitBtn'),
+      flagBtn: document.getElementById('flagBtn'),
+      jumpGrid: document.getElementById('jumpGrid'),
+      filterFlagged: document.getElementById('filterFlagged'),
+      filterUnanswered: document.getElementById('filterUnanswered'),
+
+      scoreLine: document.getElementById('scoreLine'),
+      reviewAll: document.getElementById('reviewAll'),
+      reviewWrong: document.getElementById('reviewWrong'),
+      reviewFlag: document.getElementById('reviewFlag'),
+      reviewList: document.getElementById('reviewList'),
+      exportBtn: document.getElementById('exportBtn'),
+      downloadLink: document.getElementById('downloadLink'),
+      restartBtn: document.getElementById('restartBtn'),
+    };
+
+    const STORAGE_KEY = "iteng_quiz_state_v1";
+    let state = {
+      questions: [],            // [{... , choices:[{text,idx}], correctIdx }]
+      answers: {},              // qIndex -> choiceIdx
+      flags: new Set(),         // qIndex set
+      index: 0,
+      total: 0,
+      startAt: null,            // timestamp
+      endAt: null,              // timestamp
+      remainingMs: 0,
+      paused: false,
+      instant: false,
+      submitted: false,
+      shuffleAns: true,
+    };
+    let timerInterval = null;
+
+    // ===== Helpers =====
+    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+    const fmtTime = (ms) => {
+      const s = Math.max(0, Math.floor(ms/1000));
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      return `${mm}:${ss}`;
+    };
+    const shuffle = (arr) => {
+      const a = arr.slice();
+      for (let i=a.length-1;i>0;i--) {
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    };
+
+    function buildQuestions(raw, count, shuffleQ, shuffleA){
+      let list = raw.slice();
+      if (shuffleQ) list = shuffle(list);
+      if (count !== 'all') list = list.slice(0, Number(count));
+      return list.map(q=>{
+        const choices = q.options.map((t, i)=>({text:t, idx:i, isCorrect: i===q.answerIndex}));
+        const finalChoices = shuffleA ? shuffle(choices) : choices;
+        const mappedCorrectIdx = finalChoices.findIndex(c=>c.isCorrect);
+        return {
+          id: q.id,
+          text: q.text,
+          choices: finalChoices,
+          correctChoiceIndex: mappedCorrectIdx
+        };
+      });
+    }
+
+    function saveState(){
+      try{
+        const toSave = {
+          ...state,
+          flags: Array.from(state.flags),
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+      }catch(e){}
+    }
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return null;
+        const saved = JSON.parse(raw);
+        saved.flags = new Set(saved.flags||[]);
+        return saved;
+      }catch(e){ return null; }
+    }
+    function clearState(){
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    // ===== UI Renders =====
+    function renderProgress(){
+      els.progressText.textContent = `Câu ${state.index+1} / ${state.total}`;
+      const pct = (Object.keys(state.answers).length / state.total)*100;
+      els.progressBar.style.width = `${pct}%`;
+    }
+
+    function renderQuestion(){
+      const q = state.questions[state.index];
+      els.qTitle.textContent = `Câu ${state.index+1}`;
+      els.qText.textContent = q.text;
+      els.options.innerHTML = '';
+
+      q.choices.forEach((c, i)=>{
+        const isPicked = state.answers[state.index] === i;
+        const base = "w-full text-left px-3 py-2 rounded-xl border";
+        const decided = state.submitted || (state.instant && typeof state.answers[state.index] !== 'undefined');
+        let classes = `${base} border-slate-300 hover:bg-slate-50`;
+        let mark = '';
+        if (decided){
+          if (i === q.correctChoiceIndex) {
+            classes = `${base} border-emerald-200 bg-emerald-50`;
+            mark = ' ✓';
+          } else if (isPicked) {
+            classes = `${base} border-rose-200 bg-rose-50`;
+            mark = ' ✗';
+          }
+        } else if (isPicked){
+          classes = `${base} border-slate-900 bg-slate-900/5`;
+        }
+
+        const btn = document.createElement('button');
+        btn.className = classes;
+        btn.innerHTML = `<span class="font-medium">${String.fromCharCode(65+i)}.</span> ${c.text} <span class="opacity-60">${mark}</span>`;
+        btn.onclick = ()=>{
+          if (state.submitted) return;
+          state.answers[state.index] = i;
+          if (state.instant){
+            showInstantFeedback();
+          }
+          renderQuestion();
+          renderJumpGrid();
+          saveState();
+        };
+        els.options.appendChild(btn);
+      });
+
+      els.flagBtn.className = `text-xs px-2 py-1 rounded-lg border ${state.flags.has(state.index) ? 'border-amber-500 text-amber-700 bg-amber-50' : 'border-amber-300 text-amber-700 hover:bg-amber-50'}`;
+      els.instantBox.classList.toggle('hidden', !state.instant);
+      if (state.instant) showInstantFeedback();
+      renderProgress();
+    }
+
+    function showInstantFeedback(){
+      const q = state.questions[state.index];
+      const pick = state.answers[state.index];
+      if (typeof pick === 'undefined'){
+        els.instantBox.className = "hidden";
+        return;
+      }
+      els.instantBox.className = "mt-3 text-sm p-2 rounded-lg " + (pick===q.correctChoiceIndex ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-rose-50 text-rose-700 border border-rose-200");
+      els.instantBox.textContent = pick===q.correctChoiceIndex ? "Chính xác!" : `Chưa đúng. Đáp án: ${String.fromCharCode(65+q.correctChoiceIndex)}. ${q.choices[q.correctChoiceIndex].text}`;
+    }
+
+    function renderJumpGrid(){
+      els.jumpGrid.innerHTML = '';
+      const filterFlag = els.filterFlagged.checked;
+      const filterUnans = els.filterUnanswered.checked;
+
+      for (let i=0;i<state.total;i++){
+        const flagged = state.flags.has(i);
+        const answered = typeof state.answers[i] !== 'undefined';
+
+        if (filterFlag && !flagged) continue;
+        if (filterUnans && answered) continue;
+
+        const btn = document.createElement('button');
+        btn.className = "text-xs sm:text-sm px-2 py-1 rounded-lg border " +
+          (i===state.index ? "border-slate-900 bg-slate-900 text-white" :
+           answered ? "border-slate-300 bg-white hover:bg-slate-50" :
+           "border-slate-300 bg-slate-50");
+        btn.textContent = (i+1);
+        if (flagged) btn.innerHTML += ' ⭐';
+        btn.onclick = ()=>{
+          state.index = i;
+          renderQuestion();
+          saveState();
+        };
+        els.jumpGrid.appendChild(btn);
+      }
+    }
+
+    function startTimer(){
+      stopTimer();
+      timerInterval = setInterval(()=>{
+        if (!state.paused && !state.submitted){
+          state.remainingMs -= 1000;
+          if (state.remainingMs <= 0){
+            state.remainingMs = 0;
+            els.timer.textContent = "00:00";
+            stopTimer();
+            submitQuiz();
+            return;
+          }
+          els.timer.textContent = fmtTime(state.remainingMs);
+          saveState();
+        }
+      }, 1000);
+    }
+    function stopTimer(){
+      if (timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+    }
+
+    // ===== Actions =====
+    function startQuiz(fromResume=false){
+      els.lobby.classList.add('hidden');
+      els.result.classList.add('hidden');
+      els.quiz.classList.remove('hidden');
+
+      if (!fromResume){
+        const count = els.questionCount.value;
+        const limitMin = clamp(Number(els.timeLimit.value||20), 1, 300);
+        state.instant = els.instantCheck.checked;
+        state.shuffleAns = els.shuffleAnswers.checked;
+
+        const questions = buildQuestions(
+          RAW_QUESTIONS,
+          count,
+          els.shuffleQuestions.checked,
+          els.shuffleAnswers.checked
+        );
+
+        state.questions = questions;
+        state.total = questions.length;
+        state.answers = {};
+        state.flags = new Set();
+        state.index = 0;
+        state.submitted = false;
+        state.startAt = Date.now();
+        state.endAt = null;
+        state.remainingMs = limitMin * 60 * 1000;
+        state.paused = false;
+      }
+
+      els.timer.textContent = fmtTime(state.remainingMs);
+      startTimer();
+      renderQuestion();
+      renderJumpGrid();
+      saveState();
+    }
+
+    function submitQuiz(){
+      state.submitted = true;
+      state.endAt = Date.now();
+      stopTimer();
+      saveState();
+      showResult();
+    }
+
+    function showResult(){
+      els.quiz.classList.add('hidden');
+      els.result.classList.remove('hidden');
+
+      const stats = grade();
+      els.scoreLine.textContent = `Bạn đúng ${stats.correct}/${state.total} (${(stats.correct/state.total*100).toFixed(1)}%). Thời gian làm: ${stats.timeSpent}.`;
+      buildReviewList(state.questions.map((_,i)=>i)); // all
+    }
+
+    function buildReviewCard(i){
+      const q = state.questions[i];
+      const picked = state.answers[i];
+      const correct = q.correctChoiceIndex;
+
+      const wrap = document.createElement('div');
+      wrap.className = "p-4 rounded-2xl border bg-white";
+      const title = document.createElement('div');
+      title.className = "flex items-start justify-between";
+      title.innerHTML = `<h4 class="font-semibold">Câu ${i+1} ${state.flags.has(i) ? '<span class="text-amber-600 text-xs ml-2">⭐ Đã đánh dấu</span>' : ''}</h4>`;
+      const body = document.createElement('div');
+      body.className = "mt-2 text-slate-700";
+      body.textContent = q.text;
+      const answers = document.createElement('div');
+      answers.className = "mt-3 space-y-1";
+
+      q.choices.forEach((c, idx)=>{
+        let classes = "px-3 py-2 rounded-xl border text-sm";
+        if (idx===correct) classes += " border-emerald-200 bg-emerald-50";
+        if (typeof picked!=='undefined' && idx===picked && picked!==correct) classes += " border-rose-200 bg-rose-50";
+        const line = document.createElement('div');
+        line.className = classes;
+        line.textContent = `${String.fromCharCode(65+idx)}. ${c.text}`;
+        answers.appendChild(line);
+      });
+
+      wrap.appendChild(title);
+      wrap.appendChild(body);
+      wrap.appendChild(answers);
+      return wrap;
+    }
+
+    function buildReviewList(indexes){
+      els.reviewList.innerHTML = '';
+      indexes.forEach(i=>{
+        els.reviewList.appendChild(buildReviewCard(i));
+      });
+    }
+
+    function grade(){
+      let correct = 0;
+      state.questions.forEach((q, i)=>{
+        if (state.answers[i]===q.correctChoiceIndex) correct++;
+      });
+      const spentMs = (state.endAt || Date.now()) - (state.startAt || Date.now());
+      return {correct, timeSpent: fmtTime(spentMs)};
+    }
+
+    // ===== Listeners =====
+    els.startBtn.onclick = ()=>{
+      const resume = els.resumeState.checked && loadState();
+      if (resume){
+        state = loadState();
+        startQuiz(true);
+      }else{
+        startQuiz(false);
+      }
+    };
+    els.resetBtn.onclick = ()=>{
+      clearState();
+      location.reload();
+    };
+    els.importBtn.onclick = ()=> els.importFile.click();
+    els.importFile.onchange = (e)=>{
+      const f = e.target.files?.[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        try{
+          const data = JSON.parse(reader.result);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          alert("Đã nhập kết quả/tiến độ. Chọn 'Tiếp tục từ tiến độ' rồi Bắt đầu.");
+        }catch(err){
+          alert("File không hợp lệ.");
+        }
+      };
+      reader.readAsText(f);
+    };
+
+    els.prevBtn.onclick = ()=>{
+      state.index = clamp(state.index-1, 0, state.total-1);
+      renderQuestion(); saveState();
+    };
+    els.nextBtn.onclick = ()=>{
+      state.index = clamp(state.index+1, 0, state.total-1);
+      renderQuestion(); saveState();
+    };
+    els.clearBtn.onclick = ()=>{
+      delete state.answers[state.index];
+      renderQuestion(); renderJumpGrid(); saveState();
+    };
+    els.submitBtn.onclick = ()=>{
+      if (!confirm("Xác nhận nộp bài?")) return;
+      submitQuiz();
+    };
+    els.flagBtn.onclick = ()=>{
+      if (state.flags.has(state.index)) state.flags.delete(state.index);
+      else state.flags.add(state.index);
+      renderQuestion(); renderJumpGrid(); saveState();
+    };
+    els.filterFlagged.onchange = renderJumpGrid;
+    els.filterUnanswered.onchange = renderJumpGrid;
+
+    els.pauseBtn.onclick = ()=>{
+      state.paused = !state.paused;
+      els.pauseBtn.textContent = state.paused ? "Tiếp tục" : "Tạm dừng";
+      saveState();
+    };
+
+    els.reviewAll.onclick = ()=> buildReviewList(state.questions.map((_,i)=>i));
+    els.reviewWrong.onclick = ()=>{
+      const wrong = state.questions.map((q,i)=> ({i, ok: state.answers[i]===q.correctChoiceIndex})).filter(x=>!x.ok).map(x=>x.i);
+      buildReviewList(wrong);
+    };
+    els.reviewFlag.onclick = ()=>{
+      buildReviewList(Array.from(state.flags));
+    };
+    els.exportBtn.onclick = ()=>{
+      const payload = {
+        meta: { version: 1, exportedAt: new Date().toISOString() },
+        state: {
+          ...state,
+          flags: Array.from(state.flags),
+        }
+      };
+      const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      els.downloadLink.href = url;
+      els.downloadLink.download = "quiz_result.json";
+      els.downloadLink.textContent = "Tải file kết quả";
+      els.downloadLink.classList.remove('hidden');
+      els.downloadLink.click();
+    };
+    els.restartBtn.onclick = ()=>{
+      clearState();
+      location.reload();
+    };
+
+    // Auto-suggest resume if found
+    const found = loadState();
+    if (found){
+      els.resumeState.checked = true;
+    }
+  </script>
+</body>
+</html>
