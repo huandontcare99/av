@@ -1,134 +1,307 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#3776ab">
-<title>PyLearn · Học Python online</title>
+<title>PyLearn · Học Python toàn diện</title>
 <style>
 :root{
   --primary:#3776ab; --primary-dark:#2c5f8a; --accent:#ffd43b;
   --bg:#f5f7fb; --card:#fff; --text:#1a202c; --muted:#718096;
-  --border:#e2e8f0; --success:#48bb78; --danger:#f56565;
+  --border:#e2e8f0; --success:#48bb78; --success-bg:#f0fff4;
+  --danger:#f56565; --danger-bg:#fff5f5; --warn:#ed8936;
+  --gold:#f6c945; --code-bg:#1e293b;
+}
+[data-theme="dark"]{
+  --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
+  --border:#334155; --code-bg:#0a0f1c;
+  --success-bg:#1a3a2a; --danger-bg:#3a1a1a;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:16px}
+html{font-size:16px;scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;
-  -webkit-font-smoothing:antialiased}
+  -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 a{color:var(--primary);text-decoration:none}
 button{font-family:inherit}
 
-header{background:linear-gradient(135deg,#3776ab,#2c5f8a);color:#fff;
-  padding:12px 16px;position:sticky;top:0;z-index:100;
+/* HEADER */
+header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;padding:10px 14px;position:sticky;top:0;z-index:100;
   box-shadow:0 2px 12px rgba(0,0,0,.15)}
 .header-inner{max-width:900px;margin:0 auto;display:flex;
-  align-items:center;justify-content:space-between;gap:12px}
-.logo{font-size:18px;font-weight:700;color:#fff;cursor:pointer;
-  display:flex;align-items:center;gap:8px}
-.reset-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
-  color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;
-  font-size:13px;transition:all .2s}
-.reset-btn:active{background:rgba(255,255,255,.3)}
+  align-items:center;justify-content:space-between;gap:10px}
+.logo{font-size:17px;font-weight:700;color:#fff;cursor:pointer;
+  display:flex;align-items:center;gap:6px;flex-shrink:0}
+.header-actions{display:flex;gap:6px;align-items:center}
+.icon-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;
+  font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.icon-btn:active{background:rgba(255,255,255,.3);transform:scale(.95)}
+.xp-badge{background:rgba(255,212,59,.2);border:1px solid rgba(255,212,59,.4);
+  color:var(--accent);padding:4px 10px;border-radius:20px;font-size:12px;
+  font-weight:600;display:flex;align-items:center;gap:4px}
 
-main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
-.hero{text-align:center;padding:20px 8px 28px}
-.hero h1{font-size:26px;margin-bottom:10px;line-height:1.3}
-.hero p{color:var(--muted);font-size:15px}
+main{max-width:900px;margin:0 auto;padding:16px 14px 60px}
 
-.grid{display:grid;grid-template-columns:1fr;gap:16px}
-.card{background:var(--card);border-radius:14px;padding:20px;
+/* HOME */
+.hero{text-align:center;padding:16px 8px 24px}
+.hero h1{font-size:24px;margin-bottom:8px;line-height:1.3}
+.hero p{color:var(--muted);font-size:14px}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:12px;text-align:center}
+.stat-val{font-size:20px;font-weight:700;color:var(--primary)}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+
+.xp-bar-wrap{margin-bottom:20px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:14px}
+.xp-bar-header{display:flex;justify-content:space-between;
+  font-size:13px;margin-bottom:8px;color:var(--muted)}
+.xp-bar-header strong{color:var(--text)}
+.xp-bar{height:10px;background:var(--border);border-radius:5px;overflow:hidden}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--warn));
+  transition:width .6s;border-radius:5px}
+
+.streak-week{display:flex;justify-content:space-between;gap:4px;margin-top:10px}
+.day-dot{flex:1;aspect-ratio:1;border-radius:50%;background:var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+  color:var(--muted);font-weight:600;max-width:32px;max-height:32px}
+.day-dot.active{background:var(--success);color:#fff}
+.day-dot.today{outline:2px solid var(--primary);outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+.card{background:var(--card);border-radius:14px;padding:18px;
   border:1px solid var(--border);cursor:pointer;transition:all .2s;
-  display:block;color:inherit}
+  display:block;color:inherit;position:relative;overflow:hidden}
 .card:active{transform:scale(.99)}
-.card-icon{font-size:36px;margin-bottom:10px}
-.card h3{font-size:17px;margin-bottom:6px}
-.card p{color:var(--muted);font-size:14px;margin-bottom:12px}
+.card-icon{font-size:34px;margin-bottom:8px}
+.card h3{font-size:17px;margin-bottom:4px}
+.card p{color:var(--muted);font-size:13px;margin-bottom:10px}
 
 .progress-bar{height:6px;background:var(--border);border-radius:3px;
   overflow:hidden;margin-top:8px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));
   transition:width .4s}
-.progress-text{font-size:12px;color:var(--muted);margin-top:6px}
+.progress-text{font-size:12px;color:var(--muted);margin-top:6px;
+  display:flex;justify-content:space-between}
 
+/* LESSON LIST */
 .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);
-  font-size:14px;margin-bottom:16px;cursor:pointer;background:none;
+  font-size:14px;margin-bottom:14px;cursor:pointer;background:none;
   border:none;padding:6px 0;min-height:32px}
 .back-btn:active{color:var(--primary)}
-
 .page-title{font-size:22px;margin-bottom:6px}
 .page-sub{color:var(--muted);margin-bottom:20px;font-size:14px}
 
 .lesson-list{display:flex;flex-direction:column;gap:10px}
 .lesson-item{display:flex;align-items:center;gap:12px;
-  background:var(--card);padding:14px 16px;border-radius:12px;
+  background:var(--card);padding:14px;border-radius:12px;
   border:1px solid var(--border);cursor:pointer;transition:all .2s;color:inherit}
 .lesson-item:active{transform:scale(.99)}
-.lesson-num{width:34px;height:34px;border-radius:50%;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;font-weight:600;
+.lesson-num{width:36px;height:36px;border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-weight:700;
   color:var(--muted);flex-shrink:0;font-size:14px}
 .lesson-item.done .lesson-num{background:var(--success);color:#fff}
+.lesson-item.locked{opacity:.5;cursor:not-allowed}
 .lesson-info{flex:1;min-width:0}
 .lesson-info h4{font-size:15px;margin-bottom:2px}
 .lesson-info span{font-size:12px;color:var(--muted)}
+.lesson-badge{font-size:11px;padding:2px 8px;border-radius:10px;
+  background:var(--success-bg);color:var(--success);font-weight:600}
 .chev{color:var(--muted);font-size:22px;flex-shrink:0}
 
-.content{background:var(--card);border-radius:14px;padding:20px;
-  border:1px solid var(--border);margin-bottom:20px}
-.content h2{margin:18px 0 10px;font-size:20px;line-height:1.3}
+/* CONTENT */
+.content{background:var(--card);border-radius:14px;padding:18px;
+  border:1px solid var(--border);margin-bottom:16px}
+.content h2{margin:16px 0 10px;font-size:19px;line-height:1.3}
 .content h2:first-child{margin-top:0}
-.content h3{margin:14px 0 8px;font-size:17px}
-.content p{margin-bottom:12px;font-size:15px}
-.content ul,.content ol{margin:0 0 12px 22px;font-size:15px}
-.content li{margin-bottom:6px}
+.content h3{margin:14px 0 8px;font-size:16px}
+.content p{margin-bottom:11px;font-size:15px}
+.content ul,.content ol{margin:0 0 12px 20px;font-size:15px}
+.content li{margin-bottom:5px}
 .content strong{color:var(--primary-dark)}
-.content code{background:#edf2f7;padding:2px 6px;border-radius:4px;
-  font-size:13px;color:#c53030;font-family:'SF Mono',Monaco,'Courier New',monospace}
-.content pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:10px;
-  overflow-x:auto;margin-bottom:14px;font-size:13px;line-height:1.55;
-  -webkit-overflow-scrolling:touch}
+.content code{background:var(--bg);padding:2px 6px;border-radius:4px;
+  font-size:13px;color:#c53030;font-family:'SF Mono',Monaco,monospace}
+[data-theme="dark"] .content code{color:#fc8181}
+.content pre{background:var(--code-bg);color:#e2e8f0;padding:14px;
+  border-radius:10px;overflow-x:auto;margin-bottom:14px;font-size:13px;
+  line-height:1.55;-webkit-overflow-scrolling:touch}
 .content pre code{background:none;padding:0;color:inherit;font-size:13px}
 
-.quiz{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--border)}
-.quiz h3{margin-bottom:12px;font-size:18px}
-.quiz-progress{font-size:13px;color:var(--muted);margin-bottom:14px}
+/* QUIZ */
+.quiz{background:var(--card);border-radius:14px;padding:18px;
+  border:1px solid var(--border)}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.quiz-progress-txt{font-size:13px;color:var(--muted);font-weight:600}
+.quiz-progress-txt strong{color:var(--primary)}
+.hint-btn{background:transparent;border:1px solid var(--border);
+  color:var(--warn);padding:6px 12px;border-radius:8px;font-size:13px;
+  cursor:pointer;display:flex;align-items:center;gap:4px}
+.hint-btn:active{background:var(--bg)}
+
+.q-progress-bar{height:4px;background:var(--border);border-radius:2px;
+  overflow:hidden;margin-bottom:16px}
+.q-progress-fill{height:100%;background:var(--primary);transition:width .3s}
+
+.question-type{display:inline-block;font-size:11px;padding:3px 8px;
+  background:var(--primary);color:#fff;border-radius:6px;margin-bottom:10px;
+  font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .question{font-size:15px;font-weight:600;margin-bottom:14px;line-height:1.5}
-.options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
-.option{padding:14px 16px;border:2px solid var(--border);border-radius:10px;
-  cursor:pointer;background:#fff;text-align:left;font-size:15px;
-  transition:all .15s;color:var(--text);min-height:48px;line-height:1.4}
-.option:active:not(:disabled){background:#f7f8ff}
-.option.correct{border-color:var(--success);background:#f0fff4;color:#22543d}
-.option.wrong{border-color:var(--danger);background:#fff5f5;color:#742a2a}
+
+/* MCQ */
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.option{padding:13px 15px;border:2px solid var(--border);border-radius:10px;
+  cursor:pointer;background:var(--card);text-align:left;font-size:15px;
+  transition:all .15s;color:var(--text);min-height:48px;line-height:1.4;
+  display:flex;align-items:center;gap:10px}
+.option:active:not(:disabled){background:var(--bg)}
+.option-letter{width:24px;height:24px;border-radius:6px;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  font-weight:700;color:var(--muted);flex-shrink:0}
+.option.correct{border-color:var(--success);background:var(--success-bg);color:var(--text)}
+.option.correct .option-letter{background:var(--success);color:#fff}
+.option.wrong{border-color:var(--danger);background:var(--danger-bg)}
+.option.wrong .option-letter{background:var(--danger);color:#fff}
 .option:disabled{cursor:default}
 
+/* FILL */
+.fill-input{width:100%;padding:13px 15px;font-size:16px;border:2px solid var(--border);
+  border-radius:10px;background:var(--card);color:var(--text);
+  font-family:'SF Mono',Monaco,monospace;margin-bottom:14px;min-height:48px}
+.fill-input:focus{outline:none;border-color:var(--primary)}
+.fill-input.correct{border-color:var(--success);background:var(--success-bg)}
+.fill-input.wrong{border-color:var(--danger);background:var(--danger-bg)}
+.fill-hint{font-size:12px;color:var(--muted);margin-top:-8px;margin-bottom:14px}
+
+/* ORDER */
+.order-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.order-item{display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:var(--card);border:2px solid var(--border);border-radius:10px;
+  font-family:'SF Mono',Monaco,monospace;font-size:13px}
+.order-item-text{flex:1;word-break:break-word}
+.order-btns{display:flex;flex-direction:column;gap:2px}
+.order-btn{background:var(--bg);border:none;width:26px;height:22px;
+  border-radius:5px;cursor:pointer;font-size:11px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center}
+.order-btn:disabled{opacity:.3}
+.order-btn:active:not(:disabled){background:var(--primary);color:#fff}
+
+/* DRAG (tap-to-place) */
+.drag-instruction{font-size:12px;color:var(--muted);margin-bottom:12px;
+  font-style:italic}
+.drag-bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--bg);
+  border-radius:10px;min-height:56px;margin-bottom:14px;
+  border:2px dashed var(--border)}
+.drag-item{padding:8px 14px;background:var(--card);border:2px solid var(--border);
+  border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
+  font-family:'SF Mono',Monaco,monospace;transition:all .15s;user-select:none}
+.drag-item.selected{border-color:var(--primary);background:rgba(55,118,171,.15);
+  transform:scale(1.05)}
+.drag-slots{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.drag-slot{border:2px dashed var(--border);border-radius:10px;
+  padding:10px;min-height:56px;transition:all .2s}
+.drag-slot.has-items{border-style:solid;background:var(--bg)}
+.drag-slot-label{font-size:12px;font-weight:700;color:var(--primary);
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.drag-slot-items{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
+.drag-slot-items .drag-item{font-size:12px;padding:6px 10px}
+.drag-slot.dragover{border-color:var(--primary);background:rgba(55,118,171,.1)}
+
+/* EXPLANATION */
+.explain{padding:12px 14px;border-radius:10px;margin-bottom:14px;
+  font-size:14px;line-height:1.55;animation:slideDown .3s}
+.explain.ok{background:var(--success-bg);color:var(--success);border:1px solid var(--success)}
+.explain.no{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger)}
+.explain.info{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.explain strong{color:inherit;font-weight:700}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
 .btn{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;border:none;padding:14px 24px;border-radius:10px;
+  color:#fff;border:none;padding:14px 22px;border-radius:10px;
   font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;
-  min-height:48px;width:100%}
+  min-height:48px;width:100%;display:flex;align-items:center;
+  justify-content:center;gap:6px}
 .btn:active{transform:scale(.98)}
 .btn:disabled{opacity:.5;cursor:default}
+.btn.secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.btn.warn{background:linear-gradient(135deg,var(--warn),#dd6b20)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#ecc94b);color:#744210}
+.btn-row{display:flex;gap:10px;margin-top:12px}
+.btn-row .btn{flex:1}
 
-.explanation{padding:12px 14px;border-radius:10px;margin-bottom:14px;
-  font-size:14px;line-height:1.5}
-.explanation.ok{background:#f0fff4;color:#22543d;border:1px solid #c6f6d5}
-.explanation.no{background:#fff5f5;color:#742a2a;border:1px solid #fed7d7}
-
-.result{text-align:center;padding:16px 0}
-.result-score{font-size:44px;font-weight:700;margin-bottom:6px}
+/* RESULT */
+.result{text-align:center;padding:14px 0}
+.result-emoji{font-size:64px;margin-bottom:8px;animation:bounceIn .6s}
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.result-score{font-size:42px;font-weight:700;margin-bottom:4px}
 .result-score.pass{color:var(--success)}
 .result-score.fail{color:var(--danger)}
-.result-msg{color:var(--muted);margin-bottom:16px;font-size:14px}
+.result-msg{color:var(--muted);margin-bottom:16px;font-size:14px;padding:0 10px}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin:16px 0;padding:14px;background:var(--bg);border-radius:10px}
+.result-stats div{text-align:center}
+.result-stats .v{font-size:18px;font-weight:700;color:var(--primary)}
+.result-stats .l{font-size:11px;color:var(--muted);margin-top:2px}
 
-.lesson-nav{display:flex;gap:10px;margin-top:20px}
-.lesson-nav .btn{flex:1;font-size:14px;padding:12px 16px}
+/* CERTIFICATE */
+.cert-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:16px;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.cert-box{background:#fff;color:#1a202c;border-radius:16px;
+  padding:28px 22px;max-width:420px;width:100%;text-align:center;
+  position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5);
+  background-image:
+    radial-gradient(circle at 10% 10%,rgba(246,201,69,.15),transparent 40%),
+    radial-gradient(circle at 90% 90%,rgba(246,201,69,.15),transparent 40%);
+  border:6px double var(--gold)}
+.cert-title{font-size:13px;letter-spacing:3px;color:var(--gold);
+  font-weight:700;margin-bottom:6px}
+.cert-heading{font-size:22px;font-weight:700;margin-bottom:16px;
+  color:#2c5f8a}
+.cert-name{font-size:24px;font-weight:700;color:#1a202c;
+  padding:8px 0;margin:10px 0;border-bottom:2px solid var(--gold);
+  border-top:2px solid var(--gold);font-family:Georgia,serif;font-style:italic}
+.cert-text{font-size:13px;color:#718096;margin:10px 0;line-height:1.5}
+.cert-score{display:inline-block;padding:6px 16px;background:#fef3c7;
+  color:#744210;border-radius:20px;font-weight:700;font-size:14px;margin:8px 0}
+.cert-date{font-size:11px;color:#a0aec0;margin-top:14px}
+.cert-actions{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.cert-actions .btn{color:#fff}
+.cert-actions .btn.secondary{color:#1a202c;background:#f5f7fb;border-color:#e2e8f0}
+
+/* CONFETTI */
+.confetti{position:fixed;top:-10px;width:10px;height:10px;
+  z-index:150;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* REVIEW */
+.review-item{background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:14px;margin-bottom:10px}
+.review-item .q{font-weight:600;font-size:14px;margin-bottom:8px}
+.review-item .your{font-size:13px;color:var(--danger);margin-bottom:4px}
+.review-item .correct{font-size:13px;color:var(--success);margin-bottom:4px}
+.review-item .exp{font-size:12px;color:var(--muted);margin-top:8px;
+  padding-top:8px;border-top:1px solid var(--border)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--text);color:var(--card);padding:12px 20px;border-radius:24px;
+  font-size:14px;font-weight:600;z-index:300;transition:transform .3s;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);max-width:90%}
+.toast.show{transform:translateX(-50%) translateY(0)}
 
 @media(min-width:640px){
   .grid{grid-template-columns:repeat(2,1fr)}
-  .hero h1{font-size:32px}
-  .page-title{font-size:26px}
-  .content,.quiz{padding:28px}
+  .hero h1{font-size:30px}
+  .drag-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stats-row{grid-template-columns:repeat(4,1fr)}
 }
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
@@ -136,156 +309,123 @@ main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
 <header>
   <div class="header-inner">
     <a class="logo" onclick="go('/')">🐍 PyLearn</a>
-    <button class="reset-btn" onclick="resetProgress()">↺ Xoá tiến độ</button>
+    <div class="header-actions">
+      <div class="xp-badge" id="xp-badge">⚡ 0</div>
+      <button class="icon-btn" onclick="go('/stats')" title="Thống kê">📊</button>
+      <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện" id="theme-btn">🌙</button>
+    </div>
   </div>
 </header>
 
 <main id="app"></main>
+<div id="toast" class="toast"></div>
 
 <script>
-/* ================== DỮ LIỆU KHOÁ HỌC ================== */
+/* ==================== DỮ LIỆU KHOÁ HỌC ==================== */
 const COURSE = {
-  id: 'python',
-  title: 'Python cơ bản',
-  icon: '🐍',
-  desc: 'Học Python từ con số 0 cho người mới bắt đầu — 11 bài học, có trắc nghiệm.',
+  id: 'python', title: 'Python cơ bản', icon: '🐍',
+  desc: 'Học Python từ 0 đến hàm & xử lý lỗi — 11 bài, 4 loại bài tập.',
   lessons: [
-
-    /* ---------- BÀI 1 ---------- */
-    {
-      id: 'bai-1',
-      title: 'Giới thiệu Python',
-      content: `
-        <h2>Python là gì?</h2>
-        <p><strong>Python</strong> là một ngôn ngữ lập trình <em>bậc cao</em>, dễ học, cú pháp gần với tiếng Anh tự nhiên. Python được dùng rất nhiều trong AI, data science, web, tự động hoá...</p>
-        <h2>Câu lệnh đầu tiên</h2>
-        <p>Trong Python, để in ra màn hình bạn dùng hàm <code>print()</code>:</p>
-        <pre><code>print("Xin chào, tôi đang học Python!")</code></pre>
-        <p>Kết quả khi chạy:</p>
-        <pre><code>Xin chào, tôi đang học Python!</code></pre>
-        <h2>Chạy Python ở đâu?</h2>
-        <ul>
-          <li>Cài Python trên máy tính: <a href="https://python.org" target="_blank" rel="noopener">python.org</a></li>
-          <li>Hoặc dùng online không cần cài: <a href="https://replit.com" target="_blank" rel="noopener">replit.com</a>, <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a></li>
-        </ul>
-        <p>💡 <strong>Ghi nhớ:</strong> Python dùng <strong>thụt lề</strong> (indent) để phân chia khối lệnh — thường là 4 dấu cách.</p>
-      `,
-      quiz: [
-        { q: 'Python là ngôn ngữ lập trình như thế nào?',
-          options: ['Bậc thấp, khó học','Bậc cao, dễ học','Chỉ dùng cho web','Không phổ biến'],
-          answer: 1 },
-        { q: 'Hàm nào dùng để in ra màn hình trong Python?',
-          options: ['echo()','log()','print()','write()'],
-          answer: 2 }
+    { id:'bai-1', title:'Giới thiệu Python', content:`
+      <h2>Python là gì?</h2>
+      <p><strong>Python</strong> là ngôn ngữ bậc cao, dễ học, dùng nhiều trong AI, data science, web, tự động hoá.</p>
+      <h2>Câu lệnh đầu tiên</h2>
+      <pre><code>print("Xin chào!")</code></pre>
+      <p>Kết quả: <code>Xin chào!</code></p>
+      <h2>Chạy Python ở đâu?</h2>
+      <ul><li><a href="https://replit.com" target="_blank" rel="noopener">replit.com</a> (online)</li>
+      <li><a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a></li></ul>
+      <p>💡 Python dùng <strong>thụt lề 4 dấu cách</strong> để phân chia khối lệnh.</p>`,
+      quiz:[
+        {type:'mcq',q:'Python là ngôn ngữ lập trình như thế nào?',
+          options:['Bậc thấp, khó học','Bậc cao, dễ học','Chỉ dùng cho web','Không phổ biến'],
+          answer:1,explain:'Python là ngôn ngữ bậc cao, cú pháp gần tiếng Anh nên rất dễ học.',
+          hint:'Nó nổi tiếng vì dễ đọc, dễ viết.'},
+        {type:'fill',q:'Điền từ còn thiếu: Hàm dùng để in ra màn hình trong Python là ______()',
+          answers:['print','print()'],explain:'print() là hàm in ra màn hình trong Python.',
+          hint:'4 chữ cái, bắt đầu bằng "p".'},
+        {type:'mcq',q:'Python dùng gì để chia khối lệnh?',
+          options:['Dấu { }','Dấu ( )','Thụt lề (indent)','Dấu ;'],
+          answer:2,explain:'Python dùng thụt lề (thường 4 dấu cách) để chia khối lệnh, không dùng ngoặc nhọn.',
+          hint:'Không phải ký tự nào cả — mà là "khoảng trắng".'}
       ]
     },
-
-    /* ---------- BÀI 2 ---------- */
-    {
-      id: 'bai-2',
-      title: 'Biến và kiểu dữ liệu',
-      content: `
-        <h2>Biến là gì?</h2>
-        <p><strong>Biến</strong> là "hộp" chứa dữ liệu, mỗi biến có một tên gọi. Khai báo bằng dấu <code>=</code>:</p>
-        <pre><code>ten = "An"
-tuoi = 20
-chieu_cao = 1.65
-la_sinh_vien = True</code></pre>
-        <p>Python <strong>tự nhận biết kiểu dữ liệu</strong> — không cần khai báo kiểu.</p>
-        <h2>Các kiểu dữ liệu chính</h2>
-        <ul>
-          <li><strong>int</strong> — số nguyên: <code>10</code>, <code>-5</code></li>
-          <li><strong>float</strong> — số thực: <code>3.14</code>, <code>-0.5</code></li>
-          <li><strong>str</strong> — chuỗi ký tự: <code>"hello"</code></li>
-          <li><strong>bool</strong> — đúng/sai: <code>True</code>, <code>False</code></li>
-        </ul>
-        <h2>Kiểm tra kiểu dữ liệu</h2>
-        <pre><code>print(type(42))       # &lt;class 'int'&gt;
-print(type(3.14))     # &lt;class 'float'&gt;
-print(type("hi"))     # &lt;class 'str'&gt;</code></pre>
-      `,
-      quiz: [
-        { q: 'Cách khai báo biến x bằng 5 trong Python?',
-          options: ['int x = 5','let x = 5','x = 5','var x = 5'],
-          answer: 2 },
-        { q: 'type(3.14) trả về kiểu gì?',
-          options: ['int','float','str','bool'],
-          answer: 1 }
+    { id:'bai-2', title:'Biến và kiểu dữ liệu', content:`
+      <h2>Biến</h2>
+      <p>Khai báo bằng dấu <code>=</code>, Python tự nhận kiểu:</p>
+      <pre><code>ten = "An"        # str
+tuoi = 20          # int
+cao = 1.65         # float
+sv = True          # bool</code></pre>
+      <h2>4 kiểu chính</h2>
+      <ul><li><strong>int</strong> — số nguyên</li><li><strong>float</strong> — số thực</li>
+      <li><strong>str</strong> — chuỗi (đặt trong ngoặc kép)</li><li><strong>bool</strong> — True / False</li></ul>
+      <pre><code>print(type(42))     # &lt;class 'int'&gt;</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'Khai báo biến x = 5 trong Python?',
+          options:['int x = 5','let x = 5','x = 5','var x = 5'],answer:2,
+          explain:'Python không cần khai báo kiểu, chỉ cần x = 5.',hint:'Không có từ khoá nào cả.'},
+        {type:'fill',q:'type(3.14) trả về kiểu gì?',answers:['float'],explain:'3.14 là số thực → kiểu float.',
+          hint:'Số có dấu chấm thập phân là kiểu ...'},
+        {type:'mcq',q:'"hello" là kiểu dữ liệu gì?',
+          options:['int','float','str','bool'],answer:2,
+          explain:'Chuỗi ký tự trong ngoặc kép là str (string).',hint:'Chữ viết trong ngoặc kép = ...'}
       ]
     },
-
-    /* ---------- BÀI 3 ---------- */
-    {
-      id: 'bai-3',
-      title: 'Nhập xuất & ép kiểu',
-      content: `
-        <h2>Nhập dữ liệu — input()</h2>
-        <p>Hàm <code>input()</code> cho phép nhập từ bàn phím. <strong>Lưu ý quan trọng:</strong> <code>input()</code> luôn trả về <strong>chuỗi (str)</strong>.</p>
-        <pre><code>ten = input("Tên bạn là gì? ")
+    { id:'bai-3', title:'Nhập xuất & f-string', content:`
+      <h2>Nhập từ bàn phím</h2>
+      <pre><code>ten = input("Tên bạn: ")
 print("Chào " + ten)</code></pre>
-        <h2>Ép kiểu</h2>
-        <p>Muốn nhập số, phải ép kiểu:</p>
-        <pre><code>tuoi = int(input("Tuổi: "))
+      <p>⚠️ <code>input()</code> <strong>luôn trả về str</strong>.</p>
+      <h2>Ép kiểu</h2>
+      <pre><code>tuoi = int(input("Tuổi: "))
 print(tuoi + 1)</code></pre>
-        <p>Các hàm ép kiểu hay dùng: <code>int()</code>, <code>float()</code>, <code>str()</code>.</p>
-        <h2>f-string (cách in đẹp nhất)</h2>
-        <pre><code>ten = "An"
-tuoi = 20
-print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>
-      `,
-      quiz: [
-        { q: 'input() trả về kiểu dữ liệu gì?',
-          options: ['int','float','str','bool'],
-          answer: 2 },
-        { q: 'Cách đúng để nhập một số nguyên từ bàn phím?',
-          options: ['int(input())','input().int()','toInt(input())','input(int)'],
-          answer: 0 }
+      <p>Các hàm: <code>int()</code>, <code>float()</code>, <code>str()</code>.</p>
+      <h2>f-string (cách in đẹp)</h2>
+      <pre><code>ten = "An"; tuoi = 20
+print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'input() trả về kiểu gì?',
+          options:['int','float','str','bool'],answer:2,
+          explain:'input() luôn trả về chuỗi (str) — kể cả khi bạn gõ số.',hint:'Luôn là chuỗi.'},
+        {type:'fill',q:'Điền lệnh ép input thành số nguyên: x = ___(input())',
+          answers:['int','int()'],explain:'int() ép chuỗi số thành số nguyên.',
+          hint:'3 chữ cái — viết tắt của "integer".'},
+        {type:'order',q:'Sắp xếp để in "Tôi là An, 20 tuổi" dùng f-string:',
+          items:['ten = "An"','tuoi = 20','print(f"Tôi là {ten}, {tuoi} tuổi")'],
+          answer:['ten = "An"','tuoi = 20','print(f"Tôi là {ten}, {tuoi} tuổi")'],
+          explain:'Phải khai báo biến trước khi dùng trong f-string.',hint:'Khai báo trước, in sau.'}
       ]
     },
-
-    /* ---------- BÀI 4 ---------- */
-    {
-      id: 'bai-4',
-      title: 'Toán tử',
-      content: `
-        <h2>Toán tử số học</h2>
-        <pre><code>print(5 + 2)   # 7   cộng
-print(5 - 2)   # 3   trừ
-print(5 * 2)   # 10  nhân
-print(5 / 2)   # 2.5 chia (ra float)
-print(5 // 2)  # 2   chia lấy phần nguyên
-print(5 % 2)   # 1   chia lấy dư
-print(5 ** 2)  # 25  luỹ thừa</code></pre>
-        <h2>Toán tử so sánh</h2>
-        <p>Kết quả luôn là <code>True</code> hoặc <code>False</code>:</p>
-        <pre><code>5 == 5   # True
+    { id:'bai-4', title:'Toán tử', content:`
+      <h2>Toán tử số học</h2>
+      <pre><code>5 + 2   # 7   cộng
+5 - 2   # 3   trừ
+5 * 2   # 10  nhân
+5 / 2   # 2.5 chia thường
+5 // 2  # 2   chia lấy nguyên
+5 % 2   # 1   chia lấy dư
+5 ** 2  # 25  luỹ thừa</code></pre>
+      <h2>So sánh</h2>
+      <pre><code>5 == 5   # True
 5 != 3   # True
-5 &gt; 3    # True
-5 &lt;= 4   # False</code></pre>
-        <h2>Toán tử logic</h2>
-        <pre><code>True and False   # False
-True or False    # True
-not True         # False</code></pre>
-      `,
-      quiz: [
-        { q: 'Kết quả của 7 // 2 là bao nhiêu?',
-          options: ['3.5','3','4','1'],
-          answer: 1 },
-        { q: 'Kết quả của 2 ** 3 là bao nhiêu?',
-          options: ['6','8','9','5'],
-          answer: 1 }
+5 &gt; 3    # True</code></pre>
+      <h2>Logic</h2>
+      <pre><code>True and False  # False
+True or False   # True
+not True        # False</code></pre>`,
+      quiz:[
+        {type:'fill',q:'Kết quả của 7 // 2 là bao nhiêu?',answers:['3'],explain:'// là chia lấy phần nguyên: 7/2 = 3.5 → lấy 3.',
+          hint:'// khác / ở chỗ: bỏ phần thập phân.'},
+        {type:'mcq',q:'Kết quả của 2 ** 3?',options:['6','8','9','5'],answer:1,
+          explain:'** là luỹ thừa: 2³ = 8.',hint:'2 × 2 × 2 = ...'},
+        {type:'fill',q:'Kết quả của 10 % 3 là?',answers:['1'],explain:'% là chia lấy dư: 10 ÷ 3 = 3 dư 1.',
+          hint:'10 = 3*3 + 1, số dư là ...'}
       ]
     },
-
-    /* ---------- BÀI 5 ---------- */
-    {
-      id: 'bai-5',
-      title: 'Câu lệnh if / elif / else',
-      content: `
-        <h2>Cấu trúc rẽ nhánh</h2>
-        <p>Dùng để chạy code khác nhau tuỳ điều kiện:</p>
-        <pre><code>diem = 8
-
+    { id:'bai-5', title:'Câu lệnh if / elif / else', content:`
+      <h2>Rẽ nhánh</h2>
+      <pre><code>diem = 8
 if diem &gt;= 9:
     print("Xuất sắc")
 elif diem &gt;= 7:
@@ -294,300 +434,336 @@ elif diem &gt;= 5:
     print("Trung bình")
 else:
     print("Yếu")</code></pre>
-        <h2>Quy tắc quan trọng</h2>
-        <ul>
-          <li>Python dùng <strong>thụt lề</strong> (4 dấu cách) để chia khối lệnh, <em>không dùng dấu ngoặc nhọn</em>.</li>
-          <li>Dấu <code>:</code> bắt buộc sau <code>if / elif / else</code>.</li>
-          <li><code>elif</code> = "else if" (không viết là <code>else if</code>).</li>
-        </ul>
-        <pre><code>tuoi = int(input("Tuổi: "))
-if tuoi &gt;= 18:
-    print("Đủ tuổi")
-else:
-    print("Chưa đủ tuổi")</code></pre>
-      `,
-      quiz: [
-        { q: 'Python dùng gì để phân chia khối lệnh?',
-          options: ['Dấu ngoặc {}','Dấu ()','Thụt lề (indent)','Dấu ;'],
-          answer: 2 },
-        { q: 'Từ khoá nào dùng cho điều kiện phụ (sau if)?',
-          options: ['else if','elif','elseif','otherwise'],
-          answer: 1 }
+      <h2>Quy tắc</h2>
+      <ul><li>Phải có <code>:</code> sau if/elif/else</li>
+      <li><strong>Thụt lề 4 dấu cách</strong> cho thân lệnh</li>
+      <li><code>elif</code> = else if (không viết cách)</li></ul>`,
+      quiz:[
+        {type:'mcq',q:'Điều kiện phụ (sau if) dùng từ khoá nào?',
+          options:['else if','elif','elseif','otherwise'],answer:1,
+          explain:'Python dùng elif — viết liền, không cách.',hint:'Viết tắt của "else if".'},
+        {type:'order',q:'Sắp xếp đúng thứ tự cấu trúc if/elif/else:',
+          items:['else:','if x &gt; 0:','elif x == 0:'],
+          answer:['if x &gt; 0:','elif x == 0:','else:'],
+          explain:'if → elif (nếu có) → else (cuối cùng).',hint:'if luôn đầu, else luôn cuối.'},
+        {type:'fill',q:'Điền ký tự bắt buộc sau if/elif/else:',
+          answers:[':','colon','dấu hai chấm'],explain:'Ký tự ":" bắt buộc sau mỗi điều kiện.',
+          hint:'1 ký tự — giống dấu hai chấm.'}
       ]
     },
-
-    /* ---------- BÀI 6 ---------- */
-    {
-      id: 'bai-6',
-      title: 'Vòng lặp for',
-      content: `
-        <h2>Lặp với range()</h2>
-        <p><code>range(n)</code> sinh ra dãy số từ <strong>0</strong> đến <strong>n-1</strong>:</p>
-        <pre><code>for i in range(5):
+    { id:'bai-6', title:'Vòng lặp for', content:`
+      <h2>range()</h2>
+      <pre><code>for i in range(5):
     print(i)
-# In ra: 0 1 2 3 4</code></pre>
-        <h2>range() với 2-3 tham số</h2>
-        <pre><code>range(1, 5)     # 1, 2, 3, 4
-range(0, 10, 2) # 0, 2, 4, 6, 8 (bước nhảy 2)
-range(5, 0, -1) # 5, 4, 3, 2, 1 (giảm dần)</code></pre>
-        <h2>Lặp qua list / chuỗi</h2>
-        <pre><code>trai_cay = ["táo", "cam", "xoài"]
-for qua in trai_cay:
+# 0 1 2 3 4</code></pre>
+      <p><code>range(n)</code> sinh số từ <strong>0</strong> đến <strong>n-1</strong>.</p>
+      <h2>range với 2-3 tham số</h2>
+      <pre><code>range(1, 5)     # 1,2,3,4
+range(0, 10, 2) # 0,2,4,6,8 (bước 2)</code></pre>
+      <h2>Duyệt list</h2>
+      <pre><code>for qua in ["táo", "cam"]:
     print(qua)</code></pre>
-        <h2>break và continue</h2>
-        <ul>
-          <li><code>break</code> — thoát hẳn vòng lặp</li>
-          <li><code>continue</code> — bỏ qua lần lặp hiện tại</li>
-        </ul>
-      `,
-      quiz: [
-        { q: 'range(5) sinh ra các số nào?',
-          options: ['1,2,3,4,5','0,1,2,3,4','0,1,2,3,4,5','1,2,3,4'],
-          answer: 1 },
-        { q: 'Từ khoá nào để thoát hẳn vòng lặp?',
-          options: ['exit','stop','break','end'],
-          answer: 2 }
+      <h2>break / continue</h2>
+      <p><code>break</code>: thoát hẳn. <code>continue</code>: bỏ qua lần này.</p>`,
+      quiz:[
+        {type:'mcq',q:'range(5) sinh ra các số nào?',
+          options:['1,2,3,4,5','0,1,2,3,4','0..5','1,2,3,4'],answer:1,
+          explain:'range(n) sinh từ 0 đến n-1: 0,1,2,3,4.',hint:'Bắt đầu từ 0, không gồm n.'},
+        {type:'fill',q:'Từ khoá để thoát hẳn vòng lặp là ______',
+          answers:['break'],explain:'break thoát khỏi vòng lặp ngay lập tức.',
+          hint:'5 chữ cái, nghĩa là "phá vỡ".'},
+        {type:'mcq',q:'range(1, 5) sinh ra các số?',
+          options:['1,2,3,4,5','1,2,3,4','0,1,2,3,4','2,3,4,5'],answer:1,
+          explain:'range(a,b) sinh từ a đến b-1: 1,2,3,4.',hint:'Gồm a, KHÔNG gồm b.'}
       ]
     },
-
-    /* ---------- BÀI 7 ---------- */
-    {
-      id: 'bai-7',
-      title: 'Vòng lặp while',
-      content: `
-        <h2>while — lặp khi điều kiện còn đúng</h2>
-        <pre><code>dem = 0
+    { id:'bai-7', title:'Vòng lặp while', content:`
+      <h2>Lặp khi điều kiện đúng</h2>
+      <pre><code>dem = 0
 while dem &lt; 5:
     print(dem)
-    dem = dem + 1</code></pre>
-        <p>⚠️ Nếu quên tăng <code>dem</code>, vòng lặp sẽ chạy <strong>mãi mãi</strong> (vô hạn).</p>
-        <h2>Khi nào dùng while?</h2>
-        <ul>
-          <li>Khi <em>chưa biết trước</em> số lần lặp</li>
-          <li>Lặp đến khi người dùng nhập đúng</li>
-        </ul>
-        <pre><code>mat_khau = ""
+    dem += 1</code></pre>
+      <p>⚠️ Quên tăng <code>dem</code> → lặp <strong>vô hạn</strong>.</p>
+      <h2>Dùng khi nào?</h2>
+      <p>Khi chưa biết trước số lần lặp:</p>
+      <pre><code>mat_khau = ""
 while mat_khau != "1234":
-    mat_khau = input("Nhập mật khẩu: ")
-print("Đăng nhập thành công!")</code></pre>
-        <h2>Vòng lặp vô hạn có chủ đích</h2>
-        <pre><code>while True:
+    mat_khau = input("Mật khẩu: ")</code></pre>
+      <h2>while True</h2>
+      <pre><code>while True:
     lenh = input("&gt; ")
     if lenh == "thoat":
-        break
-    print("Bạn nhập:", lenh)</code></pre>
-      `,
-      quiz: [
-        { q: 'Vòng while lặp khi nào?',
-          options: ['Khi điều kiện sai','Khi điều kiện đúng','Luôn luôn','Không bao giờ'],
-          answer: 1 },
-        { q: 'Kết quả nếu quên tăng biến đếm trong while?',
-          options: ['Không lặp','Lặp 1 lần','Lặp vô hạn','Báo lỗi'],
-          answer: 2 }
+        break</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'Vòng while lặp khi nào?',
+          options:['Khi điều kiện sai','Khi điều kiện đúng','Luôn luôn','Không bao giờ'],answer:1,
+          explain:'while lặp lại khi điều kiện còn True.',hint:'while = "trong khi".'},
+        {type:'fill',q:'Nếu quên tăng biến đếm trong while sẽ gây lặp ______',
+          answers:['vô hạn','vô tận','infinite'],explain:'Gây lặp vô hạn (infinite loop).',
+          hint:'Không bao giờ dừng lại.'},
+        {type:'mcq',q:'Câu nào tăng biến dem thêm 1?',
+          options:['dem = 1','dem + 1','dem += 1','dem++'],answer:2,
+          explain:'dem += 1 tương đương dem = dem + 1. Python không có dem++.',hint:'Python không có ++.'}
       ]
     },
-
-    /* ---------- BÀI 8 ---------- */
-    {
-      id: 'bai-8',
-      title: 'List và Tuple',
-      content: `
-        <h2>List — danh sách có thể thay đổi</h2>
-        <pre><code>diem = [8, 9, 7, 10]
-
-print(diem[0])       # 8  (đánh số từ 0)
-print(diem[-1])      # 10 (phần tử cuối)
-print(len(diem))     # 4
-
-diem.append(6)       # thêm vào cuối
-diem.remove(7)       # xoá phần tử 7
-diem.sort()          # sắp xếp tăng dần</code></pre>
-        <h2>Các thao tác phổ biến</h2>
-        <pre><code>nums = [3, 1, 4, 1, 5]
-
-print(sum(nums))     # 14
-print(max(nums))     # 5
-print(min(nums))     # 1
-print(nums[1:3])     # [1, 4]  (cắt từ 1 đến 2)</code></pre>
-        <h2>Tuple — danh sách KHÔNG thay đổi</h2>
-        <pre><code>toa_do = (10, 20)
-print(toa_do[0])   # 10
-# toa_do[0] = 5  → LỖI vì tuple không cho sửa</code></pre>
-        <p>Tuple dùng khi dữ liệu <strong>cố định</strong> không đổi (toạ độ, ngày sinh...).</p>
-      `,
-      quiz: [
-        { q: 'Thêm phần tử vào cuối list dùng phương thức nào?',
-          options: ['add()','append()','push()','insert_end()'],
-          answer: 1 },
-        { q: 'List khác tuple ở điểm gì?',
-          options: ['Tuple không thể thay đổi','List không thể thay đổi','Giống hệt nhau','Tuple chỉ chứa số'],
-          answer: 0 }
+    { id:'bai-8', title:'List và Tuple', content:`
+      <h2>List — có thể sửa</h2>
+      <pre><code>diem = [8, 9, 7]
+diem[0]        # 8 (đánh số từ 0)
+diem[-1]       # 7 (phần tử cuối)
+diem.append(6) # thêm cuối
+diem.remove(9) # xoá giá trị 9
+len(diem)      # độ dài</code></pre>
+      <h2>Hàm phổ biến</h2>
+      <pre><code>sum([1,2,3])  # 6
+max([1,5,2])  # 5
+min([1,5,2])  # 1
+[1,2,3,4][1:3]  # [2,3] — cắt</code></pre>
+      <h2>Tuple — KHÔNG sửa được</h2>
+      <pre><code>toa_do = (10, 20)
+# toa_do[0] = 5  → LỖI</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'Thêm phần tử vào cuối list dùng?',
+          options:['add()','append()','push()','insert_end()'],answer:1,
+          explain:'append() là phương thức chuẩn để thêm cuối list.',hint:'Bắt đầu bằng "ap".'},
+        {type:'drag',q:'Kéo thả để phân loại — đâu là List, đâu là Tuple?',
+          items:['[1, 2, 3]','(4, 5)','["a", "b"]','(1.5, 2.5)'],
+          targets:[{label:'List (sửa được)',accept:['[1, 2, 3]','["a", "b"]']},
+                   {label:'Tuple (không sửa)',accept:['(4, 5)','(1.5, 2.5)']}],
+          explain:'List dùng [ ], Tuple dùng ( ). Tuple không thể sửa.',
+          hint:'Nhìn ngoặc: [ ] là list, ( ) là tuple.'},
+        {type:'fill',q:'Hàm lấy độ dài list: len([1,2,3,4]) = ?',
+          answers:['4'],explain:'len() đếm số phần tử: list có 4 phần tử.',hint:'Đếm xem có mấy phần tử.'}
       ]
     },
-
-    /* ---------- BÀI 9 ---------- */
-    {
-      id: 'bai-9',
-      title: 'Dictionary',
-      content: `
-        <h2>Dictionary — cặp key → value</h2>
-        <pre><code>sinh_vien = {
+    { id:'bai-9', title:'Dictionary', content:`
+      <h2>Dictionary — cặp key : value</h2>
+      <pre><code>sv = {
     "ten": "An",
-    "tuoi": 20,
-    "lop": "CNTT1"
+    "tuoi": 20
 }
-
-print(sinh_vien["ten"])       # An
-print(sinh_vien.get("lop"))   # CNTT1
-print(sinh_vien.get("sdt", "Chưa có"))  # giá trị mặc định</code></pre>
-        <h2>Thêm / sửa / xoá</h2>
-        <pre><code>sinh_vien["tuoi"] = 21        # sửa
-sinh_vien["email"] = "a@x.vn" # thêm
-del sinh_vien["lop"]          # xoá</code></pre>
-        <h2>Duyệt dictionary</h2>
-        <pre><code>for key in sinh_vien.keys():
-    print(key)
-
-for value in sinh_vien.values():
-    print(value)
-
-for key, value in sinh_vien.items():
-    print(key, "=", value)</code></pre>
-      `,
-      quiz: [
-        { q: 'Cách truy cập giá trị theo key trong dict?',
-          options: ['d.key','d["key"]','d-&gt;key','d.get_key()'],
-          answer: 1 },
-        { q: 'items() trả về gì?',
-          options: ['Chỉ keys','Chỉ values','Cặp (key, value)','Độ dài'],
-          answer: 2 }
+sv["ten"]           # "An"
+sv.get("sdt","N/A") # "N/A" (mặc định)
+sv["tuoi"] = 21     # sửa
+sv["email"] = "x"   # thêm
+del sv["ten"]       # xoá</code></pre>
+      <h2>Duyệt dict</h2>
+      <pre><code>for k in sv.keys(): print(k)
+for v in sv.values(): print(v)
+for k, v in sv.items(): print(k, v)</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'Truy cập giá trị theo key?',
+          options:['d.key','d["key"]','d-&gt;key','d.get_key()'],answer:1,
+          explain:'Dùng d[key] hoặc d.get(key).',hint:'Giống list nhưng dùng chuỗi key.'},
+        {type:'mcq',q:'items() trả về gì?',
+          options:['Chỉ keys','Chỉ values','Cặp (key, value)','Độ dài'],answer:2,
+          explain:'.items() trả về các cặp (key, value).',hint:'"item" = mục — gồm cả 2.'},
+        {type:'fill',q:'Phương thức lấy giá trị an toàn (không lỗi nếu key không có)?',
+          answers:['get','get()','.get','.get()'],explain:'d.get(key) trả về None (hoặc mặc định) thay vì lỗi.',
+          hint:'Bắt đầu bằng "g".'}
       ]
     },
+    { id:'bai-10', title:'Hàm (Function)', content:`
+      <h2>Định nghĩa hàm</h2>
+      <pre><code>def chao(ten):
+    return "Chào " + ten
 
-    /* ---------- BÀI 10 ---------- */
-    {
-      id: 'bai-10',
-      title: 'Hàm (Function)',
-      content: `
-        <h2>Định nghĩa hàm</h2>
-        <p>Dùng từ khoá <code>def</code> để tạo hàm:</p>
-        <pre><code>def chao(ten):
-    return "Xin chào " + ten
+print(chao("An"))  # Chào An</code></pre>
+      <h2>Tham số mặc định</h2>
+      <pre><code>def chao(ten, loi="Xin chào"):
+    return loi + " " + ten
 
-print(chao("An"))   # Xin chào An</code></pre>
-        <h2>Tham số mặc định</h2>
-        <pre><code>def chao(ten, loi_chao="Xin chào"):
-    return loi_chao + " " + ten
-
-print(chao("An"))             # Xin chào An
-print(chao("An", "Hi"))       # Hi An</code></pre>
-        <h2>return vs print</h2>
-        <ul>
-          <li><code>print()</code> — chỉ in ra màn hình, <strong>không trả về giá trị</strong></li>
-          <li><code>return</code> — <strong>trả về giá trị</strong> để dùng tiếp</li>
-        </ul>
-        <pre><code>def cong(a, b):
-    return a + b
-
-ket_qua = cong(3, 5)   # ket_qua = 8
-print(ket_qua * 2)     # 16</code></pre>
-      `,
-      quiz: [
-        { q: 'Từ khoá nào dùng để khai báo hàm trong Python?',
-          options: ['function','def','func','fn'],
-          answer: 1 },
-        { q: 'Hàm trả về giá trị dùng từ khoá nào?',
-          options: ['output','yield','return','print'],
-          answer: 2 }
+chao("An")        # Xin chào An
+chao("An","Hi")   # Hi An</code></pre>
+      <h2>return vs print</h2>
+      <ul><li><code>print()</code>: chỉ in, <strong>không trả giá trị</strong></li>
+      <li><code>return</code>: <strong>trả giá trị</strong> dùng tiếp được</li></ul>
+      <pre><code>def cong(a,b): return a+b
+ket_qua = cong(3,5)  # 8
+print(ket_qua * 2)   # 16</code></pre>`,
+      quiz:[
+        {type:'mcq',q:'Từ khoá khai báo hàm?',
+          options:['function','def','func','fn'],answer:1,
+          explain:'Python dùng def (define) để khai báo hàm.',hint:'Viết tắt của "define".'},
+        {type:'fill',q:'Từ khoá trả về giá trị từ hàm là ______',
+          answers:['return'],explain:'return trả giá trị về nơi gọi hàm.',
+          hint:'6 chữ cái — "trở về".'},
+        {type:'order',q:'Sắp xếp để định nghĩa hàm tính tổng 2 số:',
+          items:['return a + b','def cong(a, b):','ket_qua = cong(3, 5)'],
+          answer:['def cong(a, b):','return a + b','ket_qua = cong(3, 5)'],
+          explain:'def trước → return trong thân → gọi hàm sau cùng.',
+          hint:'Định nghĩa → thân hàm → gọi hàm.'}
       ]
     },
-
-    /* ---------- BÀI 11 ---------- */
-    {
-      id: 'bai-11',
-      title: 'Xử lý lỗi (try/except)',
-      content: `
-        <h2>Tại sao cần xử lý lỗi?</h2>
-        <p>Nếu chương trình gặp lỗi (ví dụ chia cho 0), nó sẽ <strong>dừng ngay</strong>. Dùng <code>try/except</code> để "bắt" lỗi và xử lý mềm mại:</p>
-        <pre><code>try:
-    x = int(input("Nhập số: "))
+    { id:'bai-11', title:'Xử lý lỗi try/except', content:`
+      <h2>Bắt lỗi</h2>
+      <pre><code>try:
+    x = int(input("Số: "))
     print(10 / x)
 except ValueError:
-    print("Bạn phải nhập số!")
+    print("Phải nhập số!")
 except ZeroDivisionError:
-    print("Không chia được cho 0!")</code></pre>
-        <h2>Các lỗi phổ biến</h2>
-        <ul>
-          <li><strong>ValueError</strong> — sai giá trị (int("abc"))</li>
-          <li><strong>ZeroDivisionError</strong> — chia cho 0</li>
-          <li><strong>TypeError</strong> — sai kiểu (cộng số với chuỗi)</li>
-          <li><strong>NameError</strong> — dùng biến chưa khai báo</li>
-          <li><strong>IndexError</strong> — truy cập list ngoài phạm vi</li>
-        </ul>
-        <h2>finally — luôn chạy</h2>
-        <pre><code>try:
+    print("Không chia 0!")</code></pre>
+      <h2>Lỗi phổ biến</h2>
+      <ul><li><strong>ValueError</strong> — giá trị sai (int("abc"))</li>
+      <li><strong>ZeroDivisionError</strong> — chia cho 0</li>
+      <li><strong>TypeError</strong> — sai kiểu</li>
+      <li><strong>NameError</strong> — biến chưa khai báo</li>
+      <li><strong>IndexError</strong> — truy cập list ngoài phạm vi</li></ul>
+      <h2>finally — luôn chạy</h2>
+      <pre><code>try:
     f = open("data.txt")
-    # ... đọc file
 finally:
-    f.close()   # luôn đóng file dù có lỗi hay không</code></pre>
-        <p>🎉 Chúc mừng! Bạn đã hoàn thành khoá Python cơ bản!</p>
-      `,
-      quiz: [
-        { q: 'Khối nào dùng để bắt lỗi trong Python?',
-          options: ['try','catch','except','error'],
-          answer: 2 },
-        { q: 'Chia cho 0 gây ra lỗi gì?',
-          options: ['ValueError','ZeroDivisionError','TypeError','NameError'],
-          answer: 1 }
+    f.close()</code></pre>
+      <p>🎉 Bạn đã hoàn thành khoá học!</p>`,
+      quiz:[
+        {type:'mcq',q:'Khối nào bắt lỗi?',
+          options:['try','catch','except','error'],answer:2,
+          explain:'Python dùng try/except, không dùng catch.',hint:'Bắt đầu bằng "ex".'},
+        {type:'mcq',q:'Chia cho 0 gây lỗi gì?',
+          options:['ValueError','ZeroDivisionError','TypeError','NameError'],answer:1,
+          explain:'ZeroDivisionError — không thể chia cho 0.',hint:'Tên lỗi nói rõ nguyên nhân.'},
+        {type:'fill',q:'Khối nào luôn chạy dù có lỗi hay không?',
+          answers:['finally'],explain:'finally luôn được thực thi, kể cả khi có exception.',
+          hint:'7 chữ cái — "cuối cùng".'}
       ]
     }
-
   ]
 };
 
-/* ================== QUẢN LÝ TIẾN ĐỘ ================== */
-const STORE_KEY = 'pylearn_progress_v1';
-let progress = {};
-try { progress = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { progress = {}; }
+/* ==================== STATE MANAGEMENT ==================== */
+const STORE_KEY = 'pylearn_v2';
+let state = loadState();
 
-function saveProgress() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch(e) {}
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    if (s && typeof s === 'object') return s;
+  } catch(e) {}
+  return { xp:0, lessons:{}, streakDays:[], bestScores:{} };
 }
-function markDone(id) { progress[id] = true; saveProgress(); }
-function isDone(id) { return !!progress[id]; }
-function courseProgress() {
-  const total = COURSE.lessons.length;
-  const done = COURSE.lessons.filter(l => isDone(l.id)).length;
-  return { done, total, pct: total ? Math.round(done * 100 / total) : 0 };
+function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function today(){ return new Date().toISOString().slice(0,10); }
+function addXp(amount){ state.xp += amount; saveState(); updateXpBadge(); }
+function updateXpBadge(){ const el=document.getElementById('xp-badge'); if(el) el.textContent='⚡ '+state.xp; }
+function getLevel(){ return Math.floor(state.xp / 100) + 1; }
+function getLevelProgress(){ return state.xp % 100; }
+
+function markStudiedToday(){
+  const t = today();
+  if (!state.streakDays.includes(t)) state.streakDays.push(t);
+  saveState();
 }
-function resetProgress() {
-  if (!confirm('Xoá toàn bộ tiến độ học của bạn?')) return;
-  progress = {};
-  saveProgress();
-  render();
+function getStreak(){
+  const days = [...state.streakDays].sort().reverse();
+  if (days.length === 0) return 0;
+  const t = new Date();
+  let count = 0;
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(t); d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0,10);
+    if (days.includes(ds)) count++;
+    else if (i === 0) continue;
+    else break;
+  }
+  return count;
 }
 
-/* ================== ROUTING ================== */
-function go(path) { location.hash = '#' + path; }
+/* ==================== UTILITIES ==================== */
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 2500);
+}
+function toggleTheme(){
+  const html = document.documentElement;
+  const cur = html.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('pylearn_theme', next);
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+(function initTheme(){
+  const saved = localStorage.getItem('pylearn_theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const t = document.documentElement.getAttribute('data-theme');
+    document.getElementById('theme-btn').textContent = t === 'dark' ? '☀️' : '🌙';
+  });
+})();
+function resetProgress(){
+  if (!confirm('Xoá TOÀN BỘ tiến độ, XP, streak?')) return;
+  state = { xp:0, lessons:{}, streakDays:[], bestScores:{} };
+  saveState(); updateXpBadge(); render();
+  toast('Đã xoá tiến độ');
+}
+function shuffle(arr){
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function normalize(s){
+  return String(s).trim().toLowerCase()
+    .replace(/^["']|["']$/g, '')   // bỏ ngoặc kép đầu/cuối
+    .replace(/\s+/g, ' ');
+}
 
+/* ==================== ROUTING ==================== */
+function go(path){ location.hash = '#' + path; }
 window.addEventListener('hashchange', render);
-window.addEventListener('load', render);
+window.addEventListener('load', ()=>{ render(); updateXpBadge(); });
 
-function render() {
+function render(){
   const hash = (location.hash || '#/').slice(1);
   const parts = hash.split('/').filter(Boolean);
+  window.scrollTo({top:0,behavior:'instant'});
   if (parts.length === 0) return renderHome();
   if (parts[0] === 'python' && parts.length === 1) return renderCourse();
   if (parts[0] === 'python' && parts.length === 2) return renderLesson(parts[1]);
+  if (parts[0] === 'stats') return renderStats();
   renderHome();
 }
 
-function renderHome() {
-  const { done, total, pct } = courseProgress();
+/* ==================== SCREENS ==================== */
+function renderHome(){
+  const total = COURSE.lessons.length;
+  const done = Object.keys(state.lessons).length;
+  const pct = Math.round(done*100/total);
+  const level = getLevel();
+  const lp = getLevelProgress();
+  const streak = getStreak();
+
+  // Streak week
+  const weekDays = ['T2','T3','T4','T5','T6','T7','CN'];
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  let weekHtml = '';
+  for (let i=0;i<7;i++){
+    const d = new Date(); d.setDate(d.getDate() - (todayIdx - i));
+    const ds = d.toISOString().slice(0,10);
+    const active = state.streakDays.includes(ds);
+    const isToday = ds === today();
+    weekHtml += `<div class="day-dot ${active?'active':''} ${isToday?'today':''}">${weekDays[i]}</div>`;
+  }
+
   document.getElementById('app').innerHTML = `
     <div class="hero">
-      <h1>🐍 Học Python online</h1>
-      <p>Học Python miễn phí với trắc nghiệm sau mỗi bài. Tiến độ tự lưu trên máy bạn.</p>
+      <h1>🐍 Học Python</h1>
+      <p>4 loại bài tập · Tự lưu tiến độ · Miễn phí</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-val">${state.xp}</div><div class="stat-lbl">XP</div></div>
+      <div class="stat-card"><div class="stat-val">Lv ${level}</div><div class="stat-lbl">Cấp độ</div></div>
+      <div class="stat-card"><div class="stat-val">${streak}🔥</div><div class="stat-lbl">Chuỗi ngày</div></div>
+    </div>
+    <div class="xp-bar-wrap">
+      <div class="xp-bar-header"><span>Cấp <strong>${level}</strong></span><span>${lp}/100 XP → Lv ${level+1}</span></div>
+      <div class="xp-bar"><div class="xp-bar-fill" style="width:${lp}%"></div></div>
+      <div class="streak-week">${weekHtml}</div>
     </div>
     <div class="grid">
       <a class="card" onclick="go('/python')">
@@ -595,25 +771,28 @@ function renderHome() {
         <h3>${COURSE.title}</h3>
         <p>${COURSE.desc}</p>
         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-        <div class="progress-text">${done}/${total} bài hoàn thành (${pct}%)</div>
+        <div class="progress-text"><span>${done}/${total} bài</span><span>${pct}%</span></div>
       </a>
+    </div>
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn secondary" style="max-width:200px;margin:0 auto" onclick="resetProgress()">↺ Xoá tiến độ</button>
     </div>
   `;
 }
 
-function renderCourse() {
-  const items = COURSE.lessons.map((l, i) => {
-    const done = isDone(l.id);
-    return `
-      <div class="lesson-item ${done ? 'done' : ''}" onclick="go('/python/${l.id}')">
-        <div class="lesson-num">${done ? '✓' : (i + 1)}</div>
-        <div class="lesson-info">
-          <h4>${l.title}</h4>
-          <span>${l.quiz.length} câu hỏi</span>
-        </div>
-        <div class="chev">›</div>
+function renderCourse(){
+  const items = COURSE.lessons.map((l,i)=>{
+    const done = !!state.lessons[l.id];
+    const best = state.bestScores[l.id] || 0;
+    return `<div class="lesson-item ${done?'done':''}" onclick="go('/python/${l.id}')">
+      <div class="lesson-num">${done?'✓':(i+1)}</div>
+      <div class="lesson-info">
+        <h4>${l.title}</h4>
+        <span>${l.quiz.length} câu · ${l.quiz.map(q=>q.type).filter((v,idx,a)=>a.indexOf(v)===idx).length} loại bài tập</span>
       </div>
-    `;
+      ${done?`<span class="lesson-badge">${best}%</span>`:''}
+      <div class="chev">›</div>
+    </div>`;
   }).join('');
   document.getElementById('app').innerHTML = `
     <button class="back-btn" onclick="go('/')">← Trang chủ</button>
@@ -623,106 +802,486 @@ function renderCourse() {
   `;
 }
 
-function renderLesson(lessonId) {
-  const lesson = COURSE.lessons.find(l => l.id === lessonId);
+function renderLesson(lessonId){
+  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
   if (!lesson) return renderHome();
   const idx = COURSE.lessons.indexOf(lesson);
-  const prev = COURSE.lessons[idx - 1];
-  const next = COURSE.lessons[idx + 1];
+  const prev = COURSE.lessons[idx-1];
+  const next = COURSE.lessons[idx+1];
   document.getElementById('app').innerHTML = `
     <button class="back-btn" onclick="go('/python')">← Danh sách bài</button>
     <div class="content">${lesson.content}</div>
     <div class="quiz">
-      <h3>📝 Kiểm tra kiến thức</h3>
-      <div id="quiz-content"></div>
+      <h3 style="margin-bottom:12px">📝 Luyện tập</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
+        ${lesson.quiz.length} câu hỏi · Đạt ≥70% để hoàn thành bài
+      </p>
+      <button class="btn" onclick="startQuiz('${lesson.id}')">▶ Bắt đầu làm bài</button>
     </div>
-    <div class="lesson-nav">
-      ${prev ? `<button class="btn" onclick="go('/python/${prev.id}')">← Bài trước</button>` : ''}
-      ${next ? `<button class="btn" onclick="go('/python/${next.id}')">Bài tiếp →</button>` : ''}
+    <div class="lesson-nav" style="display:flex;gap:10px;margin-top:16px">
+      ${prev?`<button class="btn secondary" onclick="go('/python/${prev.id}')">← Bài trước</button>`:''}
+      ${next?`<button class="btn secondary" onclick="go('/python/${next.id}')">Bài tiếp →</button>`:''}
     </div>
   `;
-  window.scrollTo({ top: 0, behavior: 'instant' });
-  startQuiz(lesson);
 }
 
-/* ================== QUIZ ENGINE ================== */
-let quizState = null;
-
-function startQuiz(lesson) {
-  quizState = { lesson, current: 0, correct: 0, answered: false, selected: null };
-  renderQuiz();
+function renderStats(){
+  const total = COURSE.lessons.length;
+  const done = Object.keys(state.lessons).length;
+  const streak = getStreak();
+  const level = getLevel();
+  const avgScore = done ? Math.round(Object.values(state.bestScores).reduce((a,b)=>a+b,0)/done) : 0;
+  const lessonRows = COURSE.lessons.map((l,i)=>{
+    const best = state.bestScores[l.id];
+    return `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px">
+      <span>${best?'✅':'⬜'} ${i+1}. ${l.title}</span>
+      <span style="color:${best?(best>=70?'var(--success)':'var(--warn)'):'var(--muted)'};font-weight:600">${best?best+'%':'—'}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('app').innerHTML = `
+    <button class="back-btn" onclick="go('/')">← Trang chủ</button>
+    <h1 class="page-title">📊 Thống kê học tập</h1>
+    <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin:16px 0">
+      <div class="stat-card"><div class="stat-val">${state.xp}</div><div class="stat-lbl">Tổng XP</div></div>
+      <div class="stat-card"><div class="stat-val">Lv ${level}</div><div class="stat-lbl">Cấp độ</div></div>
+      <div class="stat-card"><div class="stat-val">${streak}🔥</div><div class="stat-lbl">Chuỗi ngày</div></div>
+      <div class="stat-card"><div class="stat-val">${avgScore}%</div><div class="stat-lbl">Điểm TB</div></div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:16px">
+      <h3 style="margin-bottom:10px;font-size:15px">Chi tiết từng bài</h3>
+      ${lessonRows}
+    </div>
+  `;
 }
 
-function renderQuiz() {
-  const { lesson, current, correct, answered, selected } = quizState;
-  const q = lesson.quiz[current];
-  const total = lesson.quiz.length;
-  const isLast = current === total - 1;
-  const box = document.getElementById('quiz-content');
-  if (!box) return;
+/* ==================== QUIZ ENGINE ==================== */
+let quiz = null;
 
-  const optHtml = q.options.map((opt, i) => {
-    let cls = 'option';
-    if (answered) {
-      if (i === q.answer) cls += ' correct';
-      else if (i === selected) cls += ' wrong';
+function startQuiz(lessonId){
+  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
+  if (!lesson) return;
+  quiz = {
+    lesson,
+    current: 0,
+    results: lesson.quiz.map(()=>({ attempts:0, correct:false, userAnswer:null, done:false })),
+    startTime: Date.now()
+  };
+  renderQuizScreen();
+  renderQuestion();
+}
+
+function renderQuizScreen(){
+  document.getElementById('app').innerHTML = `
+    <button class="back-btn" onclick="if(confirm('Thoát bài làm? Tiến độ quiz sẽ mất.'))go('/python/${quiz.lesson.id}')">← Thoát</button>
+    <div class="quiz">
+      <div class="quiz-header">
+        <div class="quiz-progress-txt">Câu <strong id="q-idx">1</strong>/${quiz.lesson.quiz.length}</div>
+        <button class="hint-btn" onclick="showHint()">💡 Gợi ý</button>
+      </div>
+      <div class="q-progress-bar"><div class="q-progress-fill" id="q-bar" style="width:0%"></div></div>
+      <div id="q-container"></div>
+    </div>
+  `;
+}
+
+function showHint(){
+  const q = quiz.lesson.quiz[quiz.current];
+  if (q.hint) toast('💡 ' + q.hint);
+  else toast('Không có gợi ý cho câu này');
+}
+
+const TYPE_LABEL = { mcq:'Trắc nghiệm', fill:'Điền từ', drag:'Kéo thả', order:'Sắp xếp' };
+
+function renderQuestion(){
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  const container = document.getElementById('q-container');
+  document.getElementById('q-idx').textContent = quiz.current + 1;
+  const pct = (quiz.current / quiz.lesson.quiz.length) * 100;
+  document.getElementById('q-bar').style.width = pct + '%';
+
+  let body = '';
+  if (q.type === 'mcq') body = renderMcq(q, r);
+  else if (q.type === 'fill') body = renderFill(q, r);
+  else if (q.type === 'order') body = renderOrder(q, r);
+  else if (q.type === 'drag') body = renderDrag(q, r);
+
+  container.innerHTML = `
+    <div class="question-type">${TYPE_LABEL[q.type]||'Câu hỏi'}</div>
+    <div class="question">${esc(q.q)}</div>
+    ${body}
+  `;
+
+  if (q.type === 'fill') {
+    const input = document.getElementById('fill-answer');
+    if (input && !r.done) {
+      input.focus();
+      input.addEventListener('keydown', e=>{ if(e.key==='Enter') submitFill(); });
     }
-    return `<button class="${cls}" onclick="selectAnswer(${i})" ${answered ? 'disabled' : ''}>${opt}</button>`;
+  }
+}
+
+/* ---------- MCQ ---------- */
+function renderMcq(q, r){
+  const opts = q.options.map((opt, i)=>{
+    let cls = 'option';
+    if (r.done) {
+      if (i === q.answer) cls += ' correct';
+      else if (i === r.userAnswer) cls += ' wrong';
+    }
+    return `<button class="${cls}" ${r.done?'disabled':''} onclick="selectMcq(${i})">
+      <span class="option-letter">${String.fromCharCode(65+i)}</span>
+      <span>${esc(opt)}</span>
+    </button>`;
+  }).join('');
+  return `<div class="options">${opts}</div>${renderFeedback(q, r, 'mcq')}`;
+}
+
+function selectMcq(i){
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  r.userAnswer = i;
+  r.attempts++;
+  if (i === q.answer) { r.correct = true; r.done = true; awardCorrectXP(r); }
+  else if (r.attempts >= 2) { r.done = true; }
+  renderQuestion();
+}
+
+/* ---------- FILL ---------- */
+function renderFill(q, r){
+  let inputCls = 'fill-input';
+  if (r.done) inputCls += r.correct ? ' correct' : ' wrong';
+  const val = r.userAnswer ? esc(r.userAnswer) : '';
+  return `
+    <input type="text" id="fill-answer" class="${inputCls}" placeholder="Nhập đáp án..."
+      value="${val}" ${r.done?'disabled':''} autocomplete="off" autocorrect="off" autocapitalize="off">
+    <div class="fill-hint">Nhập đáp án rồi nhấn Enter hoặc bấm "Kiểm tra"</div>
+    ${!r.done ? '<button class="btn" onclick="submitFill()">✓ Kiểm tra</button>' : ''}
+    ${renderFeedback(q, r, 'fill')}
+  `;
+}
+
+function submitFill(){
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  const input = document.getElementById('fill-answer');
+  const user = input.value.trim();
+  if (!user) { toast('Hãy nhập đáp án'); return; }
+  r.userAnswer = user;
+  r.attempts++;
+  const norm = normalize(user);
+  const isCorrect = q.answers.some(a => normalize(a) === norm);
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
+  else if (r.attempts >= 2) { r.done = true; }
+  renderQuestion();
+}
+
+/* ---------- ORDER ---------- */
+function renderOrder(q, r){
+  let items = r.shuffled || (r.shuffled = shuffle(q.items));
+  const isDone = r.done;
+  const list = items.map((item, i)=>`
+    <div class="order-item">
+      <div class="order-item-text">${esc(item)}</div>
+      <div class="order-btns">
+        <button class="order-btn" ${i===0||isDone?'disabled':''} onclick="moveItem(${i},-1)">▲</button>
+        <button class="order-btn" ${i===items.length-1||isDone?'disabled':''} onclick="moveItem(${i},1)">▼</button>
+      </div>
+    </div>
+  `).join('');
+  return `<div class="order-list">${list}</div>
+    ${!isDone ? '<button class="btn" onclick="submitOrder()">✓ Kiểm tra</button>' : ''}
+    ${renderFeedback(q, r, 'order')}`;
+}
+
+function moveItem(idx, dir){
+  const r = quiz.results[quiz.current];
+  const arr = r.shuffled;
+  const j = idx + dir;
+  if (j < 0 || j >= arr.length) return;
+  [arr[idx], arr[j]] = [arr[j], arr[idx]];
+  renderQuestion();
+}
+
+function submitOrder(){
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  r.attempts++;
+  const userOrder = r.shuffled;
+  const isCorrect = userOrder.every((v,i)=> v === q.answer[i]);
+  r.userAnswer = userOrder;
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
+  else if (r.attempts >= 2) { r.done = true; }
+  renderQuestion();
+}
+
+/* ---------- DRAG (tap-to-place) ---------- */
+function renderDrag(q, r){
+  // r.placement: { itemIndex: targetIdx or -1 (bank) }
+  if (!r.placement) {
+    r.placement = {};
+    q.items.forEach((_, i)=>{ r.placement[i] = -1; });
+  }
+  const isDone = r.done;
+  const selected = r.selected ?? -1;
+
+  const bankItems = q.items.map((it, i)=>{
+    if (r.placement[i] !== -1) return '';
+    const sel = selected === i ? 'selected' : '';
+    return `<div class="drag-item ${sel}" onclick="selectDragItem(${i})">${esc(it)}</div>`;
   }).join('');
 
-  let explainHtml = '';
-  if (answered) {
-    const ok = selected === q.answer;
-    explainHtml = `<div class="explanation ${ok ? 'ok' : 'no'}">
-      ${ok ? '✅ Chính xác!' : '❌ Sai rồi. Đáp án đúng: <strong>' + q.options[q.answer] + '</strong>'}
+  const slotsHtml = q.targets.map((t, ti)=>{
+    const itemsInSlot = q.items.map((it, i)=>{
+      if (r.placement[i] !== ti) return '';
+      return `<div class="drag-item" onclick="unplaceDragItem(${i})">${esc(it)}</div>`;
+    }).join('');
+    const has = itemsInSlot ? 'has-items' : '';
+    return `<div class="drag-slot ${has}" onclick="placeDragItem(${ti})">
+      <div class="drag-slot-label">${esc(t.label)}</div>
+      <div class="drag-slot-items">${itemsInSlot || '<span style="color:var(--muted);font-size:12px">Chạm để thả vào đây...</span>'}</div>
     </div>`;
-  }
+  }).join('');
 
-  box.innerHTML = `
-    <div class="quiz-progress">Câu ${current + 1}/${total} · Đúng ${correct}</div>
-    <div class="question">${q.q}</div>
-    <div class="options">${optHtml}</div>
-    ${explainHtml}
-    ${answered ? `<button class="btn" onclick="nextQuestion()">${isLast ? 'Xem kết quả' : 'Câu tiếp theo →'}</button>` : ''}
+  return `
+    <div class="drag-instruction">📱 Chạm vào từ ở dưới → chạm vào ô để đặt. Chạm từ trong ô để bỏ ra.</div>
+    <div class="drag-bank">${bankItems || '<span style="color:var(--muted);font-size:12px">Đã xếp hết</span>'}</div>
+    <div class="drag-slots">${slotsHtml}</div>
+    ${!isDone ? '<button class="btn" onclick="submitDrag()">✓ Kiểm tra</button>' : ''}
+    ${renderFeedback(q, r, 'drag')}
   `;
 }
 
-function selectAnswer(i) {
-  if (quizState.answered) return;
-  quizState.selected = i;
-  quizState.answered = true;
-  if (i === quizState.lesson.quiz[quizState.current].answer) quizState.correct++;
-  renderQuiz();
+function selectDragItem(idx){
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  r.selected = (r.selected === idx) ? -1 : idx;
+  renderQuestion();
+}
+function placeDragItem(targetIdx){
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  if (r.selected == null || r.selected < 0) { toast('Chạm vào một từ trước'); return; }
+  r.placement[r.selected] = targetIdx;
+  r.selected = -1;
+  renderQuestion();
+}
+function unplaceDragItem(idx){
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  r.placement[idx] = -1;
+  renderQuestion();
+}
+function submitDrag(){
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  // Check all items placed
+  const allPlaced = q.items.every((_,i)=> r.placement[i] !== -1);
+  if (!allPlaced) { toast('Hãy đặt hết tất cả các từ vào ô'); return; }
+  r.attempts++;
+  let isCorrect = true;
+  q.items.forEach((item, i)=>{
+    const placed = r.placement[i];
+    const correctTarget = q.targets.findIndex(t => t.accept.includes(item));
+    if (placed !== correctTarget) isCorrect = false;
+  });
+  r.userAnswer = {...r.placement};
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
+  else if (r.attempts >= 2) { r.done = true; }
+  renderQuestion();
 }
 
-function nextQuestion() {
-  const { lesson, current } = quizState;
-  if (current < lesson.quiz.length - 1) {
-    quizState.current++;
-    quizState.answered = false;
-    quizState.selected = null;
-    renderQuiz();
+/* ---------- FEEDBACK ---------- */
+function renderFeedback(q, r, type){
+  if (!r.done && r.attempts === 0) return '';
+  if (r.correct) {
+    return `<div class="explain ok">✅ <strong>Chính xác!</strong> ${q.explain ? '<br>'+esc(q.explain) : ''}</div>
+      <button class="btn" onclick="nextQ()">${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}</button>`;
+  }
+  // Wrong
+  if (r.attempts === 1) {
+    return `<div class="explain no">❌ <strong>Chưa đúng!</strong> Thử lại nào.
+      ${q.hint ? '<br>💡 Gợi ý: '+esc(q.hint) : ''}</div>
+      <button class="btn warn" onclick="retryQ()">↻ Thử lại</button>`;
+  }
+  // Attempts >= 2 → show correct answer
+  let correctAns = '';
+  if (type === 'mcq') correctAns = q.options[q.answer];
+  else if (type === 'fill') correctAns = q.answers[0];
+  else if (type === 'order') correctAns = q.answer.join(' → ');
+  else if (type === 'drag') {
+    correctAns = q.targets.map(t =>
+      t.label + ': ' + t.accept.join(', ')
+    ).join(' | ');
+  }
+  return `<div class="explain no">
+      ❌ <strong>Sai rồi.</strong> Đáp án đúng: <strong>${esc(correctAns)}</strong>
+      ${q.explain ? '<br>📖 ' + esc(q.explain) : ''}
+    </div>
+    <button class="btn" onclick="nextQ()">${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}</button>`;
+}
+
+function retryQ(){
+  const r = quiz.results[quiz.current];
+  r.selected = -1;
+  // For order: keep order, allow re-submit
+  // For drag: keep placement
+  renderQuestion();
+}
+
+function awardCorrectXP(r){
+  const base = r.attempts === 1 ? 10 : 5;
+  addXp(base);
+  toast(`+${base} XP`);
+}
+
+function nextQ(){
+  if (quiz.current < quiz.lesson.quiz.length - 1) {
+    quiz.current++;
+    renderQuestion();
   } else {
-    showResult();
+    finishQuiz();
   }
 }
 
-function showResult() {
-  const { lesson, correct } = quizState;
-  const total = lesson.quiz.length;
-  const pct = Math.round(correct * 100 / total);
-  const pass = pct >= 70;
-  if (pass) markDone(lesson.id);
+/* ==================== RESULT & CERTIFICATE ==================== */
+function finishQuiz(){
+  const lesson = quiz.lesson;
+  const results = quiz.results;
+  const correctCount = results.filter(r=>r.correct).length;
+  const total = results.length;
+  const score = Math.round(correctCount * 100 / total);
+  const pass = score >= 70;
+  const time = Math.round((Date.now() - quiz.startTime) / 1000);
+  const prevBest = state.bestScores[lesson.id] || 0;
 
-  document.getElementById('quiz-content').innerHTML = `
-    <div class="result">
-      <div class="result-score ${pass ? 'pass' : 'fail'}">${correct}/${total}</div>
-      <div class="result-msg">
-        ${pass ? '🎉 Tuyệt vời! Bạn đã hoàn thành bài học.' : '😅 Chưa đạt 70%. Ôn lại rồi thử lại nhé!'}
+  // Bonus XP
+  let bonusXp = 0;
+  if (pass) { bonusXp += 20; if (score === 100) bonusXp += 30; }
+  if (bonusXp > 0) addXp(bonusXp);
+
+  // Update state
+  if (!state.bestScores[lesson.id] || score > state.bestScores[lesson.id]) {
+    state.bestScores[lesson.id] = score;
+  }
+  if (pass) state.lessons[lesson.id] = true;
+  markStudiedToday();
+  saveState();
+
+  const wrongQuestions = results.map((r,i)=>({r, q:lesson.quiz[i], i}))
+    .filter(x => !x.r.correct);
+
+  const idx = COURSE.lessons.indexOf(lesson);
+  const nextLesson = COURSE.lessons[idx+1];
+
+  const emoji = pass ? (score===100?'🏆':'🎉') : '😅';
+  document.getElementById('app').innerHTML = `
+    <div class="quiz" style="margin-top:8px">
+      <div class="result">
+        <div class="result-emoji">${emoji}</div>
+        <div class="result-score ${pass?'pass':'fail'}">${correctCount}/${total}</div>
+        <div class="result-msg">
+          ${pass ? 'Tuyệt vời! Bạn đã hoàn thành bài học.' :
+                  'Chưa đạt 70%. Ôn lại và thử lại nhé!'}
+        </div>
+        <div class="result-stats">
+          <div><div class="v">${score}%</div><div class="l">Điểm</div></div>
+          <div><div class="v">${time}s</div><div class="l">Thời gian</div></div>
+          <div><div class="v">+${bonusXp}</div><div class="l">Bonus XP</div></div>
+        </div>
+        ${!pass && prevBest < score ? '<div style="font-size:13px;color:var(--success);margin-bottom:8px">📈 Điểm cao nhất mới!</div>' : ''}
+        <div class="btn-row">
+          ${pass ? `<button class="btn secondary" onclick="startQuiz('${lesson.id}')">↻ Làm lại</button>
+                    <button class="btn gold" onclick="showCertificate('${lesson.id}',${score})">🏅 Chứng chỉ</button>` :
+                  `<button class="btn secondary" onclick="go('/python/${lesson.id}')">← Ôn lý thuyết</button>
+                   <button class="btn" onclick="startQuiz('${lesson.id}')">↻ Làm lại</button>`}
+        </div>
+        ${nextLesson && pass ? `
+          <button class="btn" style="margin-top:10px" onclick="go('/python/${nextLesson.id}')">
+            📖 Học bài tiếp: ${nextLesson.title} →
+          </button>` : ''}
+        ${wrongQuestions.length > 0 ? `
+          <button class="btn secondary" style="margin-top:10px" onclick="showReview()">
+            📋 Ôn lại ${wrongQuestions.length} câu sai
+          </button>` : ''}
+        <button class="btn secondary" style="margin-top:10px" onclick="go('/python')">Danh sách bài</button>
       </div>
-      <button class="btn" onclick="startQuiz(quizState.lesson)">Làm lại</button>
+    </div>
+    <div id="review-section" style="margin-top:16px"></div>
+    <div id="cert-root"></div>
+  `;
+
+  quiz._wrongQuestions = wrongQuestions;
+  quiz._score = score;
+  if (pass) fireConfetti();
+}
+
+function showReview(){
+  const wrongs = quiz._wrongQuestions;
+  if (!wrongs || wrongs.length === 0) return;
+  const html = wrongs.map(({r,q,i})=>{
+    let correctAns = '';
+    if (q.type==='mcq') correctAns = q.options[q.answer];
+    else if (q.type==='fill') correctAns = q.answers[0];
+    else if (q.type==='order') correctAns = q.answer.join(' → ');
+    else if (q.type==='drag') correctAns = q.targets.map(t=>t.label+': '+t.accept.join(', ')).join(' | ');
+    const yourAns = r.userAnswer;
+    return `<div class="review-item">
+      <div class="q">Câu ${i+1}: ${esc(q.q)}</div>
+      ${yourAns!=null?`<div class="your">✗ Bạn trả lời: ${esc(typeof yourAns==='number'?q.options[yourAns]:(Array.isArray(yourAns)?yourAns.join(', '):String(yourAns)))}</div>`:''}
+      <div class="correct">✓ Đáp án: ${esc(correctAns)}</div>
+      ${q.explain?`<div class="exp">📖 ${esc(q.explain)}</div>`:''}
+    </div>`;
+  }).join('');
+  document.getElementById('review-section').innerHTML = `
+    <h3 style="margin-bottom:12px;font-size:16px">📋 Ôn lại câu sai</h3>
+    ${html}
+  `;
+  document.getElementById('review-section').scrollIntoView({behavior:'smooth'});
+}
+
+function showCertificate(lessonId, score){
+  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
+  const name = prompt('Nhập tên của bạn để in lên chứng chỉ:', 'Học viên');
+  if (name === null) return;
+  const date = new Date().toLocaleDateString('vi-VN');
+  document.getElementById('cert-root').innerHTML = `
+    <div class="cert-overlay" onclick="if(event.target===this)this.remove()">
+      <div class="cert-box" id="cert-box">
+        <div class="cert-title">CERTIFICATE</div>
+        <div class="cert-heading">Chứng nhận hoàn thành</div>
+        <div class="cert-text">Chứng nhận học viên</div>
+        <div class="cert-name">${esc(name||'Học viên')}</div>
+        <div class="cert-text">đã hoàn thành xuất sắc khoá học</div>
+        <div style="font-size:16px;font-weight:700;color:#2c5f8a;margin:6px 0">${esc(lesson.title)}</div>
+        <div class="cert-text">trên nền tảng PyLearn</div>
+        <div class="cert-score">🏆 ${score}%</div>
+        <div class="cert-date">Cấp ngày ${date}</div>
+        <div class="cert-actions">
+          <button class="btn" onclick="window.print()">🖨️ In / Lưu PDF</button>
+          <button class="btn secondary" onclick="document.querySelector('.cert-overlay').remove()">Đóng</button>
+        </div>
+      </div>
     </div>
   `;
+}
+
+/* ==================== CONFETTI ==================== */
+function fireConfetti(){
+  const colors = ['#f6c945','#3776ab','#48bb78','#f56565','#ed8936','#764ba2'];
+  for (let i=0;i<40;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + '%';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (1.5 + Math.random()*1.5) + 's';
+    c.style.animationDelay = (Math.random()*0.5) + 's';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 4000);
+  }
 }
 </script>
 </body>
