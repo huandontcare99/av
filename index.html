@@ -1,621 +1,729 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ôn thi trực tuyến – IT English (Q90–120)</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3776ab">
+<title>PyLearn · Học Python online</title>
+<style>
+:root{
+  --primary:#3776ab; --primary-dark:#2c5f8a; --accent:#ffd43b;
+  --bg:#f5f7fb; --card:#fff; --text:#1a202c; --muted:#718096;
+  --border:#e2e8f0; --success:#48bb78; --danger:#f56565;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--primary);text-decoration:none}
+button{font-family:inherit}
+
+header{background:linear-gradient(135deg,#3776ab,#2c5f8a);color:#fff;
+  padding:12px 16px;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.header-inner{max-width:900px;margin:0 auto;display:flex;
+  align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:18px;font-weight:700;color:#fff;cursor:pointer;
+  display:flex;align-items:center;gap:8px}
+.reset-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;
+  font-size:13px;transition:all .2s}
+.reset-btn:active{background:rgba(255,255,255,.3)}
+
+main{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+.hero{text-align:center;padding:20px 8px 28px}
+.hero h1{font-size:26px;margin-bottom:10px;line-height:1.3}
+.hero p{color:var(--muted);font-size:15px}
+
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+.card{background:var(--card);border-radius:14px;padding:20px;
+  border:1px solid var(--border);cursor:pointer;transition:all .2s;
+  display:block;color:inherit}
+.card:active{transform:scale(.99)}
+.card-icon{font-size:36px;margin-bottom:10px}
+.card h3{font-size:17px;margin-bottom:6px}
+.card p{color:var(--muted);font-size:14px;margin-bottom:12px}
+
+.progress-bar{height:6px;background:var(--border);border-radius:3px;
+  overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));
+  transition:width .4s}
+.progress-text{font-size:12px;color:var(--muted);margin-top:6px}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);
+  font-size:14px;margin-bottom:16px;cursor:pointer;background:none;
+  border:none;padding:6px 0;min-height:32px}
+.back-btn:active{color:var(--primary)}
+
+.page-title{font-size:22px;margin-bottom:6px}
+.page-sub{color:var(--muted);margin-bottom:20px;font-size:14px}
+
+.lesson-list{display:flex;flex-direction:column;gap:10px}
+.lesson-item{display:flex;align-items:center;gap:12px;
+  background:var(--card);padding:14px 16px;border-radius:12px;
+  border:1px solid var(--border);cursor:pointer;transition:all .2s;color:inherit}
+.lesson-item:active{transform:scale(.99)}
+.lesson-num{width:34px;height:34px;border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-weight:600;
+  color:var(--muted);flex-shrink:0;font-size:14px}
+.lesson-item.done .lesson-num{background:var(--success);color:#fff}
+.lesson-info{flex:1;min-width:0}
+.lesson-info h4{font-size:15px;margin-bottom:2px}
+.lesson-info span{font-size:12px;color:var(--muted)}
+.chev{color:var(--muted);font-size:22px;flex-shrink:0}
+
+.content{background:var(--card);border-radius:14px;padding:20px;
+  border:1px solid var(--border);margin-bottom:20px}
+.content h2{margin:18px 0 10px;font-size:20px;line-height:1.3}
+.content h2:first-child{margin-top:0}
+.content h3{margin:14px 0 8px;font-size:17px}
+.content p{margin-bottom:12px;font-size:15px}
+.content ul,.content ol{margin:0 0 12px 22px;font-size:15px}
+.content li{margin-bottom:6px}
+.content strong{color:var(--primary-dark)}
+.content code{background:#edf2f7;padding:2px 6px;border-radius:4px;
+  font-size:13px;color:#c53030;font-family:'SF Mono',Monaco,'Courier New',monospace}
+.content pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:10px;
+  overflow-x:auto;margin-bottom:14px;font-size:13px;line-height:1.55;
+  -webkit-overflow-scrolling:touch}
+.content pre code{background:none;padding:0;color:inherit;font-size:13px}
+
+.quiz{background:var(--card);border-radius:14px;padding:20px;border:1px solid var(--border)}
+.quiz h3{margin-bottom:12px;font-size:18px}
+.quiz-progress{font-size:13px;color:var(--muted);margin-bottom:14px}
+.question{font-size:15px;font-weight:600;margin-bottom:14px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.option{padding:14px 16px;border:2px solid var(--border);border-radius:10px;
+  cursor:pointer;background:#fff;text-align:left;font-size:15px;
+  transition:all .15s;color:var(--text);min-height:48px;line-height:1.4}
+.option:active:not(:disabled){background:#f7f8ff}
+.option.correct{border-color:var(--success);background:#f0fff4;color:#22543d}
+.option.wrong{border-color:var(--danger);background:#fff5f5;color:#742a2a}
+.option:disabled{cursor:default}
+
+.btn{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border:none;padding:14px 24px;border-radius:10px;
+  font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;
+  min-height:48px;width:100%}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:default}
+
+.explanation{padding:12px 14px;border-radius:10px;margin-bottom:14px;
+  font-size:14px;line-height:1.5}
+.explanation.ok{background:#f0fff4;color:#22543d;border:1px solid #c6f6d5}
+.explanation.no{background:#fff5f5;color:#742a2a;border:1px solid #fed7d7}
+
+.result{text-align:center;padding:16px 0}
+.result-score{font-size:44px;font-weight:700;margin-bottom:6px}
+.result-score.pass{color:var(--success)}
+.result-score.fail{color:var(--danger)}
+.result-msg{color:var(--muted);margin-bottom:16px;font-size:14px}
+
+.lesson-nav{display:flex;gap:10px;margin-top:20px}
+.lesson-nav .btn{flex:1;font-size:14px;padding:12px 16px}
+
+@media(min-width:640px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:32px}
+  .page-title{font-size:26px}
+  .content,.quiz{padding:28px}
+}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800">
-  <!-- App Shell -->
-  <div class="mx-auto max-w-screen-md min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="p-4 sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-slate-200">
-      <div class="flex items-center justify-between">
-        <h1 class="text-lg sm:text-xl font-bold">Ôn thi trực tuyến – IT English</h1>
-        <button id="resetBtn" class="text-sm px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100 active:scale-[.98]">Xóa tiến độ</button>
-      </div>
-      <p class="mt-1 text-xs text-slate-500">Câu 90–120 • Mobile-first • Tailwind</p>
-    </header>
+<body>
 
-    <!-- Settings / Lobby -->
-    <main id="lobby" class="p-4 space-y-4">
-      <section class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
-        <h2 class="font-semibold mb-3">Cài đặt bài thi</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <label class="block">
-            <span class="text-sm text-slate-600">Số câu hỏi</span>
-            <select id="questionCount" class="mt-1 w-full rounded-xl border-slate-300">
-              <option value="10">10</option>
-              <option value="20" selected>20</option>
-              <option value="30">30</option>
-              <option value="50">50</option>
-              <option value="all">Tất cả</option>
-            </select>
-          </label>
-          <label class="block">
-            <span class="text-sm text-slate-600">Thời gian (phút)</span>
-            <input id="timeLimit" type="number" min="1" value="20" class="mt-1 w-full rounded-xl border-slate-300" />
-          </label>
-          <label class="flex items-center gap-3">
-            <input id="shuffleQuestions" type="checkbox" class="rounded border-slate-300" checked />
-            <span class="text-sm">Xáo trộn câu hỏi</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input id="shuffleAnswers" type="checkbox" class="rounded border-slate-300" checked />
-            <span class="text-sm">Xáo trộn đáp án</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input id="instantCheck" type="checkbox" class="rounded border-slate-300" />
-            <span class="text-sm">Chấm ngay khi chọn</span>
-          </label>
-          <label class="flex items-center gap-3">
-            <input id="resumeState" type="checkbox" class="rounded border-slate-300" />
-            <span class="text-sm">Tiếp tục từ tiến độ đã lưu</span>
-          </label>
-        </div>
-        <div class="mt-4 flex gap-2">
-          <button id="startBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 active:scale-[.98]">Bắt đầu</button>
-          <button id="importBtn" class="px-4 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Nhập kết quả</button>
-          <input id="importFile" type="file" accept="application/json" class="hidden" />
-        </div>
-      </section>
-
-      <section class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
-        <h3 class="font-semibold mb-2">Hướng dẫn nhanh</h3>
-        <ul class="text-sm list-disc pl-5 space-y-1 text-slate-600">
-          <li>Chọn số câu, thời gian, tùy chọn xáo trộn và chế độ chấm.</li>
-          <li>Trong lúc làm: có thể đánh dấu câu, chuyển nhanh sang câu khác.</li>
-          <li>Hết giờ sẽ tự nộp. Có thể xem lại đáp án và lọc câu sai/đã đánh dấu.</li>
-          <li>Tiến độ tự lưu (localStorage). Có thể xuất kết quả JSON để lưu trữ.</li>
-        </ul>
-      </section>
-    </main>
-
-    <!-- Quiz Screen -->
-    <section id="quiz" class="hidden flex-1 p-4">
-      <!-- Top bar -->
-      <div class="mb-3 flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <span id="timer" class="px-2 py-1 text-sm rounded-lg bg-slate-900 text-white">--:--</span>
-          <button id="pauseBtn" class="text-sm px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100">Tạm dừng</button>
-        </div>
-        <div class="flex items-center gap-2">
-          <span id="progressText" class="text-sm text-slate-600">Câu 1 / 20</span>
-          <div class="w-32 h-2 rounded-full bg-slate-200 overflow-hidden">
-            <div id="progressBar" class="h-2 bg-slate-900" style="width:0%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Question Card -->
-      <div id="card" class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
-        <div class="flex items-start justify-between gap-2">
-          <h2 id="qTitle" class="font-semibold">Câu hỏi</h2>
-          <button id="flagBtn" class="text-xs px-2 py-1 rounded-lg border border-amber-300 text-amber-700 hover:bg-amber-50">Đánh dấu</button>
-        </div>
-        <p id="qText" class="mt-2 text-slate-700">...</p>
-        <div id="options" class="mt-3 space-y-2"></div>
-
-        <div id="instantBox" class="hidden mt-3 text-sm"></div>
-
-        <div class="mt-4 flex flex-wrap gap-2">
-          <button id="prevBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">← Trước</button>
-          <button id="nextBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Tiếp →</button>
-          <button id="clearBtn" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xóa chọn</button>
-          <button id="submitBtn" class="ml-auto px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500">Nộp bài</button>
-        </div>
-      </div>
-
-      <!-- Navigator -->
-      <div class="mt-4 p-3 bg-white rounded-2xl shadow-sm border border-slate-200">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="font-semibold">Chuyển nhanh</h3>
-          <div class="flex items-center gap-2">
-            <label class="flex items-center gap-2 text-sm">
-              <input id="filterFlagged" type="checkbox" class="rounded border-slate-300" />
-              <span>Chỉ câu đã đánh dấu</span>
-            </label>
-            <label class="flex items-center gap-2 text-sm">
-              <input id="filterUnanswered" type="checkbox" class="rounded border-slate-300" />
-              <span>Chưa trả lời</span>
-            </label>
-          </div>
-        </div>
-        <div id="jumpGrid" class="grid grid-cols-8 sm:grid-cols-12 gap-2"></div>
-      </div>
-    </section>
-
-    <!-- Result / Review -->
-    <section id="result" class="hidden p-4 space-y-4">
-      <div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200">
-        <h2 class="font-semibold text-lg">Kết quả</h2>
-        <p id="scoreLine" class="mt-1 text-slate-700">Bạn đúng …/… (…%).</p>
-        <div class="mt-3 flex flex-wrap gap-2">
-          <button id="reviewAll" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xem lại tất cả</button>
-          <button id="reviewWrong" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-rose-50">Chỉ câu sai</button>
-          <button id="reviewFlag" class="px-3 py-2 rounded-xl border border-amber-300 hover:bg-amber-50">Chỉ câu đánh dấu</button>
-          <button id="exportBtn" class="ml-auto px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-100">Xuất JSON</button>
-          <a id="downloadLink" class="hidden text-sm underline">Tải file</a>
-        </div>
-      </div>
-
-      <div id="reviewList" class="space-y-3"></div>
-
-      <div class="pb-6">
-        <button id="restartBtn" class="px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Làm lại</button>
-      </div>
-    </section>
-
-    <footer class="p-4 text-center text-xs text-slate-500">
-      © 2025 • Built with Tailwind. Nguồn câu hỏi: file bạn cung cấp.
-    </footer>
+<header>
+  <div class="header-inner">
+    <a class="logo" onclick="go('/')">🐍 PyLearn</a>
+    <button class="reset-btn" onclick="resetProgress()">↺ Xoá tiến độ</button>
   </div>
+</header>
 
-  <script>
-    // ===== Question bank (Q90–120) =====
-    // Mỗi mục: { id, text, options[4], answerIndex }
-    const RAW_QUESTIONS = [
-      {id:90, text:"A website which (in theory) cannot be accessed by a hacker is ________.", options:["strong","secure","clean","professional"], answerIndex:1},
-      {id:91, text:"Unwanted advertising emails are popularly known as ____________.", options:["ham","spam","meatloaf","sausages"], answerIndex:1},
-      {id:92, text:"_____________ is a security protocol used by banks to make online transactions secure.", options:["SSL","FTP","WIMP","ADSL"], answerIndex:0},
-      {id:93, text:"A _________ is a software and/or hardware mechanism that allows limited access to an internal network from the Internet.", options:["fire blanket","fire armor","fire engine","firewall"], answerIndex:3},
-      {id:94, text:"Antivirus software can _______ your computer for viruses.", options:["scan","detect","find","review"], answerIndex:0},
-      {id:95, text:"_________ are small files used by web servers to know if you have visited their site before.", options:["Cookies","Feeds","Firewalls","Digital certificates"], answerIndex:0},
-      {id:96, text:"Your financial information is fully encrypted and _______________.", options:["cannot be accessed","can be accessed","cannot access","can access"], answerIndex:0},
-      {id:97, text:"That information was highly ______ and should not be shared with another.", options:["informal","confidential","useful","real-time"], answerIndex:1},
-      {id:98, text:"_____________, the illegal copying and distribution of copyrighted programs and files, is a popular cybercrime.", options:["Piracy","Phishing","IP spoofing","Cyberstalking"], answerIndex:0},
-      {id:99, text:"Be aware of ____________ - fake bank emails asking for personal details to steal your identity.", options:["piracy","phishing","IP spoofing","cyberstalking"], answerIndex:1},
-      {id:100, text:"The website which can only be viewed by authorized people has __________ access.", options:["reduced","small","restricted","open"], answerIndex:2},
-      {id:101, text:"A virus can enter a computer system via an _________ disc or via the Internet.", options:["affected","infiltrated","infected","confidential"], answerIndex:2},
-      {id:102, text:"A ___________ is a diagram that uses special symbols to show how the computer works through a program.", options:["flow chart","source code","compiler","debugging"], answerIndex:0},
-      {id:103, text:"Computer instructions written in Pascal, C, or Java are called __________.", options:["flow chart","source code","compiler","debugging"], answerIndex:1},
-      {id:104, text:"Programs written in high-level languages must be translated into machine code by a ___________.", options:["flow chart","documentation","compiler","debugger"], answerIndex:2},
-      {id:105, text:"The only language computers can understand directly is __________, consisting of 1s and 0s.", options:["source code","machine code","assembly","documentation"], answerIndex:1},
-      {id:106, text:"The process of finding and fixing errors in code is called _________.", options:["programming","compile","markup","debugging"], answerIndex:3},
-      {id:107, text:"Programs written in __________ must be translated into machine code by a compiler or an interpreter.", options:["high-level languages","low-level languages","assembly languages","markup languages"], answerIndex:0},
-      {id:108, text:"HTML is short for Hypertext __________ Language.", options:["Markup","Machine","Manual","Makeup"], answerIndex:0},
-      {id:109, text:"The final step of programming is writing the program ___________, a detailed user guide.", options:["machine code","source code","documentation","solution"], answerIndex:2},
-      {id:110, text:"A special program that converts a low-level language into machine code is ____________.", options:["an assembler","a compiler","an interpreter","a converter"], answerIndex:0},
-      {id:111, text:"_____________ translates source code line by line as the program runs.", options:["An assembler","A compiler","An interpreter","A converter"], answerIndex:2},
-      {id:112, text:"We use high-level languages because machine code is too difficult to read, understand and __________.", options:["debug","debugs","debugger","debugging"], answerIndex:0},
-      {id:113, text:"You do not have to exit the editor, ___________ the program, run it, then reload the editor to fix bugs.", options:["compile","compiler","compiling","compiled"], answerIndex:0},
-      {id:114, text:"As a programmer, you work across analysis, design, ______________ and implementation.", options:["code, debug","coding, debug","code, debugging","coding, debugging"], answerIndex:3},
-      {id:115, text:"____________ is a low-level language using abbreviations like ADD, SUB, MPY.", options:["A high-level language","An abbreviate language","An assembly languages","A markup languages"], answerIndex:2},
-      {id:116, text:"____________ converts a high-level source program into machine code in one go.", options:["An assembler","A compiler","An interpreter","A converter"], answerIndex:1},
-      {id:117, text:"It’s important to use a good ________ to fix errors.", options:["debug","debugs","debugger","debugging"], answerIndex:2},
-      {id:118, text:"Most ____________ like Java for writing applets.", options:["programs","programming","programmers","programmable"], answerIndex:2},
-      {id:119, text:"Function keys can _____________ to do special tasks.", options:["program","programmed","be programmed","being program"], answerIndex:2},
-      {id:120, text:"HTML allows us __________ how information is displayed on web pages.", options:["describe","to describe","describing","for describing"], answerIndex:1},
-    ];
+<main id="app"></main>
 
-    // ===== State =====
-    const els = {
-      lobby: document.getElementById('lobby'),
-      quiz: document.getElementById('quiz'),
-      result: document.getElementById('result'),
-      startBtn: document.getElementById('startBtn'),
-      questionCount: document.getElementById('questionCount'),
-      timeLimit: document.getElementById('timeLimit'),
-      shuffleQuestions: document.getElementById('shuffleQuestions'),
-      shuffleAnswers: document.getElementById('shuffleAnswers'),
-      instantCheck: document.getElementById('instantCheck'),
-      resumeState: document.getElementById('resumeState'),
-      resetBtn: document.getElementById('resetBtn'),
-      importBtn: document.getElementById('importBtn'),
-      importFile: document.getElementById('importFile'),
+<script>
+/* ================== DỮ LIỆU KHOÁ HỌC ================== */
+const COURSE = {
+  id: 'python',
+  title: 'Python cơ bản',
+  icon: '🐍',
+  desc: 'Học Python từ con số 0 cho người mới bắt đầu — 11 bài học, có trắc nghiệm.',
+  lessons: [
 
-      timer: document.getElementById('timer'),
-      pauseBtn: document.getElementById('pauseBtn'),
-      progressText: document.getElementById('progressText'),
-      progressBar: document.getElementById('progressBar'),
-      qTitle: document.getElementById('qTitle'),
-      qText: document.getElementById('qText'),
-      options: document.getElementById('options'),
-      instantBox: document.getElementById('instantBox'),
-      prevBtn: document.getElementById('prevBtn'),
-      nextBtn: document.getElementById('nextBtn'),
-      clearBtn: document.getElementById('clearBtn'),
-      submitBtn: document.getElementById('submitBtn'),
-      flagBtn: document.getElementById('flagBtn'),
-      jumpGrid: document.getElementById('jumpGrid'),
-      filterFlagged: document.getElementById('filterFlagged'),
-      filterUnanswered: document.getElementById('filterUnanswered'),
+    /* ---------- BÀI 1 ---------- */
+    {
+      id: 'bai-1',
+      title: 'Giới thiệu Python',
+      content: `
+        <h2>Python là gì?</h2>
+        <p><strong>Python</strong> là một ngôn ngữ lập trình <em>bậc cao</em>, dễ học, cú pháp gần với tiếng Anh tự nhiên. Python được dùng rất nhiều trong AI, data science, web, tự động hoá...</p>
+        <h2>Câu lệnh đầu tiên</h2>
+        <p>Trong Python, để in ra màn hình bạn dùng hàm <code>print()</code>:</p>
+        <pre><code>print("Xin chào, tôi đang học Python!")</code></pre>
+        <p>Kết quả khi chạy:</p>
+        <pre><code>Xin chào, tôi đang học Python!</code></pre>
+        <h2>Chạy Python ở đâu?</h2>
+        <ul>
+          <li>Cài Python trên máy tính: <a href="https://python.org" target="_blank" rel="noopener">python.org</a></li>
+          <li>Hoặc dùng online không cần cài: <a href="https://replit.com" target="_blank" rel="noopener">replit.com</a>, <a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a></li>
+        </ul>
+        <p>💡 <strong>Ghi nhớ:</strong> Python dùng <strong>thụt lề</strong> (indent) để phân chia khối lệnh — thường là 4 dấu cách.</p>
+      `,
+      quiz: [
+        { q: 'Python là ngôn ngữ lập trình như thế nào?',
+          options: ['Bậc thấp, khó học','Bậc cao, dễ học','Chỉ dùng cho web','Không phổ biến'],
+          answer: 1 },
+        { q: 'Hàm nào dùng để in ra màn hình trong Python?',
+          options: ['echo()','log()','print()','write()'],
+          answer: 2 }
+      ]
+    },
 
-      scoreLine: document.getElementById('scoreLine'),
-      reviewAll: document.getElementById('reviewAll'),
-      reviewWrong: document.getElementById('reviewWrong'),
-      reviewFlag: document.getElementById('reviewFlag'),
-      reviewList: document.getElementById('reviewList'),
-      exportBtn: document.getElementById('exportBtn'),
-      downloadLink: document.getElementById('downloadLink'),
-      restartBtn: document.getElementById('restartBtn'),
-    };
+    /* ---------- BÀI 2 ---------- */
+    {
+      id: 'bai-2',
+      title: 'Biến và kiểu dữ liệu',
+      content: `
+        <h2>Biến là gì?</h2>
+        <p><strong>Biến</strong> là "hộp" chứa dữ liệu, mỗi biến có một tên gọi. Khai báo bằng dấu <code>=</code>:</p>
+        <pre><code>ten = "An"
+tuoi = 20
+chieu_cao = 1.65
+la_sinh_vien = True</code></pre>
+        <p>Python <strong>tự nhận biết kiểu dữ liệu</strong> — không cần khai báo kiểu.</p>
+        <h2>Các kiểu dữ liệu chính</h2>
+        <ul>
+          <li><strong>int</strong> — số nguyên: <code>10</code>, <code>-5</code></li>
+          <li><strong>float</strong> — số thực: <code>3.14</code>, <code>-0.5</code></li>
+          <li><strong>str</strong> — chuỗi ký tự: <code>"hello"</code></li>
+          <li><strong>bool</strong> — đúng/sai: <code>True</code>, <code>False</code></li>
+        </ul>
+        <h2>Kiểm tra kiểu dữ liệu</h2>
+        <pre><code>print(type(42))       # &lt;class 'int'&gt;
+print(type(3.14))     # &lt;class 'float'&gt;
+print(type("hi"))     # &lt;class 'str'&gt;</code></pre>
+      `,
+      quiz: [
+        { q: 'Cách khai báo biến x bằng 5 trong Python?',
+          options: ['int x = 5','let x = 5','x = 5','var x = 5'],
+          answer: 2 },
+        { q: 'type(3.14) trả về kiểu gì?',
+          options: ['int','float','str','bool'],
+          answer: 1 }
+      ]
+    },
 
-    const STORAGE_KEY = "iteng_quiz_state_v1";
-    let state = {
-      questions: [],            // [{... , choices:[{text,idx}], correctIdx }]
-      answers: {},              // qIndex -> choiceIdx
-      flags: new Set(),         // qIndex set
-      index: 0,
-      total: 0,
-      startAt: null,            // timestamp
-      endAt: null,              // timestamp
-      remainingMs: 0,
-      paused: false,
-      instant: false,
-      submitted: false,
-      shuffleAns: true,
-    };
-    let timerInterval = null;
+    /* ---------- BÀI 3 ---------- */
+    {
+      id: 'bai-3',
+      title: 'Nhập xuất & ép kiểu',
+      content: `
+        <h2>Nhập dữ liệu — input()</h2>
+        <p>Hàm <code>input()</code> cho phép nhập từ bàn phím. <strong>Lưu ý quan trọng:</strong> <code>input()</code> luôn trả về <strong>chuỗi (str)</strong>.</p>
+        <pre><code>ten = input("Tên bạn là gì? ")
+print("Chào " + ten)</code></pre>
+        <h2>Ép kiểu</h2>
+        <p>Muốn nhập số, phải ép kiểu:</p>
+        <pre><code>tuoi = int(input("Tuổi: "))
+print(tuoi + 1)</code></pre>
+        <p>Các hàm ép kiểu hay dùng: <code>int()</code>, <code>float()</code>, <code>str()</code>.</p>
+        <h2>f-string (cách in đẹp nhất)</h2>
+        <pre><code>ten = "An"
+tuoi = 20
+print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>
+      `,
+      quiz: [
+        { q: 'input() trả về kiểu dữ liệu gì?',
+          options: ['int','float','str','bool'],
+          answer: 2 },
+        { q: 'Cách đúng để nhập một số nguyên từ bàn phím?',
+          options: ['int(input())','input().int()','toInt(input())','input(int)'],
+          answer: 0 }
+      ]
+    },
 
-    // ===== Helpers =====
-    const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-    const fmtTime = (ms) => {
-      const s = Math.max(0, Math.floor(ms/1000));
-      const mm = String(Math.floor(s/60)).padStart(2,'0');
-      const ss = String(s%60).padStart(2,'0');
-      return `${mm}:${ss}`;
-    };
-    const shuffle = (arr) => {
-      const a = arr.slice();
-      for (let i=a.length-1;i>0;i--) {
-        const j = Math.floor(Math.random()*(i+1));
-        [a[i],a[j]] = [a[j],a[i]];
-      }
-      return a;
-    };
+    /* ---------- BÀI 4 ---------- */
+    {
+      id: 'bai-4',
+      title: 'Toán tử',
+      content: `
+        <h2>Toán tử số học</h2>
+        <pre><code>print(5 + 2)   # 7   cộng
+print(5 - 2)   # 3   trừ
+print(5 * 2)   # 10  nhân
+print(5 / 2)   # 2.5 chia (ra float)
+print(5 // 2)  # 2   chia lấy phần nguyên
+print(5 % 2)   # 1   chia lấy dư
+print(5 ** 2)  # 25  luỹ thừa</code></pre>
+        <h2>Toán tử so sánh</h2>
+        <p>Kết quả luôn là <code>True</code> hoặc <code>False</code>:</p>
+        <pre><code>5 == 5   # True
+5 != 3   # True
+5 &gt; 3    # True
+5 &lt;= 4   # False</code></pre>
+        <h2>Toán tử logic</h2>
+        <pre><code>True and False   # False
+True or False    # True
+not True         # False</code></pre>
+      `,
+      quiz: [
+        { q: 'Kết quả của 7 // 2 là bao nhiêu?',
+          options: ['3.5','3','4','1'],
+          answer: 1 },
+        { q: 'Kết quả của 2 ** 3 là bao nhiêu?',
+          options: ['6','8','9','5'],
+          answer: 1 }
+      ]
+    },
 
-    function buildQuestions(raw, count, shuffleQ, shuffleA){
-      let list = raw.slice();
-      if (shuffleQ) list = shuffle(list);
-      if (count !== 'all') list = list.slice(0, Number(count));
-      return list.map(q=>{
-        const choices = q.options.map((t, i)=>({text:t, idx:i, isCorrect: i===q.answerIndex}));
-        const finalChoices = shuffleA ? shuffle(choices) : choices;
-        const mappedCorrectIdx = finalChoices.findIndex(c=>c.isCorrect);
-        return {
-          id: q.id,
-          text: q.text,
-          choices: finalChoices,
-          correctChoiceIndex: mappedCorrectIdx
-        };
-      });
+    /* ---------- BÀI 5 ---------- */
+    {
+      id: 'bai-5',
+      title: 'Câu lệnh if / elif / else',
+      content: `
+        <h2>Cấu trúc rẽ nhánh</h2>
+        <p>Dùng để chạy code khác nhau tuỳ điều kiện:</p>
+        <pre><code>diem = 8
+
+if diem &gt;= 9:
+    print("Xuất sắc")
+elif diem &gt;= 7:
+    print("Khá")
+elif diem &gt;= 5:
+    print("Trung bình")
+else:
+    print("Yếu")</code></pre>
+        <h2>Quy tắc quan trọng</h2>
+        <ul>
+          <li>Python dùng <strong>thụt lề</strong> (4 dấu cách) để chia khối lệnh, <em>không dùng dấu ngoặc nhọn</em>.</li>
+          <li>Dấu <code>:</code> bắt buộc sau <code>if / elif / else</code>.</li>
+          <li><code>elif</code> = "else if" (không viết là <code>else if</code>).</li>
+        </ul>
+        <pre><code>tuoi = int(input("Tuổi: "))
+if tuoi &gt;= 18:
+    print("Đủ tuổi")
+else:
+    print("Chưa đủ tuổi")</code></pre>
+      `,
+      quiz: [
+        { q: 'Python dùng gì để phân chia khối lệnh?',
+          options: ['Dấu ngoặc {}','Dấu ()','Thụt lề (indent)','Dấu ;'],
+          answer: 2 },
+        { q: 'Từ khoá nào dùng cho điều kiện phụ (sau if)?',
+          options: ['else if','elif','elseif','otherwise'],
+          answer: 1 }
+      ]
+    },
+
+    /* ---------- BÀI 6 ---------- */
+    {
+      id: 'bai-6',
+      title: 'Vòng lặp for',
+      content: `
+        <h2>Lặp với range()</h2>
+        <p><code>range(n)</code> sinh ra dãy số từ <strong>0</strong> đến <strong>n-1</strong>:</p>
+        <pre><code>for i in range(5):
+    print(i)
+# In ra: 0 1 2 3 4</code></pre>
+        <h2>range() với 2-3 tham số</h2>
+        <pre><code>range(1, 5)     # 1, 2, 3, 4
+range(0, 10, 2) # 0, 2, 4, 6, 8 (bước nhảy 2)
+range(5, 0, -1) # 5, 4, 3, 2, 1 (giảm dần)</code></pre>
+        <h2>Lặp qua list / chuỗi</h2>
+        <pre><code>trai_cay = ["táo", "cam", "xoài"]
+for qua in trai_cay:
+    print(qua)</code></pre>
+        <h2>break và continue</h2>
+        <ul>
+          <li><code>break</code> — thoát hẳn vòng lặp</li>
+          <li><code>continue</code> — bỏ qua lần lặp hiện tại</li>
+        </ul>
+      `,
+      quiz: [
+        { q: 'range(5) sinh ra các số nào?',
+          options: ['1,2,3,4,5','0,1,2,3,4','0,1,2,3,4,5','1,2,3,4'],
+          answer: 1 },
+        { q: 'Từ khoá nào để thoát hẳn vòng lặp?',
+          options: ['exit','stop','break','end'],
+          answer: 2 }
+      ]
+    },
+
+    /* ---------- BÀI 7 ---------- */
+    {
+      id: 'bai-7',
+      title: 'Vòng lặp while',
+      content: `
+        <h2>while — lặp khi điều kiện còn đúng</h2>
+        <pre><code>dem = 0
+while dem &lt; 5:
+    print(dem)
+    dem = dem + 1</code></pre>
+        <p>⚠️ Nếu quên tăng <code>dem</code>, vòng lặp sẽ chạy <strong>mãi mãi</strong> (vô hạn).</p>
+        <h2>Khi nào dùng while?</h2>
+        <ul>
+          <li>Khi <em>chưa biết trước</em> số lần lặp</li>
+          <li>Lặp đến khi người dùng nhập đúng</li>
+        </ul>
+        <pre><code>mat_khau = ""
+while mat_khau != "1234":
+    mat_khau = input("Nhập mật khẩu: ")
+print("Đăng nhập thành công!")</code></pre>
+        <h2>Vòng lặp vô hạn có chủ đích</h2>
+        <pre><code>while True:
+    lenh = input("&gt; ")
+    if lenh == "thoat":
+        break
+    print("Bạn nhập:", lenh)</code></pre>
+      `,
+      quiz: [
+        { q: 'Vòng while lặp khi nào?',
+          options: ['Khi điều kiện sai','Khi điều kiện đúng','Luôn luôn','Không bao giờ'],
+          answer: 1 },
+        { q: 'Kết quả nếu quên tăng biến đếm trong while?',
+          options: ['Không lặp','Lặp 1 lần','Lặp vô hạn','Báo lỗi'],
+          answer: 2 }
+      ]
+    },
+
+    /* ---------- BÀI 8 ---------- */
+    {
+      id: 'bai-8',
+      title: 'List và Tuple',
+      content: `
+        <h2>List — danh sách có thể thay đổi</h2>
+        <pre><code>diem = [8, 9, 7, 10]
+
+print(diem[0])       # 8  (đánh số từ 0)
+print(diem[-1])      # 10 (phần tử cuối)
+print(len(diem))     # 4
+
+diem.append(6)       # thêm vào cuối
+diem.remove(7)       # xoá phần tử 7
+diem.sort()          # sắp xếp tăng dần</code></pre>
+        <h2>Các thao tác phổ biến</h2>
+        <pre><code>nums = [3, 1, 4, 1, 5]
+
+print(sum(nums))     # 14
+print(max(nums))     # 5
+print(min(nums))     # 1
+print(nums[1:3])     # [1, 4]  (cắt từ 1 đến 2)</code></pre>
+        <h2>Tuple — danh sách KHÔNG thay đổi</h2>
+        <pre><code>toa_do = (10, 20)
+print(toa_do[0])   # 10
+# toa_do[0] = 5  → LỖI vì tuple không cho sửa</code></pre>
+        <p>Tuple dùng khi dữ liệu <strong>cố định</strong> không đổi (toạ độ, ngày sinh...).</p>
+      `,
+      quiz: [
+        { q: 'Thêm phần tử vào cuối list dùng phương thức nào?',
+          options: ['add()','append()','push()','insert_end()'],
+          answer: 1 },
+        { q: 'List khác tuple ở điểm gì?',
+          options: ['Tuple không thể thay đổi','List không thể thay đổi','Giống hệt nhau','Tuple chỉ chứa số'],
+          answer: 0 }
+      ]
+    },
+
+    /* ---------- BÀI 9 ---------- */
+    {
+      id: 'bai-9',
+      title: 'Dictionary',
+      content: `
+        <h2>Dictionary — cặp key → value</h2>
+        <pre><code>sinh_vien = {
+    "ten": "An",
+    "tuoi": 20,
+    "lop": "CNTT1"
+}
+
+print(sinh_vien["ten"])       # An
+print(sinh_vien.get("lop"))   # CNTT1
+print(sinh_vien.get("sdt", "Chưa có"))  # giá trị mặc định</code></pre>
+        <h2>Thêm / sửa / xoá</h2>
+        <pre><code>sinh_vien["tuoi"] = 21        # sửa
+sinh_vien["email"] = "a@x.vn" # thêm
+del sinh_vien["lop"]          # xoá</code></pre>
+        <h2>Duyệt dictionary</h2>
+        <pre><code>for key in sinh_vien.keys():
+    print(key)
+
+for value in sinh_vien.values():
+    print(value)
+
+for key, value in sinh_vien.items():
+    print(key, "=", value)</code></pre>
+      `,
+      quiz: [
+        { q: 'Cách truy cập giá trị theo key trong dict?',
+          options: ['d.key','d["key"]','d-&gt;key','d.get_key()'],
+          answer: 1 },
+        { q: 'items() trả về gì?',
+          options: ['Chỉ keys','Chỉ values','Cặp (key, value)','Độ dài'],
+          answer: 2 }
+      ]
+    },
+
+    /* ---------- BÀI 10 ---------- */
+    {
+      id: 'bai-10',
+      title: 'Hàm (Function)',
+      content: `
+        <h2>Định nghĩa hàm</h2>
+        <p>Dùng từ khoá <code>def</code> để tạo hàm:</p>
+        <pre><code>def chao(ten):
+    return "Xin chào " + ten
+
+print(chao("An"))   # Xin chào An</code></pre>
+        <h2>Tham số mặc định</h2>
+        <pre><code>def chao(ten, loi_chao="Xin chào"):
+    return loi_chao + " " + ten
+
+print(chao("An"))             # Xin chào An
+print(chao("An", "Hi"))       # Hi An</code></pre>
+        <h2>return vs print</h2>
+        <ul>
+          <li><code>print()</code> — chỉ in ra màn hình, <strong>không trả về giá trị</strong></li>
+          <li><code>return</code> — <strong>trả về giá trị</strong> để dùng tiếp</li>
+        </ul>
+        <pre><code>def cong(a, b):
+    return a + b
+
+ket_qua = cong(3, 5)   # ket_qua = 8
+print(ket_qua * 2)     # 16</code></pre>
+      `,
+      quiz: [
+        { q: 'Từ khoá nào dùng để khai báo hàm trong Python?',
+          options: ['function','def','func','fn'],
+          answer: 1 },
+        { q: 'Hàm trả về giá trị dùng từ khoá nào?',
+          options: ['output','yield','return','print'],
+          answer: 2 }
+      ]
+    },
+
+    /* ---------- BÀI 11 ---------- */
+    {
+      id: 'bai-11',
+      title: 'Xử lý lỗi (try/except)',
+      content: `
+        <h2>Tại sao cần xử lý lỗi?</h2>
+        <p>Nếu chương trình gặp lỗi (ví dụ chia cho 0), nó sẽ <strong>dừng ngay</strong>. Dùng <code>try/except</code> để "bắt" lỗi và xử lý mềm mại:</p>
+        <pre><code>try:
+    x = int(input("Nhập số: "))
+    print(10 / x)
+except ValueError:
+    print("Bạn phải nhập số!")
+except ZeroDivisionError:
+    print("Không chia được cho 0!")</code></pre>
+        <h2>Các lỗi phổ biến</h2>
+        <ul>
+          <li><strong>ValueError</strong> — sai giá trị (int("abc"))</li>
+          <li><strong>ZeroDivisionError</strong> — chia cho 0</li>
+          <li><strong>TypeError</strong> — sai kiểu (cộng số với chuỗi)</li>
+          <li><strong>NameError</strong> — dùng biến chưa khai báo</li>
+          <li><strong>IndexError</strong> — truy cập list ngoài phạm vi</li>
+        </ul>
+        <h2>finally — luôn chạy</h2>
+        <pre><code>try:
+    f = open("data.txt")
+    # ... đọc file
+finally:
+    f.close()   # luôn đóng file dù có lỗi hay không</code></pre>
+        <p>🎉 Chúc mừng! Bạn đã hoàn thành khoá Python cơ bản!</p>
+      `,
+      quiz: [
+        { q: 'Khối nào dùng để bắt lỗi trong Python?',
+          options: ['try','catch','except','error'],
+          answer: 2 },
+        { q: 'Chia cho 0 gây ra lỗi gì?',
+          options: ['ValueError','ZeroDivisionError','TypeError','NameError'],
+          answer: 1 }
+      ]
     }
 
-    function saveState(){
-      try{
-        const toSave = {
-          ...state,
-          flags: Array.from(state.flags),
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
-      }catch(e){}
+  ]
+};
+
+/* ================== QUẢN LÝ TIẾN ĐỘ ================== */
+const STORE_KEY = 'pylearn_progress_v1';
+let progress = {};
+try { progress = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { progress = {}; }
+
+function saveProgress() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch(e) {}
+}
+function markDone(id) { progress[id] = true; saveProgress(); }
+function isDone(id) { return !!progress[id]; }
+function courseProgress() {
+  const total = COURSE.lessons.length;
+  const done = COURSE.lessons.filter(l => isDone(l.id)).length;
+  return { done, total, pct: total ? Math.round(done * 100 / total) : 0 };
+}
+function resetProgress() {
+  if (!confirm('Xoá toàn bộ tiến độ học của bạn?')) return;
+  progress = {};
+  saveProgress();
+  render();
+}
+
+/* ================== ROUTING ================== */
+function go(path) { location.hash = '#' + path; }
+
+window.addEventListener('hashchange', render);
+window.addEventListener('load', render);
+
+function render() {
+  const hash = (location.hash || '#/').slice(1);
+  const parts = hash.split('/').filter(Boolean);
+  if (parts.length === 0) return renderHome();
+  if (parts[0] === 'python' && parts.length === 1) return renderCourse();
+  if (parts[0] === 'python' && parts.length === 2) return renderLesson(parts[1]);
+  renderHome();
+}
+
+function renderHome() {
+  const { done, total, pct } = courseProgress();
+  document.getElementById('app').innerHTML = `
+    <div class="hero">
+      <h1>🐍 Học Python online</h1>
+      <p>Học Python miễn phí với trắc nghiệm sau mỗi bài. Tiến độ tự lưu trên máy bạn.</p>
+    </div>
+    <div class="grid">
+      <a class="card" onclick="go('/python')">
+        <div class="card-icon">${COURSE.icon}</div>
+        <h3>${COURSE.title}</h3>
+        <p>${COURSE.desc}</p>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-text">${done}/${total} bài hoàn thành (${pct}%)</div>
+      </a>
+    </div>
+  `;
+}
+
+function renderCourse() {
+  const items = COURSE.lessons.map((l, i) => {
+    const done = isDone(l.id);
+    return `
+      <div class="lesson-item ${done ? 'done' : ''}" onclick="go('/python/${l.id}')">
+        <div class="lesson-num">${done ? '✓' : (i + 1)}</div>
+        <div class="lesson-info">
+          <h4>${l.title}</h4>
+          <span>${l.quiz.length} câu hỏi</span>
+        </div>
+        <div class="chev">›</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('app').innerHTML = `
+    <button class="back-btn" onclick="go('/')">← Trang chủ</button>
+    <h1 class="page-title">${COURSE.icon} ${COURSE.title}</h1>
+    <p class="page-sub">${COURSE.desc}</p>
+    <div class="lesson-list">${items}</div>
+  `;
+}
+
+function renderLesson(lessonId) {
+  const lesson = COURSE.lessons.find(l => l.id === lessonId);
+  if (!lesson) return renderHome();
+  const idx = COURSE.lessons.indexOf(lesson);
+  const prev = COURSE.lessons[idx - 1];
+  const next = COURSE.lessons[idx + 1];
+  document.getElementById('app').innerHTML = `
+    <button class="back-btn" onclick="go('/python')">← Danh sách bài</button>
+    <div class="content">${lesson.content}</div>
+    <div class="quiz">
+      <h3>📝 Kiểm tra kiến thức</h3>
+      <div id="quiz-content"></div>
+    </div>
+    <div class="lesson-nav">
+      ${prev ? `<button class="btn" onclick="go('/python/${prev.id}')">← Bài trước</button>` : ''}
+      ${next ? `<button class="btn" onclick="go('/python/${next.id}')">Bài tiếp →</button>` : ''}
+    </div>
+  `;
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  startQuiz(lesson);
+}
+
+/* ================== QUIZ ENGINE ================== */
+let quizState = null;
+
+function startQuiz(lesson) {
+  quizState = { lesson, current: 0, correct: 0, answered: false, selected: null };
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const { lesson, current, correct, answered, selected } = quizState;
+  const q = lesson.quiz[current];
+  const total = lesson.quiz.length;
+  const isLast = current === total - 1;
+  const box = document.getElementById('quiz-content');
+  if (!box) return;
+
+  const optHtml = q.options.map((opt, i) => {
+    let cls = 'option';
+    if (answered) {
+      if (i === q.answer) cls += ' correct';
+      else if (i === selected) cls += ' wrong';
     }
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return null;
-        const saved = JSON.parse(raw);
-        saved.flags = new Set(saved.flags||[]);
-        return saved;
-      }catch(e){ return null; }
-    }
-    function clearState(){
-      localStorage.removeItem(STORAGE_KEY);
-    }
+    return `<button class="${cls}" onclick="selectAnswer(${i})" ${answered ? 'disabled' : ''}>${opt}</button>`;
+  }).join('');
 
-    // ===== UI Renders =====
-    function renderProgress(){
-      els.progressText.textContent = `Câu ${state.index+1} / ${state.total}`;
-      const pct = (Object.keys(state.answers).length / state.total)*100;
-      els.progressBar.style.width = `${pct}%`;
-    }
+  let explainHtml = '';
+  if (answered) {
+    const ok = selected === q.answer;
+    explainHtml = `<div class="explanation ${ok ? 'ok' : 'no'}">
+      ${ok ? '✅ Chính xác!' : '❌ Sai rồi. Đáp án đúng: <strong>' + q.options[q.answer] + '</strong>'}
+    </div>`;
+  }
 
-    function renderQuestion(){
-      const q = state.questions[state.index];
-      els.qTitle.textContent = `Câu ${state.index+1}`;
-      els.qText.textContent = q.text;
-      els.options.innerHTML = '';
+  box.innerHTML = `
+    <div class="quiz-progress">Câu ${current + 1}/${total} · Đúng ${correct}</div>
+    <div class="question">${q.q}</div>
+    <div class="options">${optHtml}</div>
+    ${explainHtml}
+    ${answered ? `<button class="btn" onclick="nextQuestion()">${isLast ? 'Xem kết quả' : 'Câu tiếp theo →'}</button>` : ''}
+  `;
+}
 
-      q.choices.forEach((c, i)=>{
-        const isPicked = state.answers[state.index] === i;
-        const base = "w-full text-left px-3 py-2 rounded-xl border";
-        const decided = state.submitted || (state.instant && typeof state.answers[state.index] !== 'undefined');
-        let classes = `${base} border-slate-300 hover:bg-slate-50`;
-        let mark = '';
-        if (decided){
-          if (i === q.correctChoiceIndex) {
-            classes = `${base} border-emerald-200 bg-emerald-50`;
-            mark = ' ✓';
-          } else if (isPicked) {
-            classes = `${base} border-rose-200 bg-rose-50`;
-            mark = ' ✗';
-          }
-        } else if (isPicked){
-          classes = `${base} border-slate-900 bg-slate-900/5`;
-        }
+function selectAnswer(i) {
+  if (quizState.answered) return;
+  quizState.selected = i;
+  quizState.answered = true;
+  if (i === quizState.lesson.quiz[quizState.current].answer) quizState.correct++;
+  renderQuiz();
+}
 
-        const btn = document.createElement('button');
-        btn.className = classes;
-        btn.innerHTML = `<span class="font-medium">${String.fromCharCode(65+i)}.</span> ${c.text} <span class="opacity-60">${mark}</span>`;
-        btn.onclick = ()=>{
-          if (state.submitted) return;
-          state.answers[state.index] = i;
-          if (state.instant){
-            showInstantFeedback();
-          }
-          renderQuestion();
-          renderJumpGrid();
-          saveState();
-        };
-        els.options.appendChild(btn);
-      });
+function nextQuestion() {
+  const { lesson, current } = quizState;
+  if (current < lesson.quiz.length - 1) {
+    quizState.current++;
+    quizState.answered = false;
+    quizState.selected = null;
+    renderQuiz();
+  } else {
+    showResult();
+  }
+}
 
-      els.flagBtn.className = `text-xs px-2 py-1 rounded-lg border ${state.flags.has(state.index) ? 'border-amber-500 text-amber-700 bg-amber-50' : 'border-amber-300 text-amber-700 hover:bg-amber-50'}`;
-      els.instantBox.classList.toggle('hidden', !state.instant);
-      if (state.instant) showInstantFeedback();
-      renderProgress();
-    }
+function showResult() {
+  const { lesson, correct } = quizState;
+  const total = lesson.quiz.length;
+  const pct = Math.round(correct * 100 / total);
+  const pass = pct >= 70;
+  if (pass) markDone(lesson.id);
 
-    function showInstantFeedback(){
-      const q = state.questions[state.index];
-      const pick = state.answers[state.index];
-      if (typeof pick === 'undefined'){
-        els.instantBox.className = "hidden";
-        return;
-      }
-      els.instantBox.className = "mt-3 text-sm p-2 rounded-lg " + (pick===q.correctChoiceIndex ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-rose-50 text-rose-700 border border-rose-200");
-      els.instantBox.textContent = pick===q.correctChoiceIndex ? "Chính xác!" : `Chưa đúng. Đáp án: ${String.fromCharCode(65+q.correctChoiceIndex)}. ${q.choices[q.correctChoiceIndex].text}`;
-    }
-
-    function renderJumpGrid(){
-      els.jumpGrid.innerHTML = '';
-      const filterFlag = els.filterFlagged.checked;
-      const filterUnans = els.filterUnanswered.checked;
-
-      for (let i=0;i<state.total;i++){
-        const flagged = state.flags.has(i);
-        const answered = typeof state.answers[i] !== 'undefined';
-
-        if (filterFlag && !flagged) continue;
-        if (filterUnans && answered) continue;
-
-        const btn = document.createElement('button');
-        btn.className = "text-xs sm:text-sm px-2 py-1 rounded-lg border " +
-          (i===state.index ? "border-slate-900 bg-slate-900 text-white" :
-           answered ? "border-slate-300 bg-white hover:bg-slate-50" :
-           "border-slate-300 bg-slate-50");
-        btn.textContent = (i+1);
-        if (flagged) btn.innerHTML += ' ⭐';
-        btn.onclick = ()=>{
-          state.index = i;
-          renderQuestion();
-          saveState();
-        };
-        els.jumpGrid.appendChild(btn);
-      }
-    }
-
-    function startTimer(){
-      stopTimer();
-      timerInterval = setInterval(()=>{
-        if (!state.paused && !state.submitted){
-          state.remainingMs -= 1000;
-          if (state.remainingMs <= 0){
-            state.remainingMs = 0;
-            els.timer.textContent = "00:00";
-            stopTimer();
-            submitQuiz();
-            return;
-          }
-          els.timer.textContent = fmtTime(state.remainingMs);
-          saveState();
-        }
-      }, 1000);
-    }
-    function stopTimer(){
-      if (timerInterval){ clearInterval(timerInterval); timerInterval = null; }
-    }
-
-    // ===== Actions =====
-    function startQuiz(fromResume=false){
-      els.lobby.classList.add('hidden');
-      els.result.classList.add('hidden');
-      els.quiz.classList.remove('hidden');
-
-      if (!fromResume){
-        const count = els.questionCount.value;
-        const limitMin = clamp(Number(els.timeLimit.value||20), 1, 300);
-        state.instant = els.instantCheck.checked;
-        state.shuffleAns = els.shuffleAnswers.checked;
-
-        const questions = buildQuestions(
-          RAW_QUESTIONS,
-          count,
-          els.shuffleQuestions.checked,
-          els.shuffleAnswers.checked
-        );
-
-        state.questions = questions;
-        state.total = questions.length;
-        state.answers = {};
-        state.flags = new Set();
-        state.index = 0;
-        state.submitted = false;
-        state.startAt = Date.now();
-        state.endAt = null;
-        state.remainingMs = limitMin * 60 * 1000;
-        state.paused = false;
-      }
-
-      els.timer.textContent = fmtTime(state.remainingMs);
-      startTimer();
-      renderQuestion();
-      renderJumpGrid();
-      saveState();
-    }
-
-    function submitQuiz(){
-      state.submitted = true;
-      state.endAt = Date.now();
-      stopTimer();
-      saveState();
-      showResult();
-    }
-
-    function showResult(){
-      els.quiz.classList.add('hidden');
-      els.result.classList.remove('hidden');
-
-      const stats = grade();
-      els.scoreLine.textContent = `Bạn đúng ${stats.correct}/${state.total} (${(stats.correct/state.total*100).toFixed(1)}%). Thời gian làm: ${stats.timeSpent}.`;
-      buildReviewList(state.questions.map((_,i)=>i)); // all
-    }
-
-    function buildReviewCard(i){
-      const q = state.questions[i];
-      const picked = state.answers[i];
-      const correct = q.correctChoiceIndex;
-
-      const wrap = document.createElement('div');
-      wrap.className = "p-4 rounded-2xl border bg-white";
-      const title = document.createElement('div');
-      title.className = "flex items-start justify-between";
-      title.innerHTML = `<h4 class="font-semibold">Câu ${i+1} ${state.flags.has(i) ? '<span class="text-amber-600 text-xs ml-2">⭐ Đã đánh dấu</span>' : ''}</h4>`;
-      const body = document.createElement('div');
-      body.className = "mt-2 text-slate-700";
-      body.textContent = q.text;
-      const answers = document.createElement('div');
-      answers.className = "mt-3 space-y-1";
-
-      q.choices.forEach((c, idx)=>{
-        let classes = "px-3 py-2 rounded-xl border text-sm";
-        if (idx===correct) classes += " border-emerald-200 bg-emerald-50";
-        if (typeof picked!=='undefined' && idx===picked && picked!==correct) classes += " border-rose-200 bg-rose-50";
-        const line = document.createElement('div');
-        line.className = classes;
-        line.textContent = `${String.fromCharCode(65+idx)}. ${c.text}`;
-        answers.appendChild(line);
-      });
-
-      wrap.appendChild(title);
-      wrap.appendChild(body);
-      wrap.appendChild(answers);
-      return wrap;
-    }
-
-    function buildReviewList(indexes){
-      els.reviewList.innerHTML = '';
-      indexes.forEach(i=>{
-        els.reviewList.appendChild(buildReviewCard(i));
-      });
-    }
-
-    function grade(){
-      let correct = 0;
-      state.questions.forEach((q, i)=>{
-        if (state.answers[i]===q.correctChoiceIndex) correct++;
-      });
-      const spentMs = (state.endAt || Date.now()) - (state.startAt || Date.now());
-      return {correct, timeSpent: fmtTime(spentMs)};
-    }
-
-    // ===== Listeners =====
-    els.startBtn.onclick = ()=>{
-      const resume = els.resumeState.checked && loadState();
-      if (resume){
-        state = loadState();
-        startQuiz(true);
-      }else{
-        startQuiz(false);
-      }
-    };
-    els.resetBtn.onclick = ()=>{
-      clearState();
-      location.reload();
-    };
-    els.importBtn.onclick = ()=> els.importFile.click();
-    els.importFile.onchange = (e)=>{
-      const f = e.target.files?.[0];
-      if (!f) return;
-      const reader = new FileReader();
-      reader.onload = ()=>{
-        try{
-          const data = JSON.parse(reader.result);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-          alert("Đã nhập kết quả/tiến độ. Chọn 'Tiếp tục từ tiến độ' rồi Bắt đầu.");
-        }catch(err){
-          alert("File không hợp lệ.");
-        }
-      };
-      reader.readAsText(f);
-    };
-
-    els.prevBtn.onclick = ()=>{
-      state.index = clamp(state.index-1, 0, state.total-1);
-      renderQuestion(); saveState();
-    };
-    els.nextBtn.onclick = ()=>{
-      state.index = clamp(state.index+1, 0, state.total-1);
-      renderQuestion(); saveState();
-    };
-    els.clearBtn.onclick = ()=>{
-      delete state.answers[state.index];
-      renderQuestion(); renderJumpGrid(); saveState();
-    };
-    els.submitBtn.onclick = ()=>{
-      if (!confirm("Xác nhận nộp bài?")) return;
-      submitQuiz();
-    };
-    els.flagBtn.onclick = ()=>{
-      if (state.flags.has(state.index)) state.flags.delete(state.index);
-      else state.flags.add(state.index);
-      renderQuestion(); renderJumpGrid(); saveState();
-    };
-    els.filterFlagged.onchange = renderJumpGrid;
-    els.filterUnanswered.onchange = renderJumpGrid;
-
-    els.pauseBtn.onclick = ()=>{
-      state.paused = !state.paused;
-      els.pauseBtn.textContent = state.paused ? "Tiếp tục" : "Tạm dừng";
-      saveState();
-    };
-
-    els.reviewAll.onclick = ()=> buildReviewList(state.questions.map((_,i)=>i));
-    els.reviewWrong.onclick = ()=>{
-      const wrong = state.questions.map((q,i)=> ({i, ok: state.answers[i]===q.correctChoiceIndex})).filter(x=>!x.ok).map(x=>x.i);
-      buildReviewList(wrong);
-    };
-    els.reviewFlag.onclick = ()=>{
-      buildReviewList(Array.from(state.flags));
-    };
-    els.exportBtn.onclick = ()=>{
-      const payload = {
-        meta: { version: 1, exportedAt: new Date().toISOString() },
-        state: {
-          ...state,
-          flags: Array.from(state.flags),
-        }
-      };
-      const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      els.downloadLink.href = url;
-      els.downloadLink.download = "quiz_result.json";
-      els.downloadLink.textContent = "Tải file kết quả";
-      els.downloadLink.classList.remove('hidden');
-      els.downloadLink.click();
-    };
-    els.restartBtn.onclick = ()=>{
-      clearState();
-      location.reload();
-    };
-
-    // Auto-suggest resume if found
-    const found = loadState();
-    if (found){
-      els.resumeState.checked = true;
-    }
-  </script>
+  document.getElementById('quiz-content').innerHTML = `
+    <div class="result">
+      <div class="result-score ${pass ? 'pass' : 'fail'}">${correct}/${total}</div>
+      <div class="result-msg">
+        ${pass ? '🎉 Tuyệt vời! Bạn đã hoàn thành bài học.' : '😅 Chưa đạt 70%. Ôn lại rồi thử lại nhé!'}
+      </div>
+      <button class="btn" onclick="startQuiz(quizState.lesson)">Làm lại</button>
+    </div>
+  `;
+}
+</script>
 </body>
 </html>
