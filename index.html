@@ -1,330 +1,93 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="light">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#3776ab">
-<title>PyLearn · Học Python toàn diện</title>
+<title>PyLearn Pro · Học Python đỉnh cao</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        brand: { DEFAULT: '#3776ab', dark: '#2c5f8a', light: '#4a9be0' },
+        gold: { DEFAULT: '#ffd43b', dark: '#ecc94b' },
+      },
+      animation: {
+        'bounce-in': 'bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        'slide-up': 'slideUp 0.4s ease-out',
+        'shake': 'shake 0.4s',
+        'pop': 'pop 0.25s ease-out',
+        'fade-in': 'fadeIn 0.25s ease-out',
+        'float': 'float 3s ease-in-out infinite',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+      },
+      keyframes: {
+        bounceIn: { '0%': { transform: 'scale(0)' }, '60%': { transform: 'scale(1.15)' }, '100%': { transform: 'scale(1)' } },
+        slideUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+        shake: { '0%,100%': { transform: 'translateX(0)' }, '20%,60%': { transform: 'translateX(-8px)' }, '40%,80%': { transform: 'translateX(8px)' } },
+        pop: { '0%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.12)' }, '100%': { transform: 'scale(1)' } },
+        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+        float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+        pulseGlow: { '0%,100%': { boxShadow: '0 0 0 0 rgba(255,212,59,0.5)' }, '50%': { boxShadow: '0 0 0 8px rgba(255,212,59,0)' } },
+      },
+    }
+  }
+}
+</script>
 <style>
-:root{
-  --primary:#3776ab; --primary-dark:#2c5f8a; --accent:#ffd43b;
-  --bg:#f5f7fb; --card:#fff; --text:#1a202c; --muted:#718096;
-  --border:#e2e8f0; --success:#48bb78; --success-bg:#f0fff4;
-  --danger:#f56565; --danger-bg:#fff5f5; --warn:#ed8936;
-  --gold:#f6c945; --code-bg:#1e293b;
-}
-[data-theme="dark"]{
-  --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8;
-  --border:#334155; --code-bg:#0a0f1c;
-  --success-bg:#1a3a2a; --danger-bg:#3a1a1a;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{font-size:16px;scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;
-  -webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-a{color:var(--primary);text-decoration:none}
-button{font-family:inherit}
-
-/* HEADER */
-header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;padding:10px 14px;position:sticky;top:0;z-index:100;
-  box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.header-inner{max-width:900px;margin:0 auto;display:flex;
-  align-items:center;justify-content:space-between;gap:10px}
-.logo{font-size:17px;font-weight:700;color:#fff;cursor:pointer;
-  display:flex;align-items:center;gap:6px;flex-shrink:0}
-.header-actions{display:flex;gap:6px;align-items:center}
-.icon-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
-  color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;
-  font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.icon-btn:active{background:rgba(255,255,255,.3);transform:scale(.95)}
-.xp-badge{background:rgba(255,212,59,.2);border:1px solid rgba(255,212,59,.4);
-  color:var(--accent);padding:4px 10px;border-radius:20px;font-size:12px;
-  font-weight:600;display:flex;align-items:center;gap:4px}
-
-main{max-width:900px;margin:0 auto;padding:16px 14px 60px}
-
-/* HOME */
-.hero{text-align:center;padding:16px 8px 24px}
-.hero h1{font-size:24px;margin-bottom:8px;line-height:1.3}
-.hero p{color:var(--muted);font-size:14px}
-
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:12px;text-align:center}
-.stat-val{font-size:20px;font-weight:700;color:var(--primary)}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-
-.xp-bar-wrap{margin-bottom:20px;background:var(--card);border:1px solid var(--border);
-  border-radius:12px;padding:14px}
-.xp-bar-header{display:flex;justify-content:space-between;
-  font-size:13px;margin-bottom:8px;color:var(--muted)}
-.xp-bar-header strong{color:var(--text)}
-.xp-bar{height:10px;background:var(--border);border-radius:5px;overflow:hidden}
-.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--warn));
-  transition:width .6s;border-radius:5px}
-
-.streak-week{display:flex;justify-content:space-between;gap:4px;margin-top:10px}
-.day-dot{flex:1;aspect-ratio:1;border-radius:50%;background:var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:11px;
-  color:var(--muted);font-weight:600;max-width:32px;max-height:32px}
-.day-dot.active{background:var(--success);color:#fff}
-.day-dot.today{outline:2px solid var(--primary);outline-offset:2px}
-
-.grid{display:grid;grid-template-columns:1fr;gap:14px}
-.card{background:var(--card);border-radius:14px;padding:18px;
-  border:1px solid var(--border);cursor:pointer;transition:all .2s;
-  display:block;color:inherit;position:relative;overflow:hidden}
-.card:active{transform:scale(.99)}
-.card-icon{font-size:34px;margin-bottom:8px}
-.card h3{font-size:17px;margin-bottom:4px}
-.card p{color:var(--muted);font-size:13px;margin-bottom:10px}
-
-.progress-bar{height:6px;background:var(--border);border-radius:3px;
-  overflow:hidden;margin-top:8px}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));
-  transition:width .4s}
-.progress-text{font-size:12px;color:var(--muted);margin-top:6px;
-  display:flex;justify-content:space-between}
-
-/* LESSON LIST */
-.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);
-  font-size:14px;margin-bottom:14px;cursor:pointer;background:none;
-  border:none;padding:6px 0;min-height:32px}
-.back-btn:active{color:var(--primary)}
-.page-title{font-size:22px;margin-bottom:6px}
-.page-sub{color:var(--muted);margin-bottom:20px;font-size:14px}
-
-.lesson-list{display:flex;flex-direction:column;gap:10px}
-.lesson-item{display:flex;align-items:center;gap:12px;
-  background:var(--card);padding:14px;border-radius:12px;
-  border:1px solid var(--border);cursor:pointer;transition:all .2s;color:inherit}
-.lesson-item:active{transform:scale(.99)}
-.lesson-num{width:36px;height:36px;border-radius:50%;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;font-weight:700;
-  color:var(--muted);flex-shrink:0;font-size:14px}
-.lesson-item.done .lesson-num{background:var(--success);color:#fff}
-.lesson-item.locked{opacity:.5;cursor:not-allowed}
-.lesson-info{flex:1;min-width:0}
-.lesson-info h4{font-size:15px;margin-bottom:2px}
-.lesson-info span{font-size:12px;color:var(--muted)}
-.lesson-badge{font-size:11px;padding:2px 8px;border-radius:10px;
-  background:var(--success-bg);color:var(--success);font-weight:600}
-.chev{color:var(--muted);font-size:22px;flex-shrink:0}
-
-/* CONTENT */
-.content{background:var(--card);border-radius:14px;padding:18px;
-  border:1px solid var(--border);margin-bottom:16px}
-.content h2{margin:16px 0 10px;font-size:19px;line-height:1.3}
-.content h2:first-child{margin-top:0}
-.content h3{margin:14px 0 8px;font-size:16px}
-.content p{margin-bottom:11px;font-size:15px}
-.content ul,.content ol{margin:0 0 12px 20px;font-size:15px}
-.content li{margin-bottom:5px}
-.content strong{color:var(--primary-dark)}
-.content code{background:var(--bg);padding:2px 6px;border-radius:4px;
-  font-size:13px;color:#c53030;font-family:'SF Mono',Monaco,monospace}
-[data-theme="dark"] .content code{color:#fc8181}
-.content pre{background:var(--code-bg);color:#e2e8f0;padding:14px;
-  border-radius:10px;overflow-x:auto;margin-bottom:14px;font-size:13px;
-  line-height:1.55;-webkit-overflow-scrolling:touch}
-.content pre code{background:none;padding:0;color:inherit;font-size:13px}
-
-/* QUIZ */
-.quiz{background:var(--card);border-radius:14px;padding:18px;
-  border:1px solid var(--border)}
-.quiz-header{display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.quiz-progress-txt{font-size:13px;color:var(--muted);font-weight:600}
-.quiz-progress-txt strong{color:var(--primary)}
-.hint-btn{background:transparent;border:1px solid var(--border);
-  color:var(--warn);padding:6px 12px;border-radius:8px;font-size:13px;
-  cursor:pointer;display:flex;align-items:center;gap:4px}
-.hint-btn:active{background:var(--bg)}
-
-.q-progress-bar{height:4px;background:var(--border);border-radius:2px;
-  overflow:hidden;margin-bottom:16px}
-.q-progress-fill{height:100%;background:var(--primary);transition:width .3s}
-
-.question-type{display:inline-block;font-size:11px;padding:3px 8px;
-  background:var(--primary);color:#fff;border-radius:6px;margin-bottom:10px;
-  font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.question{font-size:15px;font-weight:600;margin-bottom:14px;line-height:1.5}
-
-/* MCQ */
-.options{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
-.option{padding:13px 15px;border:2px solid var(--border);border-radius:10px;
-  cursor:pointer;background:var(--card);text-align:left;font-size:15px;
-  transition:all .15s;color:var(--text);min-height:48px;line-height:1.4;
-  display:flex;align-items:center;gap:10px}
-.option:active:not(:disabled){background:var(--bg)}
-.option-letter{width:24px;height:24px;border-radius:6px;background:var(--bg);
-  display:flex;align-items:center;justify-content:center;font-size:12px;
-  font-weight:700;color:var(--muted);flex-shrink:0}
-.option.correct{border-color:var(--success);background:var(--success-bg);color:var(--text)}
-.option.correct .option-letter{background:var(--success);color:#fff}
-.option.wrong{border-color:var(--danger);background:var(--danger-bg)}
-.option.wrong .option-letter{background:var(--danger);color:#fff}
-.option:disabled{cursor:default}
-
-/* FILL */
-.fill-input{width:100%;padding:13px 15px;font-size:16px;border:2px solid var(--border);
-  border-radius:10px;background:var(--card);color:var(--text);
-  font-family:'SF Mono',Monaco,monospace;margin-bottom:14px;min-height:48px}
-.fill-input:focus{outline:none;border-color:var(--primary)}
-.fill-input.correct{border-color:var(--success);background:var(--success-bg)}
-.fill-input.wrong{border-color:var(--danger);background:var(--danger-bg)}
-.fill-hint{font-size:12px;color:var(--muted);margin-top:-8px;margin-bottom:14px}
-
-/* ORDER */
-.order-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.order-item{display:flex;align-items:center;gap:10px;padding:12px 14px;
-  background:var(--card);border:2px solid var(--border);border-radius:10px;
-  font-family:'SF Mono',Monaco,monospace;font-size:13px}
-.order-item-text{flex:1;word-break:break-word}
-.order-btns{display:flex;flex-direction:column;gap:2px}
-.order-btn{background:var(--bg);border:none;width:26px;height:22px;
-  border-radius:5px;cursor:pointer;font-size:11px;color:var(--muted);
-  display:flex;align-items:center;justify-content:center}
-.order-btn:disabled{opacity:.3}
-.order-btn:active:not(:disabled){background:var(--primary);color:#fff}
-
-/* DRAG (tap-to-place) */
-.drag-instruction{font-size:12px;color:var(--muted);margin-bottom:12px;
-  font-style:italic}
-.drag-bank{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--bg);
-  border-radius:10px;min-height:56px;margin-bottom:14px;
-  border:2px dashed var(--border)}
-.drag-item{padding:8px 14px;background:var(--card);border:2px solid var(--border);
-  border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;
-  font-family:'SF Mono',Monaco,monospace;transition:all .15s;user-select:none}
-.drag-item.selected{border-color:var(--primary);background:rgba(55,118,171,.15);
-  transform:scale(1.05)}
-.drag-slots{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-.drag-slot{border:2px dashed var(--border);border-radius:10px;
-  padding:10px;min-height:56px;transition:all .2s}
-.drag-slot.has-items{border-style:solid;background:var(--bg)}
-.drag-slot-label{font-size:12px;font-weight:700;color:var(--primary);
-  margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
-.drag-slot-items{display:flex;flex-wrap:wrap;gap:6px;min-height:28px}
-.drag-slot-items .drag-item{font-size:12px;padding:6px 10px}
-.drag-slot.dragover{border-color:var(--primary);background:rgba(55,118,171,.1)}
-
-/* EXPLANATION */
-.explain{padding:12px 14px;border-radius:10px;margin-bottom:14px;
-  font-size:14px;line-height:1.55;animation:slideDown .3s}
-.explain.ok{background:var(--success-bg);color:var(--success);border:1px solid var(--success)}
-.explain.no{background:var(--danger-bg);color:var(--danger);border:1px solid var(--danger)}
-.explain.info{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
-.explain strong{color:inherit;font-weight:700}
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-
-.btn{background:linear-gradient(135deg,var(--primary),var(--primary-dark));
-  color:#fff;border:none;padding:14px 22px;border-radius:10px;
-  font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;
-  min-height:48px;width:100%;display:flex;align-items:center;
-  justify-content:center;gap:6px}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.5;cursor:default}
-.btn.secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
-.btn.warn{background:linear-gradient(135deg,var(--warn),#dd6b20)}
-.btn.gold{background:linear-gradient(135deg,var(--gold),#ecc94b);color:#744210}
-.btn-row{display:flex;gap:10px;margin-top:12px}
-.btn-row .btn{flex:1}
-
-/* RESULT */
-.result{text-align:center;padding:14px 0}
-.result-emoji{font-size:64px;margin-bottom:8px;animation:bounceIn .6s}
-@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
-.result-score{font-size:42px;font-weight:700;margin-bottom:4px}
-.result-score.pass{color:var(--success)}
-.result-score.fail{color:var(--danger)}
-.result-msg{color:var(--muted);margin-bottom:16px;font-size:14px;padding:0 10px}
-.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
-  margin:16px 0;padding:14px;background:var(--bg);border-radius:10px}
-.result-stats div{text-align:center}
-.result-stats .v{font-size:18px;font-weight:700;color:var(--primary)}
-.result-stats .l{font-size:11px;color:var(--muted);margin-top:2px}
-
-/* CERTIFICATE */
-.cert-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);
-  z-index:200;display:flex;align-items:center;justify-content:center;
-  padding:16px;animation:fadeIn .3s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.cert-box{background:#fff;color:#1a202c;border-radius:16px;
-  padding:28px 22px;max-width:420px;width:100%;text-align:center;
-  position:relative;box-shadow:0 20px 60px rgba(0,0,0,.5);
-  background-image:
-    radial-gradient(circle at 10% 10%,rgba(246,201,69,.15),transparent 40%),
-    radial-gradient(circle at 90% 90%,rgba(246,201,69,.15),transparent 40%);
-  border:6px double var(--gold)}
-.cert-title{font-size:13px;letter-spacing:3px;color:var(--gold);
-  font-weight:700;margin-bottom:6px}
-.cert-heading{font-size:22px;font-weight:700;margin-bottom:16px;
-  color:#2c5f8a}
-.cert-name{font-size:24px;font-weight:700;color:#1a202c;
-  padding:8px 0;margin:10px 0;border-bottom:2px solid var(--gold);
-  border-top:2px solid var(--gold);font-family:Georgia,serif;font-style:italic}
-.cert-text{font-size:13px;color:#718096;margin:10px 0;line-height:1.5}
-.cert-score{display:inline-block;padding:6px 16px;background:#fef3c7;
-  color:#744210;border-radius:20px;font-weight:700;font-size:14px;margin:8px 0}
-.cert-date{font-size:11px;color:#a0aec0;margin-top:14px}
-.cert-actions{display:flex;flex-direction:column;gap:8px;margin-top:18px}
-.cert-actions .btn{color:#fff}
-.cert-actions .btn.secondary{color:#1a202c;background:#f5f7fb;border-color:#e2e8f0}
-
-/* CONFETTI */
-.confetti{position:fixed;top:-10px;width:10px;height:10px;
-  z-index:150;pointer-events:none;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(100vh) rotate(720deg);opacity:0}}
-
-/* REVIEW */
-.review-item{background:var(--card);border:1px solid var(--border);
-  border-radius:10px;padding:14px;margin-bottom:10px}
-.review-item .q{font-weight:600;font-size:14px;margin-bottom:8px}
-.review-item .your{font-size:13px;color:var(--danger);margin-bottom:4px}
-.review-item .correct{font-size:13px;color:var(--success);margin-bottom:4px}
-.review-item .exp{font-size:12px;color:var(--muted);margin-top:8px;
-  padding-top:8px;border-top:1px solid var(--border)}
-
-/* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
-  background:var(--text);color:var(--card);padding:12px 20px;border-radius:24px;
-  font-size:14px;font-weight:600;z-index:300;transition:transform .3s;
-  box-shadow:0 8px 24px rgba(0,0,0,.2);max-width:90%}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-@media(min-width:640px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .hero h1{font-size:30px}
-  .drag-slots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .stats-row{grid-template-columns:repeat(4,1fr)}
-}
-@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+html { -webkit-tap-highlight-color: transparent; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+pre, code { font-family: 'SF Mono', Monaco, Menlo, 'Courier New', monospace; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); border-radius: 3px; }
+.prose-lesson h2 { font-size: 1.15rem; font-weight: 700; margin: 1rem 0 0.5rem; color: #3776ab; }
+.dark .prose-lesson h2 { color: #7cb3e0; }
+.prose-lesson h2:first-child { margin-top: 0; }
+.prose-lesson h3 { font-size: 1rem; font-weight: 600; margin: 0.75rem 0 0.4rem; }
+.prose-lesson p { margin-bottom: 0.6rem; line-height: 1.7; font-size: 0.95rem; }
+.prose-lesson ul, .prose-lesson ol { margin-bottom: 0.6rem; padding-left: 1.25rem; }
+.prose-lesson li { margin-bottom: 0.3rem; font-size: 0.95rem; }
+.prose-lesson strong { color: #2c5f8a; font-weight: 600; }
+.dark .prose-lesson strong { color: #7cb3e0; }
+.prose-lesson code { background: #f1f5f9; padding: 0.1em 0.4em; border-radius: 0.25rem; font-size: 0.85em; color: #be185d; }
+.dark .prose-lesson code { background: #1e293b; color: #f472b6; }
+.prose-lesson pre { background: #0f172a; color: #e2e8f0; padding: 0.85rem; border-radius: 0.5rem; overflow-x: auto; font-size: 0.8rem; margin-bottom: 0.75rem; line-height: 1.5; }
+.prose-lesson pre code { background: none; padding: 0; color: inherit; font-size: 0.8rem; }
+.conffetti-piece { position: fixed; top: -20px; z-index: 100; pointer-events: none; animation: confettiFall linear forwards; }
+@keyframes confettiFall { to { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
 </style>
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors">
 
-<header>
-  <div class="header-inner">
-    <a class="logo" onclick="go('/')">🐍 PyLearn</a>
-    <div class="header-actions">
-      <div class="xp-badge" id="xp-badge">⚡ 0</div>
-      <button class="icon-btn" onclick="go('/stats')" title="Thống kê">📊</button>
-      <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện" id="theme-btn">🌙</button>
+<header class="sticky top-0 z-40 bg-gradient-to-r from-brand to-brand-dark text-white shadow-lg">
+  <div class="max-w-3xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+    <button onclick="go('/')" class="flex items-center gap-2 font-bold text-lg active:scale-95 transition-transform">
+      🐍 <span class="hidden sm:inline">PyLearn Pro</span>
+    </button>
+    <div class="flex items-center gap-1.5">
+      <div class="px-2.5 py-1 rounded-full bg-gold/20 text-gold text-xs font-bold" id="hdr-coins">🪙 0</div>
+      <div class="px-2.5 py-1 rounded-full bg-white/15 text-xs font-bold" id="hdr-xp">⚡ 0</div>
+      <button onclick="toggleSound()" id="sound-btn" class="w-9 h-9 rounded-lg bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition-all" title="Âm thanh">🔊</button>
+      <button onclick="go('/stats')" class="w-9 h-9 rounded-lg bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition-all" title="Thống kê">📊</button>
+      <button onclick="toggleTheme()" id="theme-btn" class="w-9 h-9 rounded-lg bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition-all" title="Giao diện">🌙</button>
     </div>
   </div>
 </header>
 
-<main id="app"></main>
-<div id="toast" class="toast"></div>
+<main id="app" class="max-w-3xl mx-auto px-3 py-4 pb-24"></main>
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-24 px-4 py-3 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-semibold shadow-2xl z-50 transition-transform duration-300 max-w-[90vw] text-center"></div>
+<div id="modal-root"></div>
 
 <script>
-/* ==================== DỮ LIỆU KHOÁ HỌC ==================== */
+/* =============== DATA: 16 bài học =============== */
 const COURSE = {
-  id: 'python', title: 'Python cơ bản', icon: '🐍',
-  desc: 'Học Python từ 0 đến hàm & xử lý lỗi — 11 bài, 4 loại bài tập.',
+  id: 'python', title: 'Python Master', icon: '🐍',
+  desc: '16 bài học · 5 loại bài tập · Từ cơ bản đến xử lý lỗi',
   lessons: [
     { id:'bai-1', title:'Giới thiệu Python', content:`
       <h2>Python là gì?</h2>
@@ -333,21 +96,19 @@ const COURSE = {
       <pre><code>print("Xin chào!")</code></pre>
       <p>Kết quả: <code>Xin chào!</code></p>
       <h2>Chạy Python ở đâu?</h2>
-      <ul><li><a href="https://replit.com" target="_blank" rel="noopener">replit.com</a> (online)</li>
-      <li><a href="https://colab.research.google.com" target="_blank" rel="noopener">Google Colab</a></li></ul>
+      <ul><li><a href="https://replit.com" target="_blank" rel="noopener" class="underline">replit.com</a></li><li><a href="https://colab.research.google.com" target="_blank" rel="noopener" class="underline">Google Colab</a></li></ul>
       <p>💡 Python dùng <strong>thụt lề 4 dấu cách</strong> để phân chia khối lệnh.</p>`,
       quiz:[
-        {type:'mcq',q:'Python là ngôn ngữ lập trình như thế nào?',
-          options:['Bậc thấp, khó học','Bậc cao, dễ học','Chỉ dùng cho web','Không phổ biến'],
-          answer:1,explain:'Python là ngôn ngữ bậc cao, cú pháp gần tiếng Anh nên rất dễ học.',
-          hint:'Nó nổi tiếng vì dễ đọc, dễ viết.'},
-        {type:'fill',q:'Điền từ còn thiếu: Hàm dùng để in ra màn hình trong Python là ______()',
-          answers:['print','print()'],explain:'print() là hàm in ra màn hình trong Python.',
-          hint:'4 chữ cái, bắt đầu bằng "p".'},
-        {type:'mcq',q:'Python dùng gì để chia khối lệnh?',
-          options:['Dấu { }','Dấu ( )','Thụt lề (indent)','Dấu ;'],
-          answer:2,explain:'Python dùng thụt lề (thường 4 dấu cách) để chia khối lệnh, không dùng ngoặc nhọn.',
-          hint:'Không phải ký tự nào cả — mà là "khoảng trắng".'}
+        { type:'mcq', q:'Python là ngôn ngữ lập trình như thế nào?',
+          options:['Bậc thấp, khó học','Bậc cao, dễ học','Chỉ dùng cho web','Không phổ biến'], answer:1,
+          explain:'Python là ngôn ngữ bậc cao, cú pháp gần tiếng Anh.', hint:'Nó nổi tiếng vì dễ đọc.' },
+        { type:'fill', q:'Hàm in ra màn hình trong Python là ______()',
+          answers:['print','print()'], explain:'print() là hàm in ra màn hình.', hint:'4 chữ cái, bắt đầu bằng "p".' },
+        { type:'mcq', q:'Python dùng gì để chia khối lệnh?',
+          options:['Dấu { }','Dấu ( )','Thụt lề (indent)','Dấu ;'], answer:2,
+          explain:'Thụt lề 4 dấu cách — không dùng ngoặc nhọn.', hint:'Là khoảng trắng.' },
+        { type:'truefalse', q:'Python cần khai báo kiểu dữ liệu khi tạo biến.',
+          answer:false, explain:'Python tự nhận biết kiểu — không cần khai báo.', hint:'Đây là điểm mạnh của Python.' }
       ]
     },
     { id:'bai-2', title:'Biến và kiểu dữ liệu', content:`
@@ -359,17 +120,23 @@ cao = 1.65         # float
 sv = True          # bool</code></pre>
       <h2>4 kiểu chính</h2>
       <ul><li><strong>int</strong> — số nguyên</li><li><strong>float</strong> — số thực</li>
-      <li><strong>str</strong> — chuỗi (đặt trong ngoặc kép)</li><li><strong>bool</strong> — True / False</li></ul>
+      <li><strong>str</strong> — chuỗi</li><li><strong>bool</strong> — True/False</li></ul>
       <pre><code>print(type(42))     # &lt;class 'int'&gt;</code></pre>`,
       quiz:[
-        {type:'mcq',q:'Khai báo biến x = 5 trong Python?',
-          options:['int x = 5','let x = 5','x = 5','var x = 5'],answer:2,
-          explain:'Python không cần khai báo kiểu, chỉ cần x = 5.',hint:'Không có từ khoá nào cả.'},
-        {type:'fill',q:'type(3.14) trả về kiểu gì?',answers:['float'],explain:'3.14 là số thực → kiểu float.',
-          hint:'Số có dấu chấm thập phân là kiểu ...'},
-        {type:'mcq',q:'"hello" là kiểu dữ liệu gì?',
-          options:['int','float','str','bool'],answer:2,
-          explain:'Chuỗi ký tự trong ngoặc kép là str (string).',hint:'Chữ viết trong ngoặc kép = ...'}
+        { type:'mcq', q:'Khai báo biến x = 5 trong Python?',
+          options:['int x = 5','let x = 5','x = 5','var x = 5'], answer:2,
+          explain:'Python chỉ cần x = 5.', hint:'Không có từ khoá nào.' },
+        { type:'fill', q:'type(3.14) trả về kiểu gì?', answers:['float'],
+          explain:'3.14 là số thực → float.', hint:'Số có dấu chấm thập phân.' },
+        { type:'match', q:'Nối mỗi kiểu dữ liệu với mô tả đúng:',
+          pairs:[
+            { left:'int', right:'Số nguyên' },
+            { left:'str', right:'Chuỗi ký tự' },
+            { left:'float', right:'Số thực' },
+            { left:'bool', right:'True / False' }
+          ],
+          explain:'int=số nguyên, str=chuỗi, float=số thực, bool=đúng/sai.',
+          hint:'Đọc tên tiếng Anh của từng kiểu.' }
       ]
     },
     { id:'bai-3', title:'Nhập xuất & f-string', content:`
@@ -380,21 +147,19 @@ print("Chào " + ten)</code></pre>
       <h2>Ép kiểu</h2>
       <pre><code>tuoi = int(input("Tuổi: "))
 print(tuoi + 1)</code></pre>
-      <p>Các hàm: <code>int()</code>, <code>float()</code>, <code>str()</code>.</p>
-      <h2>f-string (cách in đẹp)</h2>
+      <h2>f-string</h2>
       <pre><code>ten = "An"; tuoi = 20
 print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>`,
       quiz:[
-        {type:'mcq',q:'input() trả về kiểu gì?',
-          options:['int','float','str','bool'],answer:2,
-          explain:'input() luôn trả về chuỗi (str) — kể cả khi bạn gõ số.',hint:'Luôn là chuỗi.'},
-        {type:'fill',q:'Điền lệnh ép input thành số nguyên: x = ___(input())',
-          answers:['int','int()'],explain:'int() ép chuỗi số thành số nguyên.',
-          hint:'3 chữ cái — viết tắt của "integer".'},
-        {type:'order',q:'Sắp xếp để in "Tôi là An, 20 tuổi" dùng f-string:',
+        { type:'mcq', q:'input() trả về kiểu gì?',
+          options:['int','float','str','bool'], answer:2,
+          explain:'input() luôn trả về chuỗi.', hint:'Luôn là chuỗi.' },
+        { type:'fill', q:'Ép input thành số nguyên: x = ___(input())',
+          answers:['int','int()'], explain:'int() ép chuỗi thành số nguyên.', hint:'3 chữ cái — "integer".' },
+        { type:'order', q:'Sắp xếp để in "Tôi là An, 20 tuổi":',
           items:['ten = "An"','tuoi = 20','print(f"Tôi là {ten}, {tuoi} tuổi")'],
           answer:['ten = "An"','tuoi = 20','print(f"Tôi là {ten}, {tuoi} tuổi")'],
-          explain:'Phải khai báo biến trước khi dùng trong f-string.',hint:'Khai báo trước, in sau.'}
+          explain:'Khai báo biến trước khi dùng.', hint:'Khai báo → in.' }
       ]
     },
     { id:'bai-4', title:'Toán tử', content:`
@@ -402,7 +167,7 @@ print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>`,
       <pre><code>5 + 2   # 7   cộng
 5 - 2   # 3   trừ
 5 * 2   # 10  nhân
-5 / 2   # 2.5 chia thường
+5 / 2   # 2.5 chia
 5 // 2  # 2   chia lấy nguyên
 5 % 2   # 1   chia lấy dư
 5 ** 2  # 25  luỹ thừa</code></pre>
@@ -415,12 +180,13 @@ print(f"Tôi là {ten}, {tuoi} tuổi")</code></pre>`,
 True or False   # True
 not True        # False</code></pre>`,
       quiz:[
-        {type:'fill',q:'Kết quả của 7 // 2 là bao nhiêu?',answers:['3'],explain:'// là chia lấy phần nguyên: 7/2 = 3.5 → lấy 3.',
-          hint:'// khác / ở chỗ: bỏ phần thập phân.'},
-        {type:'mcq',q:'Kết quả của 2 ** 3?',options:['6','8','9','5'],answer:1,
-          explain:'** là luỹ thừa: 2³ = 8.',hint:'2 × 2 × 2 = ...'},
-        {type:'fill',q:'Kết quả của 10 % 3 là?',answers:['1'],explain:'% là chia lấy dư: 10 ÷ 3 = 3 dư 1.',
-          hint:'10 = 3*3 + 1, số dư là ...'}
+        { type:'fill', q:'Kết quả của 7 // 2 là bao nhiêu?', answers:['3'],
+          explain:'// chia lấy nguyên: 3.5 → 3.', hint:'Bỏ phần thập phân.' },
+        { type:'mcq', q:'Kết quả của 2 ** 3?',
+          options:['6','8','9','5'], answer:1,
+          explain:'** là luỹ thừa: 2³ = 8.', hint:'2 × 2 × 2.' },
+        { type:'fill', q:'Kết quả của 10 % 3 là?', answers:['1'],
+          explain:'% chia lấy dư: 10 = 3×3 + 1.', hint:'Số dư của 10 ÷ 3.' }
       ]
     },
     { id:'bai-5', title:'Câu lệnh if / elif / else', content:`
@@ -436,19 +202,18 @@ else:
     print("Yếu")</code></pre>
       <h2>Quy tắc</h2>
       <ul><li>Phải có <code>:</code> sau if/elif/else</li>
-      <li><strong>Thụt lề 4 dấu cách</strong> cho thân lệnh</li>
-      <li><code>elif</code> = else if (không viết cách)</li></ul>`,
+      <li>Thụt lề 4 dấu cách</li>
+      <li><code>elif</code> = else if (viết liền)</li></ul>`,
       quiz:[
-        {type:'mcq',q:'Điều kiện phụ (sau if) dùng từ khoá nào?',
-          options:['else if','elif','elseif','otherwise'],answer:1,
-          explain:'Python dùng elif — viết liền, không cách.',hint:'Viết tắt của "else if".'},
-        {type:'order',q:'Sắp xếp đúng thứ tự cấu trúc if/elif/else:',
+        { type:'mcq', q:'Điều kiện phụ (sau if) dùng từ khoá nào?',
+          options:['else if','elif','elseif','otherwise'], answer:1,
+          explain:'Python dùng elif.', hint:'Viết tắt "else if".' },
+        { type:'order', q:'Sắp xếp đúng thứ tự:',
           items:['else:','if x &gt; 0:','elif x == 0:'],
           answer:['if x &gt; 0:','elif x == 0:','else:'],
-          explain:'if → elif (nếu có) → else (cuối cùng).',hint:'if luôn đầu, else luôn cuối.'},
-        {type:'fill',q:'Điền ký tự bắt buộc sau if/elif/else:',
-          answers:[':','colon','dấu hai chấm'],explain:'Ký tự ":" bắt buộc sau mỗi điều kiện.',
-          hint:'1 ký tự — giống dấu hai chấm.'}
+          explain:'if → elif → else.', hint:'else luôn cuối.' },
+        { type:'truefalse', q:'Trong Python, sau if bắt buộc phải có dấu hai chấm (:).',
+          answer:true, explain:'Mọi if/elif/else đều phải kết thúc bằng dấu :', hint:'Cú pháp bắt buộc.' }
       ]
     },
     { id:'bai-6', title:'Vòng lặp for', content:`
@@ -459,33 +224,28 @@ else:
       <p><code>range(n)</code> sinh số từ <strong>0</strong> đến <strong>n-1</strong>.</p>
       <h2>range với 2-3 tham số</h2>
       <pre><code>range(1, 5)     # 1,2,3,4
-range(0, 10, 2) # 0,2,4,6,8 (bước 2)</code></pre>
-      <h2>Duyệt list</h2>
-      <pre><code>for qua in ["táo", "cam"]:
-    print(qua)</code></pre>
+range(0, 10, 2) # 0,2,4,6,8</code></pre>
       <h2>break / continue</h2>
       <p><code>break</code>: thoát hẳn. <code>continue</code>: bỏ qua lần này.</p>`,
       quiz:[
-        {type:'mcq',q:'range(5) sinh ra các số nào?',
-          options:['1,2,3,4,5','0,1,2,3,4','0..5','1,2,3,4'],answer:1,
-          explain:'range(n) sinh từ 0 đến n-1: 0,1,2,3,4.',hint:'Bắt đầu từ 0, không gồm n.'},
-        {type:'fill',q:'Từ khoá để thoát hẳn vòng lặp là ______',
-          answers:['break'],explain:'break thoát khỏi vòng lặp ngay lập tức.',
-          hint:'5 chữ cái, nghĩa là "phá vỡ".'},
-        {type:'mcq',q:'range(1, 5) sinh ra các số?',
-          options:['1,2,3,4,5','1,2,3,4','0,1,2,3,4','2,3,4,5'],answer:1,
-          explain:'range(a,b) sinh từ a đến b-1: 1,2,3,4.',hint:'Gồm a, KHÔNG gồm b.'}
+        { type:'mcq', q:'range(5) sinh ra các số nào?',
+          options:['1,2,3,4,5','0,1,2,3,4','0..5','1,2,3,4'], answer:1,
+          explain:'range(n) sinh từ 0 đến n-1.', hint:'Bắt đầu từ 0, không gồm n.' },
+        { type:'fill', q:'Từ khoá thoát hẳn vòng lặp là ______', answers:['break'],
+          explain:'break thoát khỏi vòng lặp.', hint:'5 chữ cái — "phá vỡ".' },
+        { type:'mcq', q:'range(1, 5) sinh ra?',
+          options:['1,2,3,4,5','1,2,3,4','0,1,2,3,4','2,3,4,5'], answer:1,
+          explain:'range(a,b) từ a đến b-1: 1,2,3,4.', hint:'Gồm a, không gồm b.' }
       ]
     },
     { id:'bai-7', title:'Vòng lặp while', content:`
-      <h2>Lặp khi điều kiện đúng</h2>
+      <h2>while</h2>
       <pre><code>dem = 0
 while dem &lt; 5:
     print(dem)
     dem += 1</code></pre>
       <p>⚠️ Quên tăng <code>dem</code> → lặp <strong>vô hạn</strong>.</p>
-      <h2>Dùng khi nào?</h2>
-      <p>Khi chưa biết trước số lần lặp:</p>
+      <h2>Ví dụ thực tế</h2>
       <pre><code>mat_khau = ""
 while mat_khau != "1234":
     mat_khau = input("Mật khẩu: ")</code></pre>
@@ -495,22 +255,21 @@ while mat_khau != "1234":
     if lenh == "thoat":
         break</code></pre>`,
       quiz:[
-        {type:'mcq',q:'Vòng while lặp khi nào?',
-          options:['Khi điều kiện sai','Khi điều kiện đúng','Luôn luôn','Không bao giờ'],answer:1,
-          explain:'while lặp lại khi điều kiện còn True.',hint:'while = "trong khi".'},
-        {type:'fill',q:'Nếu quên tăng biến đếm trong while sẽ gây lặp ______',
-          answers:['vô hạn','vô tận','infinite'],explain:'Gây lặp vô hạn (infinite loop).',
-          hint:'Không bao giờ dừng lại.'},
-        {type:'mcq',q:'Câu nào tăng biến dem thêm 1?',
-          options:['dem = 1','dem + 1','dem += 1','dem++'],answer:2,
-          explain:'dem += 1 tương đương dem = dem + 1. Python không có dem++.',hint:'Python không có ++.'}
+        { type:'mcq', q:'while lặp khi nào?',
+          options:['Khi điều kiện sai','Khi điều kiện đúng','Luôn luôn','Không bao giờ'], answer:1,
+          explain:'while lặp khi điều kiện còn True.', hint:'"trong khi...".' },
+        { type:'fill', q:'Quên tăng biến đếm trong while gây lặp ______',
+          answers:['vô hạn','vô tận','infinite'], explain:'Lặp vô hạn (infinite loop).', hint:'Không bao giờ dừng.' },
+        { type:'mcq', q:'Câu nào tăng dem thêm 1?',
+          options:['dem = 1','dem + 1','dem += 1','dem++'], answer:2,
+          explain:'dem += 1. Python không có dem++.', hint:'Python không có ++.' }
       ]
     },
     { id:'bai-8', title:'List và Tuple', content:`
       <h2>List — có thể sửa</h2>
       <pre><code>diem = [8, 9, 7]
-diem[0]        # 8 (đánh số từ 0)
-diem[-1]       # 7 (phần tử cuối)
+diem[0]        # 8
+diem[-1]       # 7
 diem.append(6) # thêm cuối
 diem.remove(9) # xoá giá trị 9
 len(diem)      # độ dài</code></pre>
@@ -518,49 +277,45 @@ len(diem)      # độ dài</code></pre>
       <pre><code>sum([1,2,3])  # 6
 max([1,5,2])  # 5
 min([1,5,2])  # 1
-[1,2,3,4][1:3]  # [2,3] — cắt</code></pre>
-      <h2>Tuple — KHÔNG sửa được</h2>
+[1,2,3,4][1:3]  # [2,3]</code></pre>
+      <h2>Tuple — không sửa được</h2>
       <pre><code>toa_do = (10, 20)
 # toa_do[0] = 5  → LỖI</code></pre>`,
       quiz:[
-        {type:'mcq',q:'Thêm phần tử vào cuối list dùng?',
-          options:['add()','append()','push()','insert_end()'],answer:1,
-          explain:'append() là phương thức chuẩn để thêm cuối list.',hint:'Bắt đầu bằng "ap".'},
-        {type:'drag',q:'Kéo thả để phân loại — đâu là List, đâu là Tuple?',
+        { type:'mcq', q:'Thêm phần tử vào cuối list dùng?',
+          options:['add()','append()','push()','insert_end()'], answer:1,
+          explain:'append() thêm vào cuối list.', hint:'Bắt đầu bằng "ap".' },
+        { type:'drag', q:'Phân loại List và Tuple:',
           items:['[1, 2, 3]','(4, 5)','["a", "b"]','(1.5, 2.5)'],
-          targets:[{label:'List (sửa được)',accept:['[1, 2, 3]','["a", "b"]']},
-                   {label:'Tuple (không sửa)',accept:['(4, 5)','(1.5, 2.5)']}],
-          explain:'List dùng [ ], Tuple dùng ( ). Tuple không thể sửa.',
-          hint:'Nhìn ngoặc: [ ] là list, ( ) là tuple.'},
-        {type:'fill',q:'Hàm lấy độ dài list: len([1,2,3,4]) = ?',
-          answers:['4'],explain:'len() đếm số phần tử: list có 4 phần tử.',hint:'Đếm xem có mấy phần tử.'}
+          targets:[{label:'List (sửa được)', accept:['[1, 2, 3]','["a", "b"]']},
+                   {label:'Tuple (không sửa)', accept:['(4, 5)','(1.5, 2.5)']}],
+          explain:'List dùng [ ], Tuple dùng ( ). Tuple không sửa được.',
+          hint:'[ ] là list, ( ) là tuple.' },
+        { type:'fill', q:'len([1,2,3,4]) = ?', answers:['4'],
+          explain:'len() đếm số phần tử.', hint:'Đếm số có mấy phần tử.' }
       ]
     },
     { id:'bai-9', title:'Dictionary', content:`
       <h2>Dictionary — cặp key : value</h2>
-      <pre><code>sv = {
-    "ten": "An",
-    "tuoi": 20
-}
-sv["ten"]           # "An"
-sv.get("sdt","N/A") # "N/A" (mặc định)
-sv["tuoi"] = 21     # sửa
-sv["email"] = "x"   # thêm
-del sv["ten"]       # xoá</code></pre>
+      <pre><code>sv = {"ten": "An", "tuoi": 20}
+sv["ten"]            # "An"
+sv.get("sdt","N/A")  # "N/A"
+sv["tuoi"] = 21      # sửa
+sv["email"] = "x"    # thêm
+del sv["ten"]        # xoá</code></pre>
       <h2>Duyệt dict</h2>
       <pre><code>for k in sv.keys(): print(k)
 for v in sv.values(): print(v)
 for k, v in sv.items(): print(k, v)</code></pre>`,
       quiz:[
-        {type:'mcq',q:'Truy cập giá trị theo key?',
-          options:['d.key','d["key"]','d-&gt;key','d.get_key()'],answer:1,
-          explain:'Dùng d[key] hoặc d.get(key).',hint:'Giống list nhưng dùng chuỗi key.'},
-        {type:'mcq',q:'items() trả về gì?',
-          options:['Chỉ keys','Chỉ values','Cặp (key, value)','Độ dài'],answer:2,
-          explain:'.items() trả về các cặp (key, value).',hint:'"item" = mục — gồm cả 2.'},
-        {type:'fill',q:'Phương thức lấy giá trị an toàn (không lỗi nếu key không có)?',
-          answers:['get','get()','.get','.get()'],explain:'d.get(key) trả về None (hoặc mặc định) thay vì lỗi.',
-          hint:'Bắt đầu bằng "g".'}
+        { type:'mcq', q:'Truy cập giá trị theo key?',
+          options:['d.key','d["key"]','d-&gt;key','d.get_key()'], answer:1,
+          explain:'Dùng d[key] hoặc d.get(key).', hint:'Giống list nhưng key là chuỗi.' },
+        { type:'mcq', q:'items() trả về gì?',
+          options:['Chỉ keys','Chỉ values','Cặp (key, value)','Độ dài'], answer:2,
+          explain:'.items() trả về cặp (key, value).', hint:'"item" = mục — cả 2.' },
+        { type:'fill', q:'Phương thức lấy giá trị an toàn?', answers:['get','get()','.get','.get()'],
+          explain:'d.get(key) trả None thay vì lỗi.', hint:'Bắt đầu bằng "g".' }
       ]
     },
     { id:'bai-10', title:'Hàm (Function)', content:`
@@ -576,23 +331,18 @@ print(chao("An"))  # Chào An</code></pre>
 chao("An")        # Xin chào An
 chao("An","Hi")   # Hi An</code></pre>
       <h2>return vs print</h2>
-      <ul><li><code>print()</code>: chỉ in, <strong>không trả giá trị</strong></li>
-      <li><code>return</code>: <strong>trả giá trị</strong> dùng tiếp được</li></ul>
-      <pre><code>def cong(a,b): return a+b
-ket_qua = cong(3,5)  # 8
-print(ket_qua * 2)   # 16</code></pre>`,
+      <ul><li><code>print()</code>: chỉ in, không trả giá trị</li>
+      <li><code>return</code>: trả giá trị để dùng tiếp</li></ul>`,
       quiz:[
-        {type:'mcq',q:'Từ khoá khai báo hàm?',
-          options:['function','def','func','fn'],answer:1,
-          explain:'Python dùng def (define) để khai báo hàm.',hint:'Viết tắt của "define".'},
-        {type:'fill',q:'Từ khoá trả về giá trị từ hàm là ______',
-          answers:['return'],explain:'return trả giá trị về nơi gọi hàm.',
-          hint:'6 chữ cái — "trở về".'},
-        {type:'order',q:'Sắp xếp để định nghĩa hàm tính tổng 2 số:',
+        { type:'mcq', q:'Từ khoá khai báo hàm?',
+          options:['function','def','func','fn'], answer:1,
+          explain:'Python dùng def.', hint:'Viết tắt "define".' },
+        { type:'fill', q:'Từ khoá trả về giá trị từ hàm là ______', answers:['return'],
+          explain:'return trả giá trị về nơi gọi.', hint:'6 chữ cái — "trở về".' },
+        { type:'order', q:'Sắp xếp để định nghĩa hàm tính tổng:',
           items:['return a + b','def cong(a, b):','ket_qua = cong(3, 5)'],
           answer:['def cong(a, b):','return a + b','ket_qua = cong(3, 5)'],
-          explain:'def trước → return trong thân → gọi hàm sau cùng.',
-          hint:'Định nghĩa → thân hàm → gọi hàm.'}
+          explain:'def trước → return trong thân → gọi sau cùng.', hint:'Định nghĩa → thân → gọi.' }
       ]
     },
     { id:'bai-11', title:'Xử lý lỗi try/except', content:`
@@ -605,60 +355,204 @@ except ValueError:
 except ZeroDivisionError:
     print("Không chia 0!")</code></pre>
       <h2>Lỗi phổ biến</h2>
-      <ul><li><strong>ValueError</strong> — giá trị sai (int("abc"))</li>
+      <ul><li><strong>ValueError</strong> — giá trị sai</li>
       <li><strong>ZeroDivisionError</strong> — chia cho 0</li>
       <li><strong>TypeError</strong> — sai kiểu</li>
       <li><strong>NameError</strong> — biến chưa khai báo</li>
-      <li><strong>IndexError</strong> — truy cập list ngoài phạm vi</li></ul>
+      <li><strong>IndexError</strong> — list ngoài phạm vi</li></ul>
       <h2>finally — luôn chạy</h2>
       <pre><code>try:
     f = open("data.txt")
 finally:
-    f.close()</code></pre>
-      <p>🎉 Bạn đã hoàn thành khoá học!</p>`,
+    f.close()</code></pre>`,
       quiz:[
-        {type:'mcq',q:'Khối nào bắt lỗi?',
-          options:['try','catch','except','error'],answer:2,
-          explain:'Python dùng try/except, không dùng catch.',hint:'Bắt đầu bằng "ex".'},
-        {type:'mcq',q:'Chia cho 0 gây lỗi gì?',
-          options:['ValueError','ZeroDivisionError','TypeError','NameError'],answer:1,
-          explain:'ZeroDivisionError — không thể chia cho 0.',hint:'Tên lỗi nói rõ nguyên nhân.'},
-        {type:'fill',q:'Khối nào luôn chạy dù có lỗi hay không?',
-          answers:['finally'],explain:'finally luôn được thực thi, kể cả khi có exception.',
-          hint:'7 chữ cái — "cuối cùng".'}
+        { type:'mcq', q:'Khối nào bắt lỗi?',
+          options:['try','catch','except','error'], answer:2,
+          explain:'Python dùng try/except, không dùng catch.', hint:'Bắt đầu "ex".' },
+        { type:'mcq', q:'Chia cho 0 gây lỗi gì?',
+          options:['ValueError','ZeroDivisionError','TypeError','NameError'], answer:1,
+          explain:'ZeroDivisionError.', hint:'Tên lỗi nói rõ nguyên nhân.' },
+        { type:'fill', q:'Khối nào luôn chạy dù có lỗi hay không?', answers:['finally'],
+          explain:'finally luôn được thực thi.', hint:'7 chữ cái — "cuối cùng".' }
+      ]
+    },
+    { id:'bai-12', title:'String methods', content:`
+      <h2>Chuỗi có nhiều phương thức hữu ích</h2>
+      <pre><code>s = "  Xin chào Python  "
+s.strip()          # "Xin chào Python"
+s.upper()          # "  XIN CHÀO PYTHON  "
+s.lower()          # "  xin chào python  "
+s.replace("Python","JS")  # "  Xin chào JS  "
+s.split()          # ['Xin', 'chào', 'Python']</code></pre>
+      <h2>Nối chuỗi</h2>
+      <pre><code>"-".join(["a","b","c"])   # "a-b-c"
+"abc".startswith("ab")     # True
+"abc".endswith("bc")       # True
+"abc" in "abcdef"          # True</code></pre>
+      <h2>Độ dài</h2>
+      <pre><code>len("hello")   # 5</code></pre>`,
+      quiz:[
+        { type:'mcq', q:'Phương thức xoá khoảng trắng đầu/cuối?',
+          options:['trim()','strip()','clean()','cut()'], answer:1,
+          explain:'strip() xoá khoảng trắng ở đầu và cuối.', hint:'Bắt đầu bằng "s".' },
+        { type:'fill', q:'"hello".upper() = ?', answers:['HELLO','"HELLO"'],
+          explain:'upper() chuyển thành chữ HOA.', hint:'Viết hoa toàn bộ.' },
+        { type:'truefalse', q:'"abc".split("b") trả về ["a", "c"].',
+          answer:true, explain:'split("b") tách chuỗi tại "b" → ["a", "c"].', hint:'Tách theo ký tự "b".' }
+      ]
+    },
+    { id:'bai-13', title:'List comprehension', content:`
+      <h2>Cách viết list "một dòng"</h2>
+      <p>Thay vì:</p>
+      <pre><code>binh_phuong = []
+for x in range(5):
+    binh_phuong.append(x**2)</code></pre>
+      <p>Dùng comprehension:</p>
+      <pre><code>binh_phuong = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]</code></pre>
+      <h2>Với điều kiện (if)</h2>
+      <pre><code>[x for x in range(10) if x % 2 == 0]
+# [0, 2, 4, 6, 8]</code></pre>
+      <h2>Với chuỗi</h2>
+      <pre><code>ten = ["an", "bình", "chi"]
+[ t.capitalize() for t in ten ]
+# ['An', 'Bình', 'Chi']</code></pre>`,
+      quiz:[
+        { type:'mcq', q:'[x*2 for x in [1,2,3]] = ?',
+          options:['[1,2,3]','[2,4,6]','[1,4,9]','[6,4,2]'], answer:1,
+          explain:'Mỗi x nhân 2 → [2,4,6].', hint:'Nhân từng phần tử.' },
+        { type:'fill', q:'[x for x in range(5) if x &gt; 2] = ?',
+          answers:['[3, 4]','[3,4]'], explain:'Lấy x > 2 trong 0..4 → [3, 4].', hint:'range(5) = 0..4.' },
+        { type:'truefalse', q:'List comprehension luôn ngắn hơn vòng lặp for.',
+          answer:false, explain:'Không phải lúc nào cũng ngắn hơn — logic phức tạp nên dùng for.', hint:'Tuỳ độ phức tạp.' }
+      ]
+    },
+    { id:'bai-14', title:'Set (tập hợp)', content:`
+      <h2>Set — tập không trùng lặp</h2>
+      <pre><code>a = {1, 2, 3}
+b = {2, 3, 4}
+a | b   # {1,2,3,4}  hợp
+a &amp; b   # {2,3}      giao
+a - b   # {1}        hiệu
+a ^ b   # {1,4}      đối xứng</code></pre>
+      <h2>Tạo từ list (tự loại trùng)</h2>
+      <pre><code>nums = [1,2,2,3,3,4]
+set(nums)     # {1, 2, 3, 4}</code></pre>
+      <h2>Thêm / xoá</h2>
+      <pre><code>s = {1, 2}
+s.add(3)      # {1,2,3}
+s.remove(1)   # {2,3}</code></pre>
+      <p>⚠️ Set <strong>không</strong> đảm bảo thứ tự và không có chỉ số <code>s[0]</code>.</p>`,
+      quiz:[
+        { type:'mcq', q:'{1,2,3} &amp; {2,3,4} = ?',
+          options:['{1,2,3,4}','{2,3}','{1,4}','{}'], answer:1,
+          explain:'&amp; là giao — phần tử chung → {2, 3}.', hint:'Giao = phần chung.' },
+        { type:'fill', q:'set([1,2,2,3,3]) có mấy phần tử?', answers:['3'],
+          explain:'Set loại trùng → {1, 2, 3} = 3 phần tử.', hint:'Set không cho trùng.' },
+        { type:'truefalse', q:'Có thể truy cập set bằng chỉ số: s[0].',
+          answer:false, explain:'Set không có thứ tự — không truy cập bằng chỉ số được.', hint:'Không có thứ tự.' }
+      ]
+    },
+    { id:'bai-15', title:'Modules & import', content:`
+      <h2>Module là gì?</h2>
+      <p>Module là file Python khác chứa code bạn có thể tái sử dụng.</p>
+      <h2>Import module có sẵn</h2>
+      <pre><code>import math
+print(math.sqrt(16))   # 4.0
+
+import random
+print(random.randint(1, 6))   # số 1-6
+
+from datetime import datetime
+print(datetime.now())</code></pre>
+      <h2>Đặt tên ngắn</h2>
+      <pre><code>import math as m
+print(m.pi)   # 3.14159...</code></pre>
+      <h2>Import hàm cụ thể</h2>
+      <pre><code>from math import sqrt, pi
+print(sqrt(9))   # 3.0</code></pre>`,
+      quiz:[
+        { type:'mcq', q:'Cách import module math?',
+          options:['include math','import math','using math','require math'], answer:1,
+          explain:'Python dùng "import math".', hint:'Giống từ tiếng Anh "import".' },
+        { type:'fill', q:'Lấy căn bậc 2 của 16: math.____(16)',
+          answers:['sqrt'], explain:'math.sqrt(16) = 4.0.', hint:'Viết tắt "square root".' },
+        { type:'truefalse', q:'from math import pi — sau đó dùng pi trực tiếp được.',
+          answer:true, explain:'from...import đưa tên vào không gian hiện tại.', hint:'Đã import trực tiếp.' }
+      ]
+    },
+    { id:'bai-16', title:'File I/O & Context manager', content:`
+      <h2>Đọc file</h2>
+      <pre><code>with open("data.txt", "r") as f:
+    noi_dung = f.read()
+print(noi_dung)</code></pre>
+      <h2>Ghi file</h2>
+      <pre><code>with open("out.txt", "w") as f:
+    f.write("Xin chào\\n")
+    f.write("Dòng 2\\n")</code></pre>
+      <h2>Chế độ mở file</h2>
+      <ul><li><code>"r"</code> — đọc (mặc định)</li>
+      <li><code>"w"</code> — ghi (xoá cũ)</li>
+      <li><code>"a"</code> — ghi nối</li>
+      <li><code>"rb"/"wb"</code> — chế độ nhị phân</li></ul>
+      <h2>Tại sao dùng with?</h2>
+      <p><code>with</code> tự động đóng file khi xong — kể cả khi có lỗi xảy ra. 🎉 Bạn đã hoàn thành khoá học!</p>`,
+      quiz:[
+        { type:'mcq', q:'Từ khoá tự đóng file sau khi dùng?',
+          options:['open','with','using','close'], answer:1,
+          explain:'with open(...) as f: tự đóng file khi xong.', hint:'Đi với "open".' },
+        { type:'mcq', q:'Chế độ "w" khi mở file làm gì?',
+          options:['Chỉ đọc','Ghi nối','Ghi (xoá nội dung cũ)','Mở nhị phân'], answer:2,
+          explain:'"w" = write — xoá nội dung cũ trước khi ghi.', hint:'Write = ghi mới.' },
+        { type:'fill', q:'Đọc toàn bộ file vào biến: noi_dung = f.______()',
+          answers:['read'], explain:'f.read() đọc toàn bộ nội dung file.', hint:'4 chữ cái — "đọc".' }
       ]
     }
   ]
 };
 
-/* ==================== STATE MANAGEMENT ==================== */
-const STORE_KEY = 'pylearn_v2';
-let state = loadState();
+/* =============== ACHIEVEMENTS =============== */
+const ACHIEVEMENTS = [
+  { id:'first-step', icon:'👣', name:'Bước đầu tiên', desc:'Hoàn thành bài học đầu tiên', check:s => Object.keys(s.lessons).length >= 1 },
+  { id:'perfect', icon:'💯', name:'Hoàn hảo', desc:'Đạt 100% một bài quiz', check:s => Object.values(s.bestScores).some(v => v === 100) },
+  { id:'streak-3', icon:'🔥', name:'Chuỗi 3 ngày', desc:'Học 3 ngày liên tiếp', check:s => getStreak(s) >= 3 },
+  { id:'streak-7', icon:'🌟', name:'Chuỗi 7 ngày', desc:'Học 7 ngày liên tiếp', check:s => getStreak(s) >= 7 },
+  { id:'level-5', icon:'⭐', name:'Lv 5', desc:'Đạt cấp 5', check:s => getLevel(s) >= 5 },
+  { id:'half', icon:'🥈', name:'Nửa đường', desc:'Hoàn thành 50% khoá học', check:s => Object.keys(s.lessons).length >= Math.ceil(COURSE.lessons.length/2) },
+  { id:'master', icon:'🏆', name:'Bậc thầy', desc:'Hoàn thành toàn bộ khoá học', check:s => Object.keys(s.lessons).length === COURSE.lessons.length },
+  { id:'quiz-50', icon:'📚', name:'Chăm chỉ', desc:'Trả lời đúng 50 câu', check:s => (s.totalCorrect||0) >= 50 },
+  { id:'rich', icon:'🪙', name:'Triệu phú', desc:'Tích luỹ 500 xu', check:s => (s.coins||0) >= 500 },
+  { id:'daily-first', icon:'📅', name:'Thử thách đầu', desc:'Hoàn thành thử thách hàng ngày', check:s => s.dailyChallenge && s.dailyChallenge.lastDone },
+  { id:'combo-5', icon:'⚡', name:'Combo 5', desc:'Đạt combo 5 câu đúng liên tiếp', check:s => (s.maxCombo||0) >= 5 },
+  { id:'all-types', icon:'🎯', name:'Đa tài', desc:'Hoàn thành đủ 5 loại bài tập', check:s => (s.typesDone && s.typesDone.length >= 5) },
+];
 
+/* =============== STATE =============== */
+const DEFAULT_STATE = {
+  xp:0, coins:0, lessons:{}, bestScores:{}, streakDays:[], achievements:[],
+  totalCorrect:0, totalWrong:0, totalQuizzes:0, maxCombo:0, typesDone:[],
+  dailyChallenge:{ date:null, done:false, lastDone:null },
+  settings:{ sound:true }
+};
+let state = loadState();
 function loadState() {
   try {
-    const s = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if (s && typeof s === 'object') return s;
-  } catch(e) {}
-  return { xp:0, lessons:{}, streakDays:[], bestScores:{} };
+    const s = JSON.parse(localStorage.getItem('pylearn_pro') || 'null');
+    if (!s) return { ...DEFAULT_STATE };
+    return { ...DEFAULT_STATE, ...s, settings: { ...DEFAULT_STATE.settings, ...(s.settings||{}) }, dailyChallenge: { ...DEFAULT_STATE.dailyChallenge, ...(s.dailyChallenge||{}) } };
+  } catch(e) { return { ...DEFAULT_STATE }; }
 }
-function saveState(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
-function today(){ return new Date().toISOString().slice(0,10); }
-function addXp(amount){ state.xp += amount; saveState(); updateXpBadge(); }
-function updateXpBadge(){ const el=document.getElementById('xp-badge'); if(el) el.textContent='⚡ '+state.xp; }
-function getLevel(){ return Math.floor(state.xp / 100) + 1; }
-function getLevelProgress(){ return state.xp % 100; }
+function saveState() { try { localStorage.setItem('pylearn_pro', JSON.stringify(state)); } catch(e) {} }
 
-function markStudiedToday(){
-  const t = today();
-  if (!state.streakDays.includes(t)) state.streakDays.push(t);
-  saveState();
-}
-function getStreak(){
-  const days = [...state.streakDays].sort().reverse();
-  if (days.length === 0) return 0;
-  const t = new Date();
+/* =============== UTILITIES =============== */
+const todayStr = () => new Date().toISOString().slice(0,10);
+function getLevel(s = state) { return Math.floor((s.xp || 0) / 100) + 1; }
+function getLevelProgress(s = state) { return (s.xp || 0) % 100; }
+function getStreak(s = state) {
+  const days = [...(s.streakDays||[])].sort().reverse();
+  if (!days.length) return 0;
   let count = 0;
+  const t = new Date();
   for (let i = 0; i < 365; i++) {
     const d = new Date(t); d.setDate(d.getDate() - i);
     const ds = d.toISOString().slice(0,10);
@@ -668,37 +562,7 @@ function getStreak(){
   }
   return count;
 }
-
-/* ==================== UTILITIES ==================== */
-function toast(msg){
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  clearTimeout(el._t);
-  el._t = setTimeout(()=>el.classList.remove('show'), 2500);
-}
-function toggleTheme(){
-  const html = document.documentElement;
-  const cur = html.getAttribute('data-theme');
-  const next = cur === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', next);
-  localStorage.setItem('pylearn_theme', next);
-  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
-}
-(function initTheme(){
-  const saved = localStorage.getItem('pylearn_theme');
-  if (saved) document.documentElement.setAttribute('data-theme', saved);
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const t = document.documentElement.getAttribute('data-theme');
-    document.getElementById('theme-btn').textContent = t === 'dark' ? '☀️' : '🌙';
-  });
-})();
-function resetProgress(){
-  if (!confirm('Xoá TOÀN BỘ tiến độ, XP, streak?')) return;
-  state = { xp:0, lessons:{}, streakDays:[], bestScores:{} };
-  saveState(); updateXpBadge(); render();
-  toast('Đã xoá tiến độ');
-}
-function shuffle(arr){
+function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length-1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i+1));
@@ -706,39 +570,156 @@ function shuffle(arr){
   }
   return a;
 }
-function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function normalize(s){
-  return String(s).trim().toLowerCase()
-    .replace(/^["']|["']$/g, '')   // bỏ ngoặc kép đầu/cuối
-    .replace(/\s+/g, ' ');
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function normalize(s) {
+  return String(s).trim().toLowerCase().replace(/^["']|["']$/g, '').replace(/\s+/g, ' ');
 }
 
-/* ==================== ROUTING ==================== */
-function go(path){ location.hash = '#' + path; }
-window.addEventListener('hashchange', render);
-window.addEventListener('load', ()=>{ render(); updateXpBadge(); });
+/* =============== SOUND =============== */
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { audioCtx = null; } }
+  return audioCtx;
+}
+function playTone(freq, dur, type = 'sine', vol = 0.12) {
+  if (!state.settings.sound) return;
+  const ctx = getAudioCtx(); if (!ctx) return;
+  try {
+    const osc = ctx.createOscillator(); const g = ctx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    g.gain.setValueAtTime(vol, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    osc.connect(g); g.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + dur);
+  } catch(e) {}
+}
+const sfx = {
+  correct: () => { playTone(523.25, 0.08); setTimeout(() => playTone(659.25, 0.12), 60); },
+  wrong: () => playTone(180, 0.18, 'sawtooth', 0.08),
+  click: () => playTone(800, 0.04, 'square', 0.04),
+  coin: () => { playTone(1200, 0.04); setTimeout(() => playTone(1600, 0.06), 40); },
+  levelup: () => [523.25, 659.25, 783.99, 1046.5].forEach((f,i) => setTimeout(() => playTone(f, 0.15), i*80)),
+  achievement: () => [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f,i) => setTimeout(() => playTone(f, 0.2), i*70)),
+};
+function toggleSound() {
+  state.settings.sound = !state.settings.sound;
+  saveState();
+  const btn = document.getElementById('sound-btn');
+  if (btn) btn.textContent = state.settings.sound ? '🔊' : '🔇';
+  toast(state.settings.sound ? '🔊 Bật âm thanh' : '🔇 Tắt âm thanh');
+}
 
-function render(){
+/* =============== THEME =============== */
+function initTheme() {
+  if (localStorage.getItem('pylearn_theme') === 'dark') {
+    document.documentElement.classList.add('dark');
+    const b = document.getElementById('theme-btn'); if (b) b.textContent = '☀️';
+  }
+}
+function toggleTheme() {
+  const dark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('pylearn_theme', dark ? 'dark' : 'light');
+  const btn = document.getElementById('theme-btn');
+  if (btn) btn.textContent = dark ? '☀️' : '🌙';
+}
+
+/* =============== TOAST =============== */
+function toast(msg, type = '') {
+  const el = document.getElementById('toast');
+  let bg = '';
+  if (type === 'success') bg = 'bg-emerald-500 text-white';
+  else if (type === 'error') bg = 'bg-red-500 text-white';
+  else if (type === 'achievement') bg = 'bg-gradient-to-r from-gold to-yellow-500 text-slate-900';
+  else bg = 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900';
+  el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-3 rounded-full ${bg} text-sm font-semibold shadow-2xl z-50 transition-transform duration-300 max-w-[90vw] text-center translate-y-0`;
+  el.textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => {
+    el.classList.remove('translate-y-0');
+    el.classList.add('translate-y-24');
+  }, 2500);
+}
+
+/* =============== XP & COINS =============== */
+function addXp(n) {
+  const prevLv = getLevel();
+  state.xp = (state.xp || 0) + n;
+  const newLv = getLevel();
+  if (newLv > prevLv) {
+    sfx.levelup();
+    setTimeout(() => toast(`🎉 Lên cấp ${newLv}!`, 'achievement'), 300);
+  }
+  updateHeader();
+  saveState();
+  return newLv - prevLv;
+}
+function addCoins(n) {
+  state.coins = (state.coins || 0) + n;
+  if (n > 0) sfx.coin();
+  updateHeader();
+  saveState();
+}
+function updateHeader() {
+  const xpEl = document.getElementById('hdr-xp');
+  const coinEl = document.getElementById('hdr-coins');
+  if (xpEl) xpEl.textContent = '⚡ ' + (state.xp || 0);
+  if (coinEl) coinEl.textContent = '🪙 ' + (state.coins || 0);
+  const soundBtn = document.getElementById('sound-btn');
+  if (soundBtn) soundBtn.textContent = state.settings.sound ? '🔊' : '🔇';
+}
+
+/* =============== ACHIEVEMENTS =============== */
+function checkAchievements() {
+  const unlocked = [];
+  for (const a of ACHIEVEMENTS) {
+    if (!state.achievements.includes(a.id) && a.check(state)) {
+      state.achievements.push(a.id);
+      unlocked.push(a);
+    }
+  }
+  if (unlocked.length) {
+    saveState();
+    sfx.achievement();
+    unlocked.forEach((a, i) => {
+      setTimeout(() => {
+        toast(`🏆 Mở khoá: ${a.icon} ${a.name}`, 'achievement');
+        addCoins(10);
+      }, i * 1500);
+    });
+  }
+  return unlocked;
+}
+
+/* =============== ROUTING =============== */
+function go(path) { location.hash = '#' + path; }
+window.addEventListener('hashchange', render);
+window.addEventListener('load', () => { initTheme(); render(); updateHeader(); });
+
+function render() {
   const hash = (location.hash || '#/').slice(1);
   const parts = hash.split('/').filter(Boolean);
-  window.scrollTo({top:0,behavior:'instant'});
-  if (parts.length === 0) return renderHome();
+  window.scrollTo({top:0, behavior:'instant'});
+  document.getElementById('modal-root').innerHTML = '';
+  if (!parts.length) return renderHome();
   if (parts[0] === 'python' && parts.length === 1) return renderCourse();
   if (parts[0] === 'python' && parts.length === 2) return renderLesson(parts[1]);
   if (parts[0] === 'stats') return renderStats();
+  if (parts[0] === 'daily') return startDailyChallenge();
   renderHome();
 }
 
-/* ==================== SCREENS ==================== */
-function renderHome(){
+/* =============== RENDER: HOME =============== */
+function renderHome() {
   const total = COURSE.lessons.length;
   const done = Object.keys(state.lessons).length;
   const pct = Math.round(done*100/total);
   const level = getLevel();
   const lp = getLevelProgress();
   const streak = getStreak();
+  const dcDoneToday = state.dailyChallenge.date === todayStr() && state.dailyChallenge.done;
 
-  // Streak week
   const weekDays = ['T2','T3','T4','T5','T6','T7','CN'];
   const todayIdx = (new Date().getDay() + 6) % 7;
   let weekHtml = '';
@@ -746,223 +727,375 @@ function renderHome(){
     const d = new Date(); d.setDate(d.getDate() - (todayIdx - i));
     const ds = d.toISOString().slice(0,10);
     const active = state.streakDays.includes(ds);
-    const isToday = ds === today();
-    weekHtml += `<div class="day-dot ${active?'active':''} ${isToday?'today':''}">${weekDays[i]}</div>`;
+    const isToday = ds === todayStr();
+    weekHtml += `<div class="flex-1 aspect-square max-w-[34px] rounded-full flex items-center justify-center text-[10px] font-bold
+      ${active ? 'bg-emerald-500 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}
+      ${isToday ? 'ring-2 ring-brand ring-offset-2 ring-offset-slate-50 dark:ring-offset-slate-950' : ''}">${weekDays[i]}</div>`;
   }
 
   document.getElementById('app').innerHTML = `
-    <div class="hero">
-      <h1>🐍 Học Python</h1>
-      <p>4 loại bài tập · Tự lưu tiến độ · Miễn phí</p>
+    <div class="text-center pt-3 pb-5">
+      <div class="text-5xl mb-2 animate-float">🐍</div>
+      <h1 class="text-2xl font-bold">PyLearn <span class="text-brand dark:text-brand-light">Pro</span></h1>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">5 loại bài tập · Thành tựu · Âm thanh</p>
     </div>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-val">${state.xp}</div><div class="stat-lbl">XP</div></div>
-      <div class="stat-card"><div class="stat-val">Lv ${level}</div><div class="stat-lbl">Cấp độ</div></div>
-      <div class="stat-card"><div class="stat-val">${streak}🔥</div><div class="stat-lbl">Chuỗi ngày</div></div>
+
+    <div class="grid grid-cols-4 gap-2 mb-4">
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 text-center border border-slate-200 dark:border-slate-800">
+        <div class="text-lg font-bold text-brand dark:text-brand-light">${state.xp}</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">XP</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 text-center border border-slate-200 dark:border-slate-800">
+        <div class="text-lg font-bold text-brand dark:text-brand-light">Lv ${level}</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Cấp độ</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 text-center border border-slate-200 dark:border-slate-800">
+        <div class="text-lg font-bold text-orange-500">${streak}🔥</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Chuỗi ngày</div>
+      </div>
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 text-center border border-slate-200 dark:border-slate-800">
+        <div class="text-lg font-bold text-gold-dark">${state.coins}🪙</div>
+        <div class="text-[10px] text-slate-500 mt-0.5">Xu</div>
+      </div>
     </div>
-    <div class="xp-bar-wrap">
-      <div class="xp-bar-header"><span>Cấp <strong>${level}</strong></span><span>${lp}/100 XP → Lv ${level+1}</span></div>
-      <div class="xp-bar"><div class="xp-bar-fill" style="width:${lp}%"></div></div>
-      <div class="streak-week">${weekHtml}</div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 mb-4">
+      <div class="flex justify-between items-center mb-2 text-xs">
+        <span class="font-semibold">Cấp <strong class="text-brand dark:text-brand-light">${level}</strong></span>
+        <span class="text-slate-500">${lp}/100 XP → Lv ${level+1}</span>
+      </div>
+      <div class="h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-gold to-gold-dark rounded-full transition-all duration-700" style="width:${lp}%"></div>
+      </div>
+      <div class="flex justify-between gap-1 mt-3">${weekHtml}</div>
     </div>
-    <div class="grid">
-      <a class="card" onclick="go('/python')">
-        <div class="card-icon">${COURSE.icon}</div>
-        <h3>${COURSE.title}</h3>
-        <p>${COURSE.desc}</p>
-        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-        <div class="progress-text"><span>${done}/${total} bài</span><span>${pct}%</span></div>
-      </a>
+
+    <a onclick="go('/daily')" class="block bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-4 mb-3 text-white cursor-pointer active:scale-[0.98] transition-transform shadow-lg shadow-purple-500/30 animate-pulse-glow">
+      <div class="flex items-center gap-3">
+        <div class="text-3xl">📅</div>
+        <div class="flex-1">
+          <div class="font-bold text-base">Thử thách hàng ngày</div>
+          <div class="text-xs opacity-90 mt-0.5">${dcDoneToday ? '✅ Đã hoàn thành hôm nay!' : '5 câu hỏi ngẫu nhiên · +50 XP +30 xu'}</div>
+        </div>
+        <div class="text-2xl">${dcDoneToday ? '✔️' : '→'}</div>
+      </div>
+    </a>
+
+    <a onclick="go('/python')" class="block bg-white dark:bg-slate-900 rounded-2xl p-5 mb-3 border border-slate-200 dark:border-slate-800 cursor-pointer active:scale-[0.98] transition-transform hover:border-brand dark:hover:border-brand-light">
+      <div class="flex items-start gap-3 mb-3">
+        <div class="text-4xl">${COURSE.icon}</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-base">${COURSE.title}</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">${COURSE.desc}</p>
+        </div>
+      </div>
+      <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-brand to-brand-dark rounded-full transition-all duration-700" style="width:${pct}%"></div>
+      </div>
+      <div class="flex justify-between mt-2 text-xs text-slate-500">
+        <span>${done}/${total} bài</span><span class="font-semibold text-brand dark:text-brand-light">${pct}%</span>
+      </div>
+    </a>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 mb-3">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-bold text-sm">🏆 Thành tựu</h3>
+        <span class="text-xs text-slate-500">${state.achievements.length}/${ACHIEVEMENTS.length}</span>
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        ${ACHIEVEMENTS.slice(0,8).map(a => {
+          const unlocked = state.achievements.includes(a.id);
+          return `<div class="text-center ${unlocked?'':'opacity-30 grayscale'}">
+            <div class="text-2xl">${unlocked ? a.icon : '🔒'}</div>
+            <div class="text-[9px] text-slate-500 mt-0.5 leading-tight">${a.name}</div>
+          </div>`;
+        }).join('')}
+      </div>
     </div>
-    <div style="text-align:center;margin-top:24px">
-      <button class="btn secondary" style="max-width:200px;margin:0 auto" onclick="resetProgress()">↺ Xoá tiến độ</button>
-    </div>
+
+    <button onclick="resetProgress()" class="w-full py-3 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 text-sm active:scale-[0.98] transition-transform">
+      ↺ Xoá toàn bộ tiến độ
+    </button>
   `;
 }
 
-function renderCourse(){
-  const items = COURSE.lessons.map((l,i)=>{
+/* =============== RENDER: COURSE =============== */
+function renderCourse() {
+  const items = COURSE.lessons.map((l,i) => {
     const done = !!state.lessons[l.id];
     const best = state.bestScores[l.id] || 0;
-    return `<div class="lesson-item ${done?'done':''}" onclick="go('/python/${l.id}')">
-      <div class="lesson-num">${done?'✓':(i+1)}</div>
-      <div class="lesson-info">
-        <h4>${l.title}</h4>
-        <span>${l.quiz.length} câu · ${l.quiz.map(q=>q.type).filter((v,idx,a)=>a.indexOf(v)===idx).length} loại bài tập</span>
+    return `<div onclick="go('/python/${l.id}')" class="flex items-center gap-3 bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 cursor-pointer active:scale-[0.99] transition-all hover:border-brand dark:hover:border-brand-light">
+      <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0
+        ${done ? 'bg-emerald-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'}">
+        ${done ? '✓' : i+1}
       </div>
-      ${done?`<span class="lesson-badge">${best}%</span>`:''}
-      <div class="chev">›</div>
+      <div class="flex-1 min-w-0">
+        <h4 class="font-semibold text-sm truncate">${l.title}</h4>
+        <span class="text-xs text-slate-500">${l.quiz.length} câu hỏi</span>
+      </div>
+      ${done ? `<span class="text-xs px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 font-semibold">${best}%</span>` : ''}
+      <div class="text-slate-400 text-xl">›</div>
     </div>`;
   }).join('');
+
   document.getElementById('app').innerHTML = `
-    <button class="back-btn" onclick="go('/')">← Trang chủ</button>
-    <h1 class="page-title">${COURSE.icon} ${COURSE.title}</h1>
-    <p class="page-sub">${COURSE.desc}</p>
-    <div class="lesson-list">${items}</div>
+    <button onclick="go('/')" class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm mb-3 active:text-brand">
+      ← Trang chủ
+    </button>
+    <h1 class="text-2xl font-bold mb-1">${COURSE.icon} ${COURSE.title}</h1>
+    <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">${COURSE.desc}</p>
+    <div class="space-y-2">${items}</div>
   `;
 }
 
-function renderLesson(lessonId){
-  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
+/* =============== RENDER: LESSON =============== */
+function renderLesson(lessonId) {
+  const lesson = COURSE.lessons.find(l => l.id === lessonId);
   if (!lesson) return renderHome();
   const idx = COURSE.lessons.indexOf(lesson);
   const prev = COURSE.lessons[idx-1];
   const next = COURSE.lessons[idx+1];
+  const done = !!state.lessons[lesson.id];
+  const best = state.bestScores[lesson.id] || 0;
+
   document.getElementById('app').innerHTML = `
-    <button class="back-btn" onclick="go('/python')">← Danh sách bài</button>
-    <div class="content">${lesson.content}</div>
-    <div class="quiz">
-      <h3 style="margin-bottom:12px">📝 Luyện tập</h3>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">
-        ${lesson.quiz.length} câu hỏi · Đạt ≥70% để hoàn thành bài
-      </p>
-      <button class="btn" onclick="startQuiz('${lesson.id}')">▶ Bắt đầu làm bài</button>
+    <button onclick="go('/python')" class="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm mb-3 active:text-brand">
+      ← Danh sách bài
+    </button>
+    <div class="flex items-center gap-2 mb-3">
+      <h1 class="text-xl font-bold flex-1">${lesson.title}</h1>
+      ${done ? `<span class="text-xs px-2 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 font-semibold">✓ ${best}%</span>` : ''}
     </div>
-    <div class="lesson-nav" style="display:flex;gap:10px;margin-top:16px">
-      ${prev?`<button class="btn secondary" onclick="go('/python/${prev.id}')">← Bài trước</button>`:''}
-      ${next?`<button class="btn secondary" onclick="go('/python/${next.id}')">Bài tiếp →</button>`:''}
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-5 border border-slate-200 dark:border-slate-800 mb-4 prose-lesson">
+      ${lesson.content}
+    </div>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 text-center mb-4">
+      <div class="text-3xl mb-2">📝</div>
+      <h3 class="font-bold mb-1">Luyện tập</h3>
+      <p class="text-xs text-slate-500 mb-3">${lesson.quiz.length} câu hỏi · Đạt ≥70% để hoàn thành</p>
+      <button onclick="startQuiz('${lesson.id}')" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold active:scale-95 transition-transform shadow-lg shadow-brand/30">
+        ▶ Bắt đầu làm bài
+      </button>
+    </div>
+    <div class="flex gap-2">
+      ${prev ? `<button onclick="go('/python/${prev.id}')" class="flex-1 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm font-semibold active:scale-[0.98]">← Trước</button>` : ''}
+      ${next ? `<button onclick="go('/python/${next.id}')" class="flex-1 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm font-semibold active:scale-[0.98]">Tiếp →</button>` : ''}
     </div>
   `;
 }
 
-function renderStats(){
-  const total = COURSE.lessons.length;
-  const done = Object.keys(state.lessons).length;
-  const streak = getStreak();
-  const level = getLevel();
-  const avgScore = done ? Math.round(Object.values(state.bestScores).reduce((a,b)=>a+b,0)/done) : 0;
-  const lessonRows = COURSE.lessons.map((l,i)=>{
-    const best = state.bestScores[l.id];
-    return `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px">
-      <span>${best?'✅':'⬜'} ${i+1}. ${l.title}</span>
-      <span style="color:${best?(best>=70?'var(--success)':'var(--warn)'):'var(--muted)'};font-weight:600">${best?best+'%':'—'}</span>
-    </div>`;
-  }).join('');
-  document.getElementById('app').innerHTML = `
-    <button class="back-btn" onclick="go('/')">← Trang chủ</button>
-    <h1 class="page-title">📊 Thống kê học tập</h1>
-    <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin:16px 0">
-      <div class="stat-card"><div class="stat-val">${state.xp}</div><div class="stat-lbl">Tổng XP</div></div>
-      <div class="stat-card"><div class="stat-val">Lv ${level}</div><div class="stat-lbl">Cấp độ</div></div>
-      <div class="stat-card"><div class="stat-val">${streak}🔥</div><div class="stat-lbl">Chuỗi ngày</div></div>
-      <div class="stat-card"><div class="stat-val">${avgScore}%</div><div class="stat-lbl">Điểm TB</div></div>
-    </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-top:16px">
-      <h3 style="margin-bottom:10px;font-size:15px">Chi tiết từng bài</h3>
-      ${lessonRows}
-    </div>
-  `;
-}
-
-/* ==================== QUIZ ENGINE ==================== */
+/* =============== QUIZ ENGINE =============== */
 let quiz = null;
 
-function startQuiz(lessonId){
-  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
+function startQuiz(lessonId) {
+  const lesson = COURSE.lessons.find(l => l.id === lessonId);
   if (!lesson) return;
   quiz = {
+    mode: 'lesson',
     lesson,
     current: 0,
-    results: lesson.quiz.map(()=>({ attempts:0, correct:false, userAnswer:null, done:false })),
-    startTime: Date.now()
+    results: lesson.quiz.map(() => ({ attempts:0, correct:false, userAnswer:null, done:false })),
+    startTime: Date.now(),
+    questionStartTime: Date.now(),
+    combo: 0,
+    maxCombo: 0,
+    hintsUsed: 0,
+    freeHints: 3,
   };
-  renderQuizScreen();
-  renderQuestion();
+  go('/quiz');
 }
 
-function renderQuizScreen(){
-  document.getElementById('app').innerHTML = `
-    <button class="back-btn" onclick="if(confirm('Thoát bài làm? Tiến độ quiz sẽ mất.'))go('/python/${quiz.lesson.id}')">← Thoát</button>
-    <div class="quiz">
-      <div class="quiz-header">
-        <div class="quiz-progress-txt">Câu <strong id="q-idx">1</strong>/${quiz.lesson.quiz.length}</div>
-        <button class="hint-btn" onclick="showHint()">💡 Gợi ý</button>
-      </div>
-      <div class="q-progress-bar"><div class="q-progress-fill" id="q-bar" style="width:0%"></div></div>
-      <div id="q-container"></div>
-    </div>
-  `;
+function startDailyChallenge() {
+  const today = todayStr();
+  if (state.dailyChallenge.date === today && state.dailyChallenge.done) {
+    document.getElementById('app').innerHTML = `
+      <button onclick="go('/')" class="flex items-center gap-1.5 text-slate-500 text-sm mb-3">← Trang chủ</button>
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 text-center">
+        <div class="text-6xl mb-3">✅</div>
+        <h2 class="text-xl font-bold mb-2">Đã hoàn thành hôm nay!</h2>
+        <p class="text-sm text-slate-500 mb-4">Hẹn gặp lại vào ngày mai 👋</p>
+        <button onclick="go('/')" class="px-6 py-3 rounded-xl bg-brand text-white font-bold">Về trang chủ</button>
+      </div>`;
+    return;
+  }
+  // Pick 5 random questions from all lessons
+  const allQ = [];
+  COURSE.lessons.forEach(lesson => lesson.quiz.forEach(q => allQ.push(q)));
+  const picked = shuffle(allQ).slice(0, 5);
+  quiz = {
+    mode: 'daily',
+    lesson: { id:'daily', title:'Thử thách hàng ngày', quiz: picked },
+    current: 0,
+    results: picked.map(() => ({ attempts:0, correct:false, userAnswer:null, done:false })),
+    startTime: Date.now(),
+    questionStartTime: Date.now(),
+    combo: 0, maxCombo: 0, hintsUsed: 0, freeHints: 3,
+  };
+  go('/quiz');
 }
 
-function showHint(){
-  const q = quiz.lesson.quiz[quiz.current];
-  if (q.hint) toast('💡 ' + q.hint);
-  else toast('Không có gợi ý cho câu này');
-}
-
-const TYPE_LABEL = { mcq:'Trắc nghiệm', fill:'Điền từ', drag:'Kéo thả', order:'Sắp xếp' };
-
-function renderQuestion(){
+function renderQuiz() {
   const q = quiz.lesson.quiz[quiz.current];
   const r = quiz.results[quiz.current];
-  const container = document.getElementById('q-container');
-  document.getElementById('q-idx').textContent = quiz.current + 1;
-  const pct = (quiz.current / quiz.lesson.quiz.length) * 100;
-  document.getElementById('q-bar').style.width = pct + '%';
+  const total = quiz.lesson.quiz.length;
+  const pct = (quiz.current / total) * 100;
+  const elapsed = Math.floor((Date.now() - quiz.startTime) / 1000);
+  const mm = String(Math.floor(elapsed/60)).padStart(2,'0');
+  const ss = String(elapsed%60).padStart(2,'0');
 
+  const typeLabels = { mcq:'Trắc nghiệm', fill:'Điền từ', order:'Sắp xếp', drag:'Kéo thả', match:'Nối cặp', truefalse:'Đúng / Sai' };
   let body = '';
   if (q.type === 'mcq') body = renderMcq(q, r);
+  else if (q.type === 'truefalse') body = renderTrueFalse(q, r);
   else if (q.type === 'fill') body = renderFill(q, r);
   else if (q.type === 'order') body = renderOrder(q, r);
   else if (q.type === 'drag') body = renderDrag(q, r);
+  else if (q.type === 'match') body = renderMatch(q, r);
 
-  container.innerHTML = `
-    <div class="question-type">${TYPE_LABEL[q.type]||'Câu hỏi'}</div>
-    <div class="question">${esc(q.q)}</div>
-    ${body}
+  document.getElementById('app').innerHTML = `
+    <div class="flex items-center justify-between mb-3">
+      <button onclick="exitQuiz()" class="text-slate-500 text-sm active:text-brand">✕ Thoát</button>
+      <div class="flex items-center gap-2">
+        ${quiz.combo >= 2 ? `<div class="px-2 py-1 rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-400 text-xs font-bold animate-pop">🔥 ${quiz.combo}x</div>` : ''}
+        <div class="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-mono">⏱ ${mm}:${ss}</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="flex justify-between text-xs text-slate-500 mb-1.5">
+        <span>Câu <strong class="text-brand dark:text-brand-light">${quiz.current+1}</strong>/${total}</span>
+        <span>${quiz.mode === 'daily' ? '📅 Daily' : quiz.lesson.title}</span>
+      </div>
+      <div class="h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-brand to-brand-light rounded-full transition-all duration-300" style="width:${pct}%"></div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 md:p-5 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-[10px] px-2 py-1 rounded-md bg-brand text-white font-bold uppercase tracking-wide">
+          ${typeLabels[q.type] || 'Câu hỏi'}
+        </span>
+        ${!r.done ? `<button onclick="showHint()" class="text-xs px-2 py-1 rounded-md bg-gold/20 text-gold-dark dark:text-gold border border-gold/30 font-semibold active:scale-95">
+          💡 Gợi ý${quiz.freeHints - quiz.hintsUsed <= 0 ? ` (5🪙)` : ` (${quiz.freeHints - quiz.hintsUsed})`}
+        </button>` : ''}
+      </div>
+      <div class="font-semibold text-base mb-4 leading-relaxed">${esc(q.q)}</div>
+      <div id="q-body">${body}</div>
+    </div>
   `;
 
-  if (q.type === 'fill') {
+  if (q.type === 'fill' && !r.done) {
     const input = document.getElementById('fill-answer');
-    if (input && !r.done) {
+    if (input) {
       input.focus();
-      input.addEventListener('keydown', e=>{ if(e.key==='Enter') submitFill(); });
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') submitFill(); });
     }
   }
 }
 
-/* ---------- MCQ ---------- */
-function renderMcq(q, r){
-  const opts = q.options.map((opt, i)=>{
-    let cls = 'option';
-    if (r.done) {
-      if (i === q.answer) cls += ' correct';
-      else if (i === r.userAnswer) cls += ' wrong';
-    }
-    return `<button class="${cls}" ${r.done?'disabled':''} onclick="selectMcq(${i})">
-      <span class="option-letter">${String.fromCharCode(65+i)}</span>
-      <span>${esc(opt)}</span>
-    </button>`;
-  }).join('');
-  return `<div class="options">${opts}</div>${renderFeedback(q, r, 'mcq')}`;
+function exitQuiz() {
+  if (confirm('Thoát bài làm? Tiến độ quiz sẽ mất.')) {
+    quiz = null;
+    if (location.hash.includes('/quiz')) go('/python');
+    else render();
+  }
 }
 
-function selectMcq(i){
+function showHint() {
+  const q = quiz.lesson.quiz[quiz.current];
+  if (!q.hint) { toast('Không có gợi ý cho câu này'); return; }
+  if (quiz.hintsUsed < quiz.freeHints) {
+    quiz.hintsUsed++;
+    toast('💡 ' + q.hint);
+  } else {
+    if (state.coins < 5) { toast('Không đủ xu! Cần 5🪙', 'error'); return; }
+    addCoins(-5);
+    quiz.hintsUsed++;
+    toast('💡 ' + q.hint);
+  }
+}
+
+/* --- MCQ --- */
+function renderMcq(q, r) {
+  const opts = q.options.map((opt, i) => {
+    let cls = 'option px-4 py-3.5 rounded-xl border-2 flex items-center gap-3 text-left transition-all w-full';
+    if (r.done) {
+      if (i === q.answer) cls += ' border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
+      else if (i === r.userAnswer) cls += ' border-red-500 bg-red-50 dark:bg-red-900/20';
+      else cls += ' border-slate-200 dark:border-slate-800 opacity-60';
+    } else {
+      cls += ' border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-brand dark:hover:border-brand-light active:scale-[0.99] cursor-pointer';
+    }
+    return `<button class="${cls}" ${r.done?'disabled':''} onclick="selectMcq(${i})">
+      <span class="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold flex-shrink-0
+        ${r.done && i===q.answer ? 'bg-emerald-500 text-white' : r.done && i===r.userAnswer ? 'bg-red-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}">
+        ${String.fromCharCode(65+i)}
+      </span>
+      <span class="text-sm">${esc(opt)}</span>
+    </button>`;
+  }).join('');
+  return `<div class="space-y-2 mb-3">${opts}</div>${feedback(q, r, 'mcq')}`;
+}
+
+function selectMcq(i) {
   const q = quiz.lesson.quiz[quiz.current];
   const r = quiz.results[quiz.current];
   if (r.done) return;
+  sfx.click();
   r.userAnswer = i;
   r.attempts++;
-  if (i === q.answer) { r.correct = true; r.done = true; awardCorrectXP(r); }
-  else if (r.attempts >= 2) { r.done = true; }
-  renderQuestion();
+  if (i === q.answer) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
 }
 
-/* ---------- FILL ---------- */
-function renderFill(q, r){
-  let inputCls = 'fill-input';
-  if (r.done) inputCls += r.correct ? ' correct' : ' wrong';
+/* --- TRUE/FALSE --- */
+function renderTrueFalse(q, r) {
+  const userVal = r.userAnswer;
+  const mk = (val, label, icon) => {
+    let cls = 'flex-1 py-4 rounded-xl border-2 font-bold text-sm flex items-center justify-center gap-2 transition-all';
+    if (r.done) {
+      if (val === q.answer) cls += ' border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400';
+      else if (val === userVal) cls += ' border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400';
+      else cls += ' border-slate-200 dark:border-slate-800 opacity-60';
+    } else {
+      cls += ' border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-brand active:scale-[0.98] cursor-pointer';
+    }
+    return `<button class="${cls}" ${r.done?'disabled':''} onclick="selectTrueFalse(${val})">${icon} ${label}</button>`;
+  };
+  return `<div class="flex gap-2 mb-3">${mk(true, 'ĐÚNG', '✔️')}${mk(false, 'SAI', '✖️')}</div>${feedback(q, r, 'truefalse')}`;
+}
+
+function selectTrueFalse(val) {
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  sfx.click();
+  r.userAnswer = val;
+  r.attempts++;
+  if (val === q.answer) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
+}
+
+/* --- FILL --- */
+function renderFill(q, r) {
+  let cls = 'w-full px-4 py-3.5 text-base rounded-xl border-2 font-mono mb-3 transition-all';
+  if (r.done) cls += r.correct ? ' border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : ' border-red-500 bg-red-50 dark:bg-red-900/20';
+  else cls += ' border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus:border-brand focus:outline-none';
   const val = r.userAnswer ? esc(r.userAnswer) : '';
   return `
-    <input type="text" id="fill-answer" class="${inputCls}" placeholder="Nhập đáp án..."
-      value="${val}" ${r.done?'disabled':''} autocomplete="off" autocorrect="off" autocapitalize="off">
-    <div class="fill-hint">Nhập đáp án rồi nhấn Enter hoặc bấm "Kiểm tra"</div>
-    ${!r.done ? '<button class="btn" onclick="submitFill()">✓ Kiểm tra</button>' : ''}
-    ${renderFeedback(q, r, 'fill')}
+    <input type="text" id="fill-answer" class="${cls}" placeholder="Nhập đáp án..." value="${val}"
+      ${r.done?'disabled':''} autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    ${!r.done ? `<button onclick="submitFill()" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold mb-3 active:scale-[0.98]">✓ Kiểm tra</button>` : ''}
+    ${feedback(q, r, 'fill')}
   `;
 }
 
-function submitFill(){
+function submitFill() {
   const q = quiz.lesson.quiz[quiz.current];
   const r = quiz.results[quiz.current];
   if (r.done) return;
@@ -973,316 +1106,395 @@ function submitFill(){
   r.attempts++;
   const norm = normalize(user);
   const isCorrect = q.answers.some(a => normalize(a) === norm);
-  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
-  else if (r.attempts >= 2) { r.done = true; }
-  renderQuestion();
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
 }
 
-/* ---------- ORDER ---------- */
-function renderOrder(q, r){
-  let items = r.shuffled || (r.shuffled = shuffle(q.items));
-  const isDone = r.done;
-  const list = items.map((item, i)=>`
-    <div class="order-item">
-      <div class="order-item-text">${esc(item)}</div>
-      <div class="order-btns">
-        <button class="order-btn" ${i===0||isDone?'disabled':''} onclick="moveItem(${i},-1)">▲</button>
-        <button class="order-btn" ${i===items.length-1||isDone?'disabled':''} onclick="moveItem(${i},1)">▼</button>
+/* --- ORDER --- */
+function renderOrder(q, r) {
+  if (!r.shuffled) r.shuffled = shuffle(q.items);
+  const items = r.shuffled;
+  const list = items.map((item, i) => `
+    <div class="flex items-center gap-2 p-3 rounded-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700">
+      <div class="flex-1 text-xs font-mono break-all">${esc(item)}</div>
+      <div class="flex flex-col gap-0.5">
+        <button ${i===0||r.done?'disabled':''} onclick="moveItem(${i},-1)" class="w-7 h-6 rounded bg-white dark:bg-slate-900 disabled:opacity-30 active:bg-brand active:text-white flex items-center justify-center text-xs">▲</button>
+        <button ${i===items.length-1||r.done?'disabled':''} onclick="moveItem(${i},1)" class="w-7 h-6 rounded bg-white dark:bg-slate-900 disabled:opacity-30 active:bg-brand active:text-white flex items-center justify-center text-xs">▼</button>
       </div>
     </div>
   `).join('');
-  return `<div class="order-list">${list}</div>
-    ${!isDone ? '<button class="btn" onclick="submitOrder()">✓ Kiểm tra</button>' : ''}
-    ${renderFeedback(q, r, 'order')}`;
+  return `<div class="space-y-2 mb-3">${list}</div>
+    ${!r.done ? `<button onclick="submitOrder()" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold mb-3 active:scale-[0.98]">✓ Kiểm tra</button>` : ''}
+    ${feedback(q, r, 'order')}`;
 }
 
-function moveItem(idx, dir){
+function moveItem(idx, dir) {
   const r = quiz.results[quiz.current];
-  const arr = r.shuffled;
   const j = idx + dir;
-  if (j < 0 || j >= arr.length) return;
-  [arr[idx], arr[j]] = [arr[j], arr[idx]];
-  renderQuestion();
+  if (j < 0 || j >= r.shuffled.length) return;
+  sfx.click();
+  [r.shuffled[idx], r.shuffled[j]] = [r.shuffled[j], r.shuffled[idx]];
+  renderQuiz();
 }
 
-function submitOrder(){
+function submitOrder() {
   const q = quiz.lesson.quiz[quiz.current];
   const r = quiz.results[quiz.current];
   r.attempts++;
-  const userOrder = r.shuffled;
-  const isCorrect = userOrder.every((v,i)=> v === q.answer[i]);
-  r.userAnswer = userOrder;
-  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
-  else if (r.attempts >= 2) { r.done = true; }
-  renderQuestion();
+  const isCorrect = r.shuffled.every((v,i) => v === q.answer[i]);
+  r.userAnswer = [...r.shuffled];
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
 }
 
-/* ---------- DRAG (tap-to-place) ---------- */
-function renderDrag(q, r){
-  // r.placement: { itemIndex: targetIdx or -1 (bank) }
+/* --- DRAG --- */
+function renderDrag(q, r) {
   if (!r.placement) {
     r.placement = {};
-    q.items.forEach((_, i)=>{ r.placement[i] = -1; });
+    q.items.forEach((_, i) => { r.placement[i] = -1; });
   }
-  const isDone = r.done;
   const selected = r.selected ?? -1;
-
-  const bankItems = q.items.map((it, i)=>{
+  const bankItems = q.items.map((it, i) => {
     if (r.placement[i] !== -1) return '';
-    const sel = selected === i ? 'selected' : '';
-    return `<div class="drag-item ${sel}" onclick="selectDragItem(${i})">${esc(it)}</div>`;
+    const sel = selected === i ? 'ring-2 ring-brand scale-105 bg-brand/10' : '';
+    return `<div onclick="selectDragItem(${i})" class="px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 text-xs font-mono font-bold cursor-pointer transition-all select-none ${sel}">${esc(it)}</div>`;
   }).join('');
-
-  const slotsHtml = q.targets.map((t, ti)=>{
-    const itemsInSlot = q.items.map((it, i)=>{
+  const slotsHtml = q.targets.map((t, ti) => {
+    const itemsInSlot = q.items.map((it, i) => {
       if (r.placement[i] !== ti) return '';
-      return `<div class="drag-item" onclick="unplaceDragItem(${i})">${esc(it)}</div>`;
+      return `<div onclick="unplaceDragItem(${i})" class="px-2.5 py-1 rounded-md bg-white dark:bg-slate-900 border-2 border-brand text-xs font-mono font-bold cursor-pointer select-none">${esc(it)}</div>`;
     }).join('');
-    const has = itemsInSlot ? 'has-items' : '';
-    return `<div class="drag-slot ${has}" onclick="placeDragItem(${ti})">
-      <div class="drag-slot-label">${esc(t.label)}</div>
-      <div class="drag-slot-items">${itemsInSlot || '<span style="color:var(--muted);font-size:12px">Chạm để thả vào đây...</span>'}</div>
+    const has = itemsInSlot ? 'border-solid bg-slate-50 dark:bg-slate-800/50' : 'border-dashed';
+    return `<div onclick="placeDragItem(${ti})" class="rounded-lg border-2 ${has} border-slate-300 dark:border-slate-700 p-2.5 cursor-pointer transition-all active:border-brand">
+      <div class="text-[10px] font-bold text-brand dark:text-brand-light uppercase tracking-wide mb-1.5">${esc(t.label)}</div>
+      <div class="flex flex-wrap gap-1.5 min-h-[28px]">${itemsInSlot || '<span class="text-xs text-slate-400 italic">Chạm để thả vào đây</span>'}</div>
     </div>`;
   }).join('');
 
   return `
-    <div class="drag-instruction">📱 Chạm vào từ ở dưới → chạm vào ô để đặt. Chạm từ trong ô để bỏ ra.</div>
-    <div class="drag-bank">${bankItems || '<span style="color:var(--muted);font-size:12px">Đã xếp hết</span>'}</div>
-    <div class="drag-slots">${slotsHtml}</div>
-    ${!isDone ? '<button class="btn" onclick="submitDrag()">✓ Kiểm tra</button>' : ''}
-    ${renderFeedback(q, r, 'drag')}
-  `;
+    <p class="text-xs text-slate-500 dark:text-slate-400 italic mb-2">📱 Chạm vào từ ở dưới → chạm ô để đặt. Chạm từ trong ô để bỏ ra.</p>
+    <div class="flex flex-wrap gap-2 p-2.5 min-h-[52px] bg-slate-100 dark:bg-slate-800/50 rounded-lg mb-3 border-2 border-dashed border-slate-300 dark:border-slate-700">
+      ${bankItems || '<span class="text-xs text-slate-400 self-center">Đã xếp hết</span>'}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">${slotsHtml}</div>
+    ${!r.done ? `<button onclick="submitDrag()" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold mb-3 active:scale-[0.98]">✓ Kiểm tra</button>` : ''}
+    ${feedback(q, r, 'drag')}`;
 }
 
-function selectDragItem(idx){
+function selectDragItem(idx) {
   const r = quiz.results[quiz.current];
   if (r.done) return;
+  sfx.click();
   r.selected = (r.selected === idx) ? -1 : idx;
-  renderQuestion();
+  renderQuiz();
 }
-function placeDragItem(targetIdx){
+function placeDragItem(targetIdx) {
   const r = quiz.results[quiz.current];
   if (r.done) return;
   if (r.selected == null || r.selected < 0) { toast('Chạm vào một từ trước'); return; }
+  sfx.click();
   r.placement[r.selected] = targetIdx;
   r.selected = -1;
-  renderQuestion();
+  renderQuiz();
 }
-function unplaceDragItem(idx){
+function unplaceDragItem(idx) {
   const r = quiz.results[quiz.current];
   if (r.done) return;
   r.placement[idx] = -1;
-  renderQuestion();
+  renderQuiz();
 }
-function submitDrag(){
+function submitDrag() {
   const q = quiz.lesson.quiz[quiz.current];
   const r = quiz.results[quiz.current];
-  // Check all items placed
-  const allPlaced = q.items.every((_,i)=> r.placement[i] !== -1);
-  if (!allPlaced) { toast('Hãy đặt hết tất cả các từ vào ô'); return; }
+  const allPlaced = q.items.every((_,i) => r.placement[i] !== -1);
+  if (!allPlaced) { toast('Hãy đặt hết tất cả các từ'); return; }
   r.attempts++;
   let isCorrect = true;
-  q.items.forEach((item, i)=>{
-    const placed = r.placement[i];
+  q.items.forEach((item, i) => {
     const correctTarget = q.targets.findIndex(t => t.accept.includes(item));
-    if (placed !== correctTarget) isCorrect = false;
+    if (r.placement[i] !== correctTarget) isCorrect = false;
   });
-  r.userAnswer = {...r.placement};
-  if (isCorrect) { r.correct = true; r.done = true; awardCorrectXP(r); }
-  else if (r.attempts >= 2) { r.done = true; }
-  renderQuestion();
+  r.userAnswer = { ...r.placement };
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
 }
 
-/* ---------- FEEDBACK ---------- */
-function renderFeedback(q, r, type){
+/* --- MATCH --- */
+function renderMatch(q, r) {
+  if (!r.matchRight) {
+    const rightOrder = shuffle(q.pairs.map((_, i) => i));
+    r.matchRight = rightOrder;
+    r.matches = {};
+    r.selectedLeft = null;
+  }
+  const lefts = q.pairs.map((p, i) => {
+    const matchedRight = r.matches[i];
+    const sel = r.selectedLeft === i;
+    let cls = 'p-3 rounded-lg border-2 text-sm font-bold cursor-pointer transition-all text-left w-full';
+    if (r.done) {
+      const isCorrect = matchedRight === i;
+      cls += isCorrect ? ' border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : ' border-red-500 bg-red-50 dark:bg-red-900/20';
+    } else if (matchedRight != null) {
+      cls += ' border-brand bg-brand/10';
+    } else if (sel) {
+      cls += ' border-brand bg-brand/10 ring-2 ring-brand/30';
+    } else {
+      cls += ' border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-brand';
+    }
+    return `<button class="${cls}" ${r.done?'disabled':''} onclick="selectMatchLeft(${i})">${esc(p.left)}</button>`;
+  }).join('');
+  const rights = r.matchRight.map(rightIdx => {
+    const pair = q.pairs[rightIdx];
+    const matchedLeft = Object.keys(r.matches).find(k => r.matches[k] === rightIdx);
+    const isMatched = matchedLeft != null;
+    const sel = r.selectedLeft;
+    let cls = 'p-3 rounded-lg border-2 text-sm cursor-pointer transition-all text-left w-full';
+    if (r.done) {
+      const matchedToCorrect = isMatched && parseInt(matchedLeft) === rightIdx;
+      cls += matchedToCorrect ? ' border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20' : ' border-red-500 bg-red-50 dark:bg-red-900/20';
+    } else if (isMatched) {
+      cls += ' border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 opacity-60';
+    } else if (sel != null) {
+      cls += ' border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-brand cursor-pointer';
+    } else {
+      cls += ' border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900';
+    }
+    return `<button class="${cls}" ${r.done || isMatched ?'disabled':''} onclick="selectMatchRight(${rightIdx})">${esc(pair.right)}</button>`;
+  }).join('');
+  return `
+    <p class="text-xs text-slate-500 italic mb-2">📱 Chạm vào ô bên trái rồi chạm ô bên phải để nối.</p>
+    <div class="grid grid-cols-2 gap-2 mb-3">
+      <div class="space-y-2">${lefts}</div>
+      <div class="space-y-2">${rights}</div>
+    </div>
+    ${!r.done ? `<button onclick="submitMatch()" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold mb-3 active:scale-[0.98]">✓ Kiểm tra</button>` : ''}
+    ${feedback(q, r, 'match')}`;
+}
+function selectMatchLeft(i) {
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  sfx.click();
+  r.selectedLeft = r.selectedLeft === i ? null : i;
+  renderQuiz();
+}
+function selectMatchRight(rightIdx) {
+  const r = quiz.results[quiz.current];
+  if (r.done) return;
+  if (r.selectedLeft == null) { toast('Chạm ô bên trái trước'); return; }
+  sfx.click();
+  r.matches[r.selectedLeft] = rightIdx;
+  r.selectedLeft = null;
+  renderQuiz();
+}
+function submitMatch() {
+  const q = quiz.lesson.quiz[quiz.current];
+  const r = quiz.results[quiz.current];
+  const allMatched = Object.keys(r.matches).length === q.pairs.length;
+  if (!allMatched) { toast('Hãy nối hết các cặp'); return; }
+  r.attempts++;
+  let isCorrect = true;
+  q.pairs.forEach((_, i) => { if (r.matches[i] !== i) isCorrect = false; });
+  r.userAnswer = { ...r.matches };
+  if (isCorrect) { r.correct = true; r.done = true; awardCorrect(r); }
+  else if (r.attempts >= 2) { r.done = true; awardWrong(r); }
+  else { sfx.wrong(); }
+  renderQuiz();
+}
+
+/* --- FEEDBACK --- */
+function feedback(q, r, type) {
   if (!r.done && r.attempts === 0) return '';
   if (r.correct) {
-    return `<div class="explain ok">✅ <strong>Chính xác!</strong> ${q.explain ? '<br>'+esc(q.explain) : ''}</div>
-      <button class="btn" onclick="nextQ()">${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}</button>`;
+    return `<div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-800 text-sm animate-slide-up">
+      <strong class="text-emerald-700 dark:text-emerald-400">✅ Chính xác!</strong>
+      ${q.explain ? `<div class="mt-1 text-emerald-800 dark:text-emerald-300/90 text-xs">${esc(q.explain)}</div>` : ''}
+    </div>
+    <button onclick="nextQ()" class="w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold active:scale-[0.98]">
+      ${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}
+    </button>`;
   }
-  // Wrong
   if (r.attempts === 1) {
-    return `<div class="explain no">❌ <strong>Chưa đúng!</strong> Thử lại nào.
-      ${q.hint ? '<br>💡 Gợi ý: '+esc(q.hint) : ''}</div>
-      <button class="btn warn" onclick="retryQ()">↻ Thử lại</button>`;
+    return `<div class="p-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 border border-orange-300 dark:border-orange-800 text-sm animate-shake">
+      <strong class="text-orange-700 dark:text-orange-400">❌ Chưa đúng!</strong> Thử lại nào.
+      ${q.hint ? `<div class="mt-1 text-orange-800 dark:text-orange-300/90 text-xs">💡 ${esc(q.hint)}</div>` : ''}
+    </div>
+    <button onclick="retryQ()" class="w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold active:scale-[0.98]">↻ Thử lại</button>`;
   }
-  // Attempts >= 2 → show correct answer
   let correctAns = '';
   if (type === 'mcq') correctAns = q.options[q.answer];
+  else if (type === 'truefalse') correctAns = q.answer ? 'ĐÚNG' : 'SAI';
   else if (type === 'fill') correctAns = q.answers[0];
   else if (type === 'order') correctAns = q.answer.join(' → ');
-  else if (type === 'drag') {
-    correctAns = q.targets.map(t =>
-      t.label + ': ' + t.accept.join(', ')
-    ).join(' | ');
-  }
-  return `<div class="explain no">
-      ❌ <strong>Sai rồi.</strong> Đáp án đúng: <strong>${esc(correctAns)}</strong>
-      ${q.explain ? '<br>📖 ' + esc(q.explain) : ''}
-    </div>
-    <button class="btn" onclick="nextQ()">${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}</button>`;
+  else if (type === 'drag') correctAns = q.targets.map(t => `${t.label}: ${t.accept.join(', ')}`).join(' | ');
+  else if (type === 'match') correctAns = q.pairs.map(p => `${p.left} → ${p.right}`).join(' | ');
+  return `<div class="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-800 text-sm animate-slide-up">
+    <strong class="text-red-700 dark:text-red-400">❌ Sai rồi.</strong>
+    <div class="mt-1"><span class="text-xs text-slate-600 dark:text-slate-400">Đáp án đúng:</span> <strong class="text-slate-900 dark:text-white text-xs">${esc(correctAns)}</strong></div>
+    ${q.explain ? `<div class="mt-2 text-xs text-slate-600 dark:text-slate-400 italic">📖 ${esc(q.explain)}</div>` : ''}
+  </div>
+  <button onclick="nextQ()" class="w-full mt-3 py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold active:scale-[0.98]">
+    ${quiz.current === quiz.lesson.quiz.length-1 ? '🏁 Xem kết quả' : 'Câu tiếp →'}
+  </button>`;
 }
 
-function retryQ(){
-  const r = quiz.results[quiz.current];
-  r.selected = -1;
-  // For order: keep order, allow re-submit
-  // For drag: keep placement
-  renderQuestion();
+function retryQ() {
+  renderQuiz();
 }
 
-function awardCorrectXP(r){
-  const base = r.attempts === 1 ? 10 : 5;
-  addXp(base);
-  toast(`+${base} XP`);
+function awardCorrect(r) {
+  sfx.correct();
+  const isFirstTry = r.attempts === 1;
+  // Combo
+  quiz.combo++;
+  if (quiz.combo > quiz.maxCombo) quiz.maxCombo = quiz.combo;
+  // Base XP: 10 first try, 5 second try. Combo bonus: +2 per combo above 2
+  let xp = isFirstTry ? 10 : 5;
+  if (quiz.combo >= 3) xp += quiz.combo;
+  // Speed bonus
+  const qTime = (Date.now() - quiz.questionStartTime) / 1000;
+  let speedBonus = 0;
+  if (isFirstTry && qTime < 8) speedBonus = 3;
+  addXp(xp + speedBonus);
+  const coins = isFirstTry ? 3 : 1;
+  addCoins(coins);
+  state.totalCorrect = (state.totalCorrect || 0) + 1;
+  // Type tracking
+  const q = quiz.lesson.quiz[quiz.current];
+  if (!state.typesDone) state.typesDone = [];
+  if (!state.typesDone.includes(q.type)) state.typesDone.push(q.type);
+  saveState();
+  if (quiz.combo >= 3) setTimeout(() => toast(`🔥 Combo ${quiz.combo}! +${xp} XP`, 'success'), 200);
 }
 
-function nextQ(){
+function awardWrong(r) {
+  quiz.combo = 0;
+  state.totalWrong = (state.totalWrong || 0) + 1;
+  saveState();
+}
+
+function nextQ() {
+  quiz.questionStartTime = Date.now();
   if (quiz.current < quiz.lesson.quiz.length - 1) {
     quiz.current++;
-    renderQuestion();
+    renderQuiz();
   } else {
     finishQuiz();
   }
 }
 
-/* ==================== RESULT & CERTIFICATE ==================== */
-function finishQuiz(){
-  const lesson = quiz.lesson;
-  const results = quiz.results;
-  const correctCount = results.filter(r=>r.correct).length;
-  const total = results.length;
+/* =============== RESULT =============== */
+function finishQuiz() {
+  const correctCount = quiz.results.filter(r => r.correct).length;
+  const total = quiz.results.length;
   const score = Math.round(correctCount * 100 / total);
   const pass = score >= 70;
   const time = Math.round((Date.now() - quiz.startTime) / 1000);
-  const prevBest = state.bestScores[lesson.id] || 0;
+  const isDaily = quiz.mode === 'daily';
 
-  // Bonus XP
-  let bonusXp = 0;
-  if (pass) { bonusXp += 20; if (score === 100) bonusXp += 30; }
-  if (bonusXp > 0) addXp(bonusXp);
-
-  // Update state
-  if (!state.bestScores[lesson.id] || score > state.bestScores[lesson.id]) {
-    state.bestScores[lesson.id] = score;
+  let bonusXp = 0, bonusCoins = 0;
+  if (isDaily) {
+    bonusXp = 50; bonusCoins = 30;
+    state.dailyChallenge = { date: todayStr(), done: true, lastDone: todayStr() };
+  } else if (pass) {
+    bonusXp = 20 + (score === 100 ? 30 : 0);
+    bonusCoins = 15 + (score === 100 ? 20 : 0);
+    if (!state.bestScores[quiz.lesson.id] || score > state.bestScores[quiz.lesson.id]) {
+      state.bestScores[quiz.lesson.id] = score;
+    }
+    state.lessons[quiz.lesson.id] = true;
+  } else {
+    if (!state.bestScores[quiz.lesson.id] || score > state.bestScores[quiz.lesson.id]) {
+      state.bestScores[quiz.lesson.id] = score;
+    }
   }
-  if (pass) state.lessons[lesson.id] = true;
-  markStudiedToday();
+  addXp(bonusXp);
+  addCoins(bonusCoins);
+
+  // Streak
+  if (!state.streakDays.includes(todayStr())) state.streakDays.push(todayStr());
+  // MaxCombo
+  if (quiz.maxCombo > (state.maxCombo || 0)) state.maxCombo = quiz.maxCombo;
+  state.totalQuizzes = (state.totalQuizzes || 0) + 1;
   saveState();
 
-  const wrongQuestions = results.map((r,i)=>({r, q:lesson.quiz[i], i}))
-    .filter(x => !x.r.correct);
+  checkAchievements();
 
-  const idx = COURSE.lessons.indexOf(lesson);
-  const nextLesson = COURSE.lessons[idx+1];
+  const wrong = quiz.results.map((r,i) => ({r, q: quiz.lesson.quiz[i], i})).filter(x => !x.r.correct);
+  quiz._wrong = wrong;
+  quiz._score = score;
 
-  const emoji = pass ? (score===100?'🏆':'🎉') : '😅';
+  const idx = isDaily ? -1 : COURSE.lessons.indexOf(quiz.lesson);
+  const nextLesson = idx >= 0 ? COURSE.lessons[idx+1] : null;
+
+  const emoji = pass ? (score === 100 ? '🏆' : '🎉') : '😅';
+
   document.getElementById('app').innerHTML = `
-    <div class="quiz" style="margin-top:8px">
-      <div class="result">
-        <div class="result-emoji">${emoji}</div>
-        <div class="result-score ${pass?'pass':'fail'}">${correctCount}/${total}</div>
-        <div class="result-msg">
-          ${pass ? 'Tuyệt vời! Bạn đã hoàn thành bài học.' :
-                  'Chưa đạt 70%. Ôn lại và thử lại nhé!'}
-        </div>
-        <div class="result-stats">
-          <div><div class="v">${score}%</div><div class="l">Điểm</div></div>
-          <div><div class="v">${time}s</div><div class="l">Thời gian</div></div>
-          <div><div class="v">+${bonusXp}</div><div class="l">Bonus XP</div></div>
-        </div>
-        ${!pass && prevBest < score ? '<div style="font-size:13px;color:var(--success);margin-bottom:8px">📈 Điểm cao nhất mới!</div>' : ''}
-        <div class="btn-row">
-          ${pass ? `<button class="btn secondary" onclick="startQuiz('${lesson.id}')">↻ Làm lại</button>
-                    <button class="btn gold" onclick="showCertificate('${lesson.id}',${score})">🏅 Chứng chỉ</button>` :
-                  `<button class="btn secondary" onclick="go('/python/${lesson.id}')">← Ôn lý thuyết</button>
-                   <button class="btn" onclick="startQuiz('${lesson.id}')">↻ Làm lại</button>`}
-        </div>
-        ${nextLesson && pass ? `
-          <button class="btn" style="margin-top:10px" onclick="go('/python/${nextLesson.id}')">
-            📖 Học bài tiếp: ${nextLesson.title} →
-          </button>` : ''}
-        ${wrongQuestions.length > 0 ? `
-          <button class="btn secondary" style="margin-top:10px" onclick="showReview()">
-            📋 Ôn lại ${wrongQuestions.length} câu sai
-          </button>` : ''}
-        <button class="btn secondary" style="margin-top:10px" onclick="go('/python')">Danh sách bài</button>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 text-center animate-bounce-in">
+      <div class="text-7xl mb-3">${emoji}</div>
+      <div class="text-5xl font-extrabold mb-1 ${pass ? 'text-emerald-500' : 'text-red-500'}">${correctCount}/${total}</div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
+        ${pass ? 'Tuyệt vời! Bạn đã hoàn thành bài học.' : 'Chưa đạt 70%. Ôn lại và thử lại nhé!'}
+      </p>
+
+      <div class="grid grid-cols-3 gap-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl mb-4">
+        <div><div class="text-lg font-bold text-brand dark:text-brand-light">${score}%</div><div class="text-[10px] text-slate-500">Điểm</div></div>
+        <div><div class="text-lg font-bold text-brand dark:text-brand-light">${time}s</div><div class="text-[10px] text-slate-500">Thời gian</div></div>
+        <div><div class="text-lg font-bold text-gold-dark">+${bonusXp}⚡</div><div class="text-[10px] text-slate-500">Bonus</div></div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl mb-4">
+        <div><div class="text-lg font-bold text-orange-500">${quiz.maxCombo}x</div><div class="text-[10px] text-slate-500">Max Combo</div></div>
+        <div><div class="text-lg font-bold text-gold-dark">+${bonusCoins}🪙</div><div class="text-[10px] text-slate-500">Xu</div></div>
+        <div><div class="text-lg font-bold text-purple-500">${(quiz.results.reduce((a,r) => a+r.attempts,0))}</div><div class="text-[10px] text-slate-500">Lượt thử</div></div>
+      </div>
+
+      <div class="space-y-2">
+        ${!isDaily && pass ? `<button onclick="showCertificate('${quiz.lesson.id}', ${score})" class="w-full py-3 rounded-xl bg-gradient-to-r from-gold to-gold-dark text-slate-900 font-bold active:scale-[0.98]">🏅 Xem chứng chỉ</button>` : ''}
+        ${wrong.length > 0 ? `<button onclick="showReview()" class="w-full py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold text-sm active:scale-[0.98]">📋 Ôn lại ${wrong.length} câu sai</button>` : ''}
+        ${!isDaily ? `<button onclick="startQuiz('${quiz.lesson.id}')" class="w-full py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-semibold text-sm active:scale-[0.98]">↻ Làm lại</button>` : ''}
+        ${nextLesson && pass ? `<button onclick="go('/python/${nextLesson.id}')" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand to-brand-dark text-white font-bold active:scale-[0.98]">📖 Bài tiếp: ${nextLesson.title} →</button>` : ''}
+        <button onclick="go('/')" class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm font-semibold active:scale-[0.98]">Về trang chủ</button>
       </div>
     </div>
-    <div id="review-section" style="margin-top:16px"></div>
+    <div id="review-section" class="mt-4"></div>
     <div id="cert-root"></div>
   `;
 
-  quiz._wrongQuestions = wrongQuestions;
-  quiz._score = score;
   if (pass) fireConfetti();
 }
 
-function showReview(){
-  const wrongs = quiz._wrongQuestions;
-  if (!wrongs || wrongs.length === 0) return;
-  const html = wrongs.map(({r,q,i})=>{
-    let correctAns = '';
-    if (q.type==='mcq') correctAns = q.options[q.answer];
-    else if (q.type==='fill') correctAns = q.answers[0];
-    else if (q.type==='order') correctAns = q.answer.join(' → ');
-    else if (q.type==='drag') correctAns = q.targets.map(t=>t.label+': '+t.accept.join(', ')).join(' | ');
-    const yourAns = r.userAnswer;
-    return `<div class="review-item">
-      <div class="q">Câu ${i+1}: ${esc(q.q)}</div>
-      ${yourAns!=null?`<div class="your">✗ Bạn trả lời: ${esc(typeof yourAns==='number'?q.options[yourAns]:(Array.isArray(yourAns)?yourAns.join(', '):String(yourAns)))}</div>`:''}
-      <div class="correct">✓ Đáp án: ${esc(correctAns)}</div>
-      ${q.explain?`<div class="exp">📖 ${esc(q.explain)}</div>`:''}
+function showReview() {
+  const wrong = quiz._wrong;
+  if (!wrong || !wrong.length) return;
+  const html = wrong.map(({r, q, i}) => {
+    let correctAns = '', yourAns = '';
+    if (q.type === 'mcq') {
+      correctAns = q.options[q.answer];
+      yourAns = typeof r.userAnswer === 'number' ? q.options[r.userAnswer] : '';
+    } else if (q.type === 'truefalse') {
+      correctAns = q.answer ? 'ĐÚNG' : 'SAI';
+      yourAns = r.userAnswer === true ? 'ĐÚNG' : r.userAnswer === false ? 'SAI' : '';
+    } else if (q.type === 'fill') {
+      correctAns = q.answers[0];
+      yourAns = String(r.userAnswer || '');
+    } else if (q.type === 'order') {
+      correctAns = q.answer.join(' → ');
+      yourAns = Array.isArray(r.userAnswer) ? r.userAnswer.join(' → ') : '';
+    } else if (q.type === 'drag') {
+      correctAns = q.targets.map(t => `${t.label}: ${t.accept.join(', ')}`).join(' | ');
+    } else if (q.type === 'match') {
+      correctAns = q.pairs.map(p => `${p.left} → ${p.right}`).join(' | ');
+    }
+    return `<div class="bg-white dark:bg-slate-900 rounded-xl p-3 border border-slate-200 dark:border-slate-800">
+      <div class="font-semibold text-sm mb-1.5">Câu ${i+1}: ${esc(q.q)}</div>
+      ${yourAns ? `<div class="text-xs text-red-500 mb-1">✗ Bạn: ${esc(yourAns)}</div>` : ''}
+      <div class="text-xs text-emerald-500 mb-1">✓ Đáp án: ${esc(correctAns)}</div>
+      ${q.explain ? `<div class="text-xs text-slate-500 mt-1.5 pt-1.5 border-t border-slate-200 dark:border-slate-800">📖 ${esc(q.explain)}</div>` : ''}
     </div>`;
   }).join('');
-  document.getElementById('review-section').innerHTML = `
-    <h3 style="margin-bottom:12px;font-size:16px">📋 Ôn lại câu sai</h3>
-    ${html}
-  `;
-  document.getElementById('review-section').scrollIntoView({behavior:'smooth'});
-}
-
-function showCertificate(lessonId, score){
-  const lesson = COURSE.lessons.find(l=>l.id===lessonId);
-  const name = prompt('Nhập tên của bạn để in lên chứng chỉ:', 'Học viên');
-  if (name === null) return;
-  const date = new Date().toLocaleDateString('vi-VN');
-  document.getElementById('cert-root').innerHTML = `
-    <div class="cert-overlay" onclick="if(event.target===this)this.remove()">
-      <div class="cert-box" id="cert-box">
-        <div class="cert-title">CERTIFICATE</div>
-        <div class="cert-heading">Chứng nhận hoàn thành</div>
-        <div class="cert-text">Chứng nhận học viên</div>
-        <div class="cert-name">${esc(name||'Học viên')}</div>
-        <div class="cert-text">đã hoàn thành xuất sắc khoá học</div>
-        <div style="font-size:16px;font-weight:700;color:#2c5f8a;margin:6px 0">${esc(lesson.title)}</div>
-        <div class="cert-text">trên nền tảng PyLearn</div>
-        <div class="cert-score">🏆 ${score}%</div>
-        <div class="cert-date">Cấp ngày ${date}</div>
-        <div class="cert-actions">
-          <button class="btn" onclick="window.print()">🖨️ In / Lưu PDF</button>
-          <button class="btn secondary" onclick="document.querySelector('.cert-overlay').remove()">Đóng</button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-/* ==================== CONFETTI ==================== */
-function fireConfetti(){
-  const colors = ['#f6c945','#3776ab','#48bb78','#f56565','#ed8936','#764ba2'];
-  for (let i=0;i<40;i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random()*100 + '%';
-    c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.animationDuration = (1.5 + Math.random()*1.5) + 's';
-    c.style.animationDelay = (Math.random()*0.5) + 's';
-    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(), 4000);
-  }
-}
-</script>
-</body>
-</html>
